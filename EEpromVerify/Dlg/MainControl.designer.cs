@@ -40,11 +40,8 @@
             this.BTN_MAIN_RECIPE_CHANGE = new System.Windows.Forms.Button();
             this.BTN_MAIN_RECIPE_CREATE = new System.Windows.Forms.Button();
             this.BTN_MAIN_RECIPE_DEL = new System.Windows.Forms.Button();
-            this.comboBox_RecipeList = new System.Windows.Forms.ComboBox();
             this.dataGridView_Recipe = new System.Windows.Forms.DataGridView();
-            this.BTN_MAIN_RECIPE_SAVE = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
-            this.BTN_MAIN_RECIPE_DOWN_REQ = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.dataGridView_Model = new System.Windows.Forms.DataGridView();
             this.BTN_MAIN_MODEL_CHANGE = new System.Windows.Forms.Button();
@@ -111,14 +108,11 @@
             this.groupBox6.Controls.Add(this.BTN_MAIN_RECIPE_CHANGE);
             this.groupBox6.Controls.Add(this.BTN_MAIN_RECIPE_CREATE);
             this.groupBox6.Controls.Add(this.BTN_MAIN_RECIPE_DEL);
-            this.groupBox6.Controls.Add(this.comboBox_RecipeList);
             this.groupBox6.Controls.Add(this.dataGridView_Recipe);
-            this.groupBox6.Controls.Add(this.BTN_MAIN_RECIPE_SAVE);
             this.groupBox6.Controls.Add(this.label6);
-            this.groupBox6.Controls.Add(this.BTN_MAIN_RECIPE_DOWN_REQ);
             this.groupBox6.Location = new System.Drawing.Point(502, 130);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(379, 600);
+            this.groupBox6.Size = new System.Drawing.Size(379, 308);
             this.groupBox6.TabIndex = 49;
             this.groupBox6.TabStop = false;
             // 
@@ -128,7 +122,7 @@
             this.BTN_MAIN_RECIPE_CHANGE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_MAIN_RECIPE_CHANGE.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_MAIN_RECIPE_CHANGE.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_RECIPE_CHANGE.Location = new System.Drawing.Point(249, 47);
+            this.BTN_MAIN_RECIPE_CHANGE.Location = new System.Drawing.Point(247, 254);
             this.BTN_MAIN_RECIPE_CHANGE.Name = "BTN_MAIN_RECIPE_CHANGE";
             this.BTN_MAIN_RECIPE_CHANGE.Size = new System.Drawing.Size(103, 39);
             this.BTN_MAIN_RECIPE_CHANGE.TabIndex = 35;
@@ -142,7 +136,7 @@
             this.BTN_MAIN_RECIPE_CREATE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_MAIN_RECIPE_CREATE.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_MAIN_RECIPE_CREATE.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_RECIPE_CREATE.Location = new System.Drawing.Point(136, 47);
+            this.BTN_MAIN_RECIPE_CREATE.Location = new System.Drawing.Point(135, 254);
             this.BTN_MAIN_RECIPE_CREATE.Name = "BTN_MAIN_RECIPE_CREATE";
             this.BTN_MAIN_RECIPE_CREATE.Size = new System.Drawing.Size(110, 39);
             this.BTN_MAIN_RECIPE_CREATE.TabIndex = 34;
@@ -156,22 +150,13 @@
             this.BTN_MAIN_RECIPE_DEL.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_MAIN_RECIPE_DEL.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_MAIN_RECIPE_DEL.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_RECIPE_DEL.Location = new System.Drawing.Point(30, 47);
+            this.BTN_MAIN_RECIPE_DEL.Location = new System.Drawing.Point(30, 254);
             this.BTN_MAIN_RECIPE_DEL.Name = "BTN_MAIN_RECIPE_DEL";
             this.BTN_MAIN_RECIPE_DEL.Size = new System.Drawing.Size(103, 39);
             this.BTN_MAIN_RECIPE_DEL.TabIndex = 33;
             this.BTN_MAIN_RECIPE_DEL.Text = "Delete";
             this.BTN_MAIN_RECIPE_DEL.UseVisualStyleBackColor = false;
             this.BTN_MAIN_RECIPE_DEL.Click += new System.EventHandler(this.BTN_MAIN_RECIPE_DEL_Click);
-            // 
-            // comboBox_RecipeList
-            // 
-            this.comboBox_RecipeList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_RecipeList.FormattingEnabled = true;
-            this.comboBox_RecipeList.Location = new System.Drawing.Point(147, 20);
-            this.comboBox_RecipeList.Name = "comboBox_RecipeList";
-            this.comboBox_RecipeList.Size = new System.Drawing.Size(204, 20);
-            this.comboBox_RecipeList.TabIndex = 32;
             // 
             // dataGridView_Recipe
             // 
@@ -194,7 +179,7 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView_Recipe.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView_Recipe.GridColor = System.Drawing.SystemColors.ActiveCaption;
-            this.dataGridView_Recipe.Location = new System.Drawing.Point(30, 100);
+            this.dataGridView_Recipe.Location = new System.Drawing.Point(30, 55);
             this.dataGridView_Recipe.Name = "dataGridView_Recipe";
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
@@ -205,48 +190,20 @@
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView_Recipe.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView_Recipe.RowTemplate.Height = 23;
-            this.dataGridView_Recipe.Size = new System.Drawing.Size(300, 426);
+            this.dataGridView_Recipe.Size = new System.Drawing.Size(320, 181);
             this.dataGridView_Recipe.TabIndex = 31;
-            // 
-            // BTN_MAIN_RECIPE_SAVE
-            // 
-            this.BTN_MAIN_RECIPE_SAVE.BackColor = System.Drawing.Color.Tan;
-            this.BTN_MAIN_RECIPE_SAVE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_MAIN_RECIPE_SAVE.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BTN_MAIN_RECIPE_SAVE.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_RECIPE_SAVE.Location = new System.Drawing.Point(253, 545);
-            this.BTN_MAIN_RECIPE_SAVE.Name = "BTN_MAIN_RECIPE_SAVE";
-            this.BTN_MAIN_RECIPE_SAVE.Size = new System.Drawing.Size(99, 39);
-            this.BTN_MAIN_RECIPE_SAVE.TabIndex = 28;
-            this.BTN_MAIN_RECIPE_SAVE.Text = "SAVE";
-            this.BTN_MAIN_RECIPE_SAVE.UseVisualStyleBackColor = false;
-            this.BTN_MAIN_RECIPE_SAVE.Click += new System.EventHandler(this.BTN_MAIN_RECIPE_SAVE_Click);
             // 
             // label6
             // 
             this.label6.BackColor = System.Drawing.Color.Transparent;
             this.label6.Font = new System.Drawing.Font("굴림", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label6.ForeColor = System.Drawing.Color.DimGray;
-            this.label6.Location = new System.Drawing.Point(20, 17);
+            this.label6.Location = new System.Drawing.Point(27, 17);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(145, 23);
             this.label6.TabIndex = 26;
-            this.label6.Text = "Recipe";
+            this.label6.Text = "Recipe List";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // BTN_MAIN_RECIPE_DOWN_REQ
-            // 
-            this.BTN_MAIN_RECIPE_DOWN_REQ.BackColor = System.Drawing.Color.Tan;
-            this.BTN_MAIN_RECIPE_DOWN_REQ.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_MAIN_RECIPE_DOWN_REQ.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BTN_MAIN_RECIPE_DOWN_REQ.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_RECIPE_DOWN_REQ.Location = new System.Drawing.Point(116, 545);
-            this.BTN_MAIN_RECIPE_DOWN_REQ.Name = "BTN_MAIN_RECIPE_DOWN_REQ";
-            this.BTN_MAIN_RECIPE_DOWN_REQ.Size = new System.Drawing.Size(131, 39);
-            this.BTN_MAIN_RECIPE_DOWN_REQ.TabIndex = 27;
-            this.BTN_MAIN_RECIPE_DOWN_REQ.Text = "DOWNLOAD REQ";
-            this.BTN_MAIN_RECIPE_DOWN_REQ.UseVisualStyleBackColor = false;
-            this.BTN_MAIN_RECIPE_DOWN_REQ.Click += new System.EventHandler(this.BTN_MAIN_RECIPE_DOWN_REQ_Click);
             // 
             // groupBox5
             // 
@@ -259,7 +216,7 @@
             this.groupBox5.Controls.Add(this.BTN_MAIN_MODEL_ADD);
             this.groupBox5.Location = new System.Drawing.Point(14, 172);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(351, 419);
+            this.groupBox5.Size = new System.Drawing.Size(397, 419);
             this.groupBox5.TabIndex = 48;
             this.groupBox5.TabStop = false;
             // 
@@ -295,7 +252,7 @@
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView_Model.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridView_Model.RowTemplate.Height = 23;
-            this.dataGridView_Model.Size = new System.Drawing.Size(200, 301);
+            this.dataGridView_Model.Size = new System.Drawing.Size(240, 301);
             this.dataGridView_Model.TabIndex = 31;
             // 
             // BTN_MAIN_MODEL_CHANGE
@@ -304,7 +261,7 @@
             this.BTN_MAIN_MODEL_CHANGE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_MAIN_MODEL_CHANGE.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_MAIN_MODEL_CHANGE.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_MODEL_CHANGE.Location = new System.Drawing.Point(234, 179);
+            this.BTN_MAIN_MODEL_CHANGE.Location = new System.Drawing.Point(277, 179);
             this.BTN_MAIN_MODEL_CHANGE.Name = "BTN_MAIN_MODEL_CHANGE";
             this.BTN_MAIN_MODEL_CHANGE.Size = new System.Drawing.Size(99, 39);
             this.BTN_MAIN_MODEL_CHANGE.TabIndex = 30;
@@ -318,7 +275,7 @@
             this.BTN_MAIN_MODEL_LOAD.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_MAIN_MODEL_LOAD.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_MAIN_MODEL_LOAD.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_MODEL_LOAD.Location = new System.Drawing.Point(234, 137);
+            this.BTN_MAIN_MODEL_LOAD.Location = new System.Drawing.Point(277, 137);
             this.BTN_MAIN_MODEL_LOAD.Name = "BTN_MAIN_MODEL_LOAD";
             this.BTN_MAIN_MODEL_LOAD.Size = new System.Drawing.Size(99, 39);
             this.BTN_MAIN_MODEL_LOAD.TabIndex = 29;
@@ -332,7 +289,7 @@
             this.BTN_MAIN_MODEL_DEL.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_MAIN_MODEL_DEL.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_MAIN_MODEL_DEL.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_MODEL_DEL.Location = new System.Drawing.Point(234, 95);
+            this.BTN_MAIN_MODEL_DEL.Location = new System.Drawing.Point(277, 95);
             this.BTN_MAIN_MODEL_DEL.Name = "BTN_MAIN_MODEL_DEL";
             this.BTN_MAIN_MODEL_DEL.Size = new System.Drawing.Size(99, 39);
             this.BTN_MAIN_MODEL_DEL.TabIndex = 28;
@@ -349,7 +306,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(145, 23);
             this.label5.TabIndex = 26;
-            this.label5.Text = "Model";
+            this.label5.Text = "Model List";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // BTN_MAIN_MODEL_ADD
@@ -358,7 +315,7 @@
             this.BTN_MAIN_MODEL_ADD.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_MAIN_MODEL_ADD.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_MAIN_MODEL_ADD.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_MODEL_ADD.Location = new System.Drawing.Point(234, 53);
+            this.BTN_MAIN_MODEL_ADD.Location = new System.Drawing.Point(277, 53);
             this.BTN_MAIN_MODEL_ADD.Name = "BTN_MAIN_MODEL_ADD";
             this.BTN_MAIN_MODEL_ADD.Size = new System.Drawing.Size(99, 39);
             this.BTN_MAIN_MODEL_ADD.TabIndex = 27;
@@ -374,7 +331,7 @@
             this.groupBox4.Controls.Add(this.label4);
             this.groupBox4.Location = new System.Drawing.Point(14, 765);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(351, 124);
+            this.groupBox4.Size = new System.Drawing.Size(397, 124);
             this.groupBox4.TabIndex = 49;
             this.groupBox4.TabStop = false;
             // 
@@ -383,7 +340,7 @@
             this.textBox_MaterialId.Font = new System.Drawing.Font("굴림", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.textBox_MaterialId.Location = new System.Drawing.Point(23, 43);
             this.textBox_MaterialId.Name = "textBox_MaterialId";
-            this.textBox_MaterialId.Size = new System.Drawing.Size(295, 27);
+            this.textBox_MaterialId.Size = new System.Drawing.Size(338, 27);
             this.textBox_MaterialId.TabIndex = 29;
             this.textBox_MaterialId.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -393,7 +350,7 @@
             this.BTN_MAIN_MATERIAL_ID_REPORT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_MAIN_MATERIAL_ID_REPORT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_MAIN_MATERIAL_ID_REPORT.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_MATERIAL_ID_REPORT.Location = new System.Drawing.Point(121, 74);
+            this.BTN_MAIN_MATERIAL_ID_REPORT.Location = new System.Drawing.Point(164, 76);
             this.BTN_MAIN_MATERIAL_ID_REPORT.Name = "BTN_MAIN_MATERIAL_ID_REPORT";
             this.BTN_MAIN_MATERIAL_ID_REPORT.Size = new System.Drawing.Size(197, 39);
             this.BTN_MAIN_MATERIAL_ID_REPORT.TabIndex = 28;
@@ -421,7 +378,7 @@
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Location = new System.Drawing.Point(14, 617);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(351, 124);
+            this.groupBox3.Size = new System.Drawing.Size(397, 124);
             this.groupBox3.TabIndex = 48;
             this.groupBox3.TabStop = false;
             // 
@@ -430,7 +387,7 @@
             this.textBox_AbortedLot.Font = new System.Drawing.Font("굴림", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.textBox_AbortedLot.Location = new System.Drawing.Point(23, 43);
             this.textBox_AbortedLot.Name = "textBox_AbortedLot";
-            this.textBox_AbortedLot.Size = new System.Drawing.Size(295, 27);
+            this.textBox_AbortedLot.Size = new System.Drawing.Size(338, 27);
             this.textBox_AbortedLot.TabIndex = 29;
             this.textBox_AbortedLot.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -440,7 +397,7 @@
             this.BTN_MAIN_ABORT_LOT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_MAIN_ABORT_LOT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_MAIN_ABORT_LOT.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_ABORT_LOT.Location = new System.Drawing.Point(176, 74);
+            this.BTN_MAIN_ABORT_LOT.Location = new System.Drawing.Point(219, 76);
             this.BTN_MAIN_ABORT_LOT.Name = "BTN_MAIN_ABORT_LOT";
             this.BTN_MAIN_ABORT_LOT.Size = new System.Drawing.Size(142, 39);
             this.BTN_MAIN_ABORT_LOT.TabIndex = 28;
@@ -478,7 +435,7 @@
             this.BTN_MAIN_OPID_SAVE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_MAIN_OPID_SAVE.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_MAIN_OPID_SAVE.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_OPID_SAVE.Location = new System.Drawing.Point(227, 20);
+            this.BTN_MAIN_OPID_SAVE.Location = new System.Drawing.Point(247, 20);
             this.BTN_MAIN_OPID_SAVE.Name = "BTN_MAIN_OPID_SAVE";
             this.BTN_MAIN_OPID_SAVE.Size = new System.Drawing.Size(99, 32);
             this.BTN_MAIN_OPID_SAVE.TabIndex = 32;
@@ -491,7 +448,7 @@
             this.textBox_OperatorId.Font = new System.Drawing.Font("굴림", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.textBox_OperatorId.Location = new System.Drawing.Point(30, 58);
             this.textBox_OperatorId.Name = "textBox_OperatorId";
-            this.textBox_OperatorId.Size = new System.Drawing.Size(296, 27);
+            this.textBox_OperatorId.Size = new System.Drawing.Size(320, 27);
             this.textBox_OperatorId.TabIndex = 27;
             this.textBox_OperatorId.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -516,7 +473,7 @@
             this.groupBox1.Controls.Add(this.BTN_MAIN_OFFLINE_REQ);
             this.groupBox1.Location = new System.Drawing.Point(14, 9);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(351, 139);
+            this.groupBox1.Size = new System.Drawing.Size(397, 139);
             this.groupBox1.TabIndex = 47;
             this.groupBox1.TabStop = false;
             // 
@@ -525,7 +482,7 @@
             this.textBox_ControlStateVal.Font = new System.Drawing.Font("굴림", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.textBox_ControlStateVal.Location = new System.Drawing.Point(23, 45);
             this.textBox_ControlStateVal.Name = "textBox_ControlStateVal";
-            this.textBox_ControlStateVal.Size = new System.Drawing.Size(295, 27);
+            this.textBox_ControlStateVal.Size = new System.Drawing.Size(338, 27);
             this.textBox_ControlStateVal.TabIndex = 29;
             this.textBox_ControlStateVal.Text = "EquipmentOffline";
             this.textBox_ControlStateVal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -536,9 +493,9 @@
             this.BTN_MAIN_ONLINE_REMOTE_REQ.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_MAIN_ONLINE_REMOTE_REQ.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_MAIN_ONLINE_REMOTE_REQ.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_ONLINE_REMOTE_REQ.Location = new System.Drawing.Point(176, 81);
+            this.BTN_MAIN_ONLINE_REMOTE_REQ.Location = new System.Drawing.Point(196, 81);
             this.BTN_MAIN_ONLINE_REMOTE_REQ.Name = "BTN_MAIN_ONLINE_REMOTE_REQ";
-            this.BTN_MAIN_ONLINE_REMOTE_REQ.Size = new System.Drawing.Size(142, 39);
+            this.BTN_MAIN_ONLINE_REMOTE_REQ.Size = new System.Drawing.Size(165, 39);
             this.BTN_MAIN_ONLINE_REMOTE_REQ.TabIndex = 28;
             this.BTN_MAIN_ONLINE_REMOTE_REQ.Text = "Online Change";
             this.BTN_MAIN_ONLINE_REMOTE_REQ.UseVisualStyleBackColor = false;
@@ -564,7 +521,7 @@
             this.BTN_MAIN_OFFLINE_REQ.ForeColor = System.Drawing.Color.White;
             this.BTN_MAIN_OFFLINE_REQ.Location = new System.Drawing.Point(23, 81);
             this.BTN_MAIN_OFFLINE_REQ.Name = "BTN_MAIN_OFFLINE_REQ";
-            this.BTN_MAIN_OFFLINE_REQ.Size = new System.Drawing.Size(142, 39);
+            this.BTN_MAIN_OFFLINE_REQ.Size = new System.Drawing.Size(165, 39);
             this.BTN_MAIN_OFFLINE_REQ.TabIndex = 27;
             this.BTN_MAIN_OFFLINE_REQ.Text = "Offline Change";
             this.BTN_MAIN_OFFLINE_REQ.UseVisualStyleBackColor = false;
@@ -660,10 +617,7 @@
         private System.Windows.Forms.Button BTN_MAIN_OPID_SAVE;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.DataGridView dataGridView_Recipe;
-        private System.Windows.Forms.Button BTN_MAIN_RECIPE_SAVE;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button BTN_MAIN_RECIPE_DOWN_REQ;
-        private System.Windows.Forms.ComboBox comboBox_RecipeList;
         private System.Windows.Forms.Button BTN_MAIN_RECIPE_CHANGE;
         private System.Windows.Forms.Button BTN_MAIN_RECIPE_CREATE;
         private System.Windows.Forms.Button BTN_MAIN_RECIPE_DEL;

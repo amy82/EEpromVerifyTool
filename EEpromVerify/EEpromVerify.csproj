@@ -181,6 +181,12 @@
     <Compile Include="Dlg\ManualPcb.Designer.cs">
       <DependentUpon>ManualPcb.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dlg\RecipePopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dlg\RecipePopup.Designer.cs">
+      <DependentUpon>RecipePopup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dlg\TeachingControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -286,6 +292,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dlg\ManualPcb.resx">
       <DependentUpon>ManualPcb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dlg\RecipePopup.resx">
+      <DependentUpon>RecipePopup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dlg\TeachingControl.resx">
       <DependentUpon>TeachingControl.cs</DependentUpon>
