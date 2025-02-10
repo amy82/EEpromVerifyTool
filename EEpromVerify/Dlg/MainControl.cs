@@ -53,8 +53,6 @@ namespace ApsMotionControl.Dlg
         }
         public void RefreshMain()
         {
-            //ShowRecipeGrid();
-
             ShowModelGrid();
             ShowOpid();
 
@@ -1256,8 +1254,6 @@ namespace ApsMotionControl.Dlg
 
                 currentRecipeNo = SelectedRecipeRow;// comboBox_RecipeList.SelectedIndex;
 
-                //ShowRecipeGrid();
-                
 
                 Globalo.dataManage.mesData.m_sMesPPID = selectedItem;
                 Globalo.dataManage.mesData.m_sRecipeId = selectedItem;
@@ -1270,9 +1266,15 @@ namespace ApsMotionControl.Dlg
 
                 ShowRecipeList();
 
-                //RecipePopup recipePopup = new RecipePopup();
-                //recipePopup.ShowDialog();
+                
             }
+        }
+
+        private void BTN_MAIN_RECIPE_VIEW_Click(object sender, EventArgs e)
+        {
+            string selectedItem = dataGridView_Recipe.Rows[SelectedRecipeRow].Cells[1].Value.ToString();
+            RecipePopup recipePopup = new RecipePopup(selectedItem);
+            recipePopup.ShowDialog();
         }
     }
 }

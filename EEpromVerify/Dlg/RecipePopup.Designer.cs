@@ -54,7 +54,7 @@ namespace ApsMotionControl.Dlg
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(521, 501);
+            this.groupBox2.Size = new System.Drawing.Size(497, 524);
             this.groupBox2.TabIndex = 45;
             this.groupBox2.TabStop = false;
             // 
@@ -63,7 +63,7 @@ namespace ApsMotionControl.Dlg
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("굴림", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label3.ForeColor = System.Drawing.Color.DimGray;
-            this.label3.Location = new System.Drawing.Point(23, 17);
+            this.label3.Location = new System.Drawing.Point(23, 22);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(81, 23);
             this.label3.TabIndex = 26;
@@ -91,7 +91,7 @@ namespace ApsMotionControl.Dlg
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView_Recipe.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView_Recipe.GridColor = System.Drawing.SystemColors.ActiveCaption;
-            this.dataGridView_Recipe.Location = new System.Drawing.Point(26, 54);
+            this.dataGridView_Recipe.Location = new System.Drawing.Point(26, 63);
             this.dataGridView_Recipe.Name = "dataGridView_Recipe";
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
@@ -102,18 +102,18 @@ namespace ApsMotionControl.Dlg
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView_Recipe.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView_Recipe.RowTemplate.Height = 23;
-            this.dataGridView_Recipe.Size = new System.Drawing.Size(316, 426);
+            this.dataGridView_Recipe.Size = new System.Drawing.Size(309, 426);
             this.dataGridView_Recipe.TabIndex = 46;
             // 
             // BTN_RECIPE_SAVE
             // 
             this.BTN_RECIPE_SAVE.BackColor = System.Drawing.Color.Tan;
             this.BTN_RECIPE_SAVE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_RECIPE_SAVE.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BTN_RECIPE_SAVE.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_RECIPE_SAVE.ForeColor = System.Drawing.Color.White;
-            this.BTN_RECIPE_SAVE.Location = new System.Drawing.Point(355, 397);
+            this.BTN_RECIPE_SAVE.Location = new System.Drawing.Point(383, 404);
             this.BTN_RECIPE_SAVE.Name = "BTN_RECIPE_SAVE";
-            this.BTN_RECIPE_SAVE.Size = new System.Drawing.Size(153, 40);
+            this.BTN_RECIPE_SAVE.Size = new System.Drawing.Size(97, 40);
             this.BTN_RECIPE_SAVE.TabIndex = 48;
             this.BTN_RECIPE_SAVE.Text = "SAVE";
             this.BTN_RECIPE_SAVE.UseVisualStyleBackColor = false;
@@ -123,13 +123,13 @@ namespace ApsMotionControl.Dlg
             // 
             this.BTN_RECIPE_DOWN_REQ.BackColor = System.Drawing.Color.Tan;
             this.BTN_RECIPE_DOWN_REQ.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_RECIPE_DOWN_REQ.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BTN_RECIPE_DOWN_REQ.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_RECIPE_DOWN_REQ.ForeColor = System.Drawing.Color.White;
-            this.BTN_RECIPE_DOWN_REQ.Location = new System.Drawing.Point(355, 54);
+            this.BTN_RECIPE_DOWN_REQ.Location = new System.Drawing.Point(376, 63);
             this.BTN_RECIPE_DOWN_REQ.Name = "BTN_RECIPE_DOWN_REQ";
-            this.BTN_RECIPE_DOWN_REQ.Size = new System.Drawing.Size(153, 53);
+            this.BTN_RECIPE_DOWN_REQ.Size = new System.Drawing.Size(104, 53);
             this.BTN_RECIPE_DOWN_REQ.TabIndex = 47;
-            this.BTN_RECIPE_DOWN_REQ.Text = "DOWNLOAD REQ";
+            this.BTN_RECIPE_DOWN_REQ.Text = "DOWNLOAD REQEST";
             this.BTN_RECIPE_DOWN_REQ.UseVisualStyleBackColor = false;
             this.BTN_RECIPE_DOWN_REQ.Click += new System.EventHandler(this.BTN_RECIPE_DOWN_REQ_Click);
             // 
@@ -137,11 +137,11 @@ namespace ApsMotionControl.Dlg
             // 
             this.BTN_RECIPE_CLOSE.BackColor = System.Drawing.Color.Tan;
             this.BTN_RECIPE_CLOSE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_RECIPE_CLOSE.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BTN_RECIPE_CLOSE.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_RECIPE_CLOSE.ForeColor = System.Drawing.Color.White;
-            this.BTN_RECIPE_CLOSE.Location = new System.Drawing.Point(355, 440);
+            this.BTN_RECIPE_CLOSE.Location = new System.Drawing.Point(383, 447);
             this.BTN_RECIPE_CLOSE.Name = "BTN_RECIPE_CLOSE";
-            this.BTN_RECIPE_CLOSE.Size = new System.Drawing.Size(153, 40);
+            this.BTN_RECIPE_CLOSE.Size = new System.Drawing.Size(97, 40);
             this.BTN_RECIPE_CLOSE.TabIndex = 49;
             this.BTN_RECIPE_CLOSE.Text = "CLOSE";
             this.BTN_RECIPE_CLOSE.UseVisualStyleBackColor = false;
@@ -152,7 +152,7 @@ namespace ApsMotionControl.Dlg
             this.label_Recipe.BackColor = System.Drawing.Color.Transparent;
             this.label_Recipe.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Recipe.ForeColor = System.Drawing.Color.Black;
-            this.label_Recipe.Location = new System.Drawing.Point(100, 16);
+            this.label_Recipe.Location = new System.Drawing.Point(100, 21);
             this.label_Recipe.Name = "label_Recipe";
             this.label_Recipe.Size = new System.Drawing.Size(115, 23);
             this.label_Recipe.TabIndex = 50;
@@ -163,7 +163,7 @@ namespace ApsMotionControl.Dlg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(522, 502);
+            this.ClientSize = new System.Drawing.Size(497, 524);
             this.Controls.Add(this.groupBox2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "RecipePopup";
