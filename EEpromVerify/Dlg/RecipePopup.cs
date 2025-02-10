@@ -368,7 +368,6 @@ namespace ApsMotionControl.Dlg
 
             if (ppIndex == 0)
             {
-                //_stprintf_s(szLog, SIZE_OF_1K, _T("Recipe no Change"));
                 Globalo.LogPrint("MainControl", "Recipe no Change", Globalo.eMessageName.M_INFO);
                 return;
             }
