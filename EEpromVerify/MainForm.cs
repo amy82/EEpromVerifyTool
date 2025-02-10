@@ -592,9 +592,19 @@ namespace ApsMotionControl
                 eLogPrint("MainForm", "[INFO] 자동 운전 중 사용 불가", Globalo.eMessageName.M_WARNING);
                 return;
             }
+            if (ProgramState.CurrentState == OperationState.Preparing)
+            {
+                eLogPrint("MainForm", "[INFO] 운전 준비 중 사용 불가", Globalo.eMessageName.M_WARNING);
+                return;
+            }
             if (ProgramState.CurrentState == OperationState.Paused)
             {
                 eLogPrint("ManualCMainFormontrol", "[INFO] 일시 정지 중 사용 불가", Globalo.eMessageName.M_WARNING);
+                return;
+            }
+            if(Globalo.threadControl.autoRunthread.GetThreadRun() == true)
+            {
+                eLogPrint("MainForm", "[INFO] 자동 운전 중 사용 불가", Globalo.eMessageName.M_WARNING);
                 return;
             }
             MessagePopUpForm messagePopUp = new MessagePopUpForm("", "YES", "NO");
@@ -722,31 +732,60 @@ namespace ApsMotionControl
         }
         public void StartAutoReadyProcess()
         {
+            Globalo.taskWork.m_nStartStep = 20000;
+            Globalo.taskWork.m_nEndStep = 30000;
+            Globalo.taskWork.m_nCurrentStep = 20000;
 
             ProgramState.CurrentState = OperationState.Preparing;
 
-            Globalo.taskWork.m_nCurrentStep = 20000;
+            bool bRtn = Globalo.threadControl.autoRunthread.Start();
 
-            Globalo.taskWork.m_nEndStep = 30000;
-            Globalo.taskWork.m_nStartStep = 20000;
-
-            bool bRtn = Globalo.threadControl.taskAutoRun.Start();
-
-            if(bRtn == true)
+            if (bRtn == false)
             {
-                //운전준비 Complete.
-                //private readonly Timer _timer0_3s;
-                _timerRunButton.Start();
-                labelGuide.Text = "설비 운전준비중 입니다.";
-            }
-            else
-            {
-                //운전준비 Fail.
-                labelGuide.Text = "설비 정지 상태입니다.";
+                Globalo.LogPrint("MainForm", "[AUTO] AUTO RUN START FAIL");
                 ProgramState.CurrentState = OperationState.Stopped;
+                return;
+
             }
+            _timerRunButton.Start();
+            labelGuide.Text = "설비 운전준비중 입니다.";
 
             AutoButtonSet(ProgramState.CurrentState);
+
+
+            Globalo.LogPrint("MainForm", "[AUTO] AUTO RUN START");
+
+
+
+
+
+
+            //return;
+            //Task
+            //ProgramState.CurrentState = OperationState.Preparing;
+
+            //Globalo.taskWork.m_nCurrentStep = 20000;
+
+            //Globalo.taskWork.m_nEndStep = 30000;
+            //Globalo.taskWork.m_nStartStep = 20000;
+
+            //bRtn = Globalo.threadControl.taskAutoRun.Start();
+
+            //if(bRtn == true)
+            //{
+            //    //운전준비 Complete.
+            //    //private readonly Timer _timer0_3s;
+            //    _timerRunButton.Start();
+            //    labelGuide.Text = "설비 운전준비중 입니다.";
+            //}
+            //else
+            //{
+            //    //운전준비 Fail.
+            //    labelGuide.Text = "설비 정지 상태입니다.";
+            //    ProgramState.CurrentState = OperationState.Stopped;
+            //}
+
+            //AutoButtonSet(ProgramState.CurrentState);
         }
         public void PaustReadyProcess()
         {

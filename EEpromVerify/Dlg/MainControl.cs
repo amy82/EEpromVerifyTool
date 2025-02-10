@@ -19,14 +19,17 @@ namespace ApsMotionControl.Dlg
         //private ManualLens manualLens = new ManualLens();
 
         private const int ModelGridRowViewCount = 10;
-        private const int RecipeGridRowViewCount = 13;
-        private int[] GridColWidth = { 30, 150, 210, 70, 270, 50, 50, 1 };
+        private const int RecipeGridRowViewCount = 5;
+        private int[] GridColWidth = { 40, 160, 210, 70, 270, 50, 50, 1 };
         private int RecipeGridWidth = 0;
         private int GridRowHeight = 30;
         private int GridHeaderHeight = 30;
         private int GridInitWidth = 0;
         private int SelectedCellRow = 0;
         private int SelectedCellCol = 0;
+
+
+        private int SelectedRecipeRow = 0;
         private int currentRecipeNo = 0;
 
 
@@ -45,14 +48,16 @@ namespace ApsMotionControl.Dlg
 
             setInterface();
             InitModelGrid();
-            InitRecipeGrid();
+            InitRecipeListGrid();
 
         }
         public void RefreshMain()
         {
-            ShowRecipeGrid();
+            //ShowRecipeGrid();
+
             ShowModelGrid();
             ShowOpid();
+
             ShowRecipeList();
         }
         
@@ -61,10 +66,6 @@ namespace ApsMotionControl.Dlg
             if (this.Visible)
             {
                 RefreshMain();
-            }
-            else
-            {
-
             }
         }
         public void setControlState(int communicationState , int controlState)
@@ -140,61 +141,68 @@ namespace ApsMotionControl.Dlg
              */
 
         }
-        public void ShowRecipeGrid()
-        {
-            int nCol = dataGridView_Recipe.ColumnCount;         //7 옆으로 행
-            int nRow = dataGridView_Recipe.RowCount;        //0 아래로 열 빈칸 -1
 
-            int dataCount = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap.Count();
+
+        public void ShowRecipeList()
+        {
+            int i = 0;
 
             dataGridView_Recipe.Rows.Clear();
 
-            
-            
-            int count = 0;
-            foreach (var kvp in Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap)
+            int recipeCount = Globalo.yamlManager.recipeYamlFiles.Count();
+            int gridViewCount = recipeCount;
+            if (gridViewCount < RecipeGridRowViewCount)
             {
-                //Console.WriteLine($"Task: {kvp.Key}, Value: {kvp.Value.value}, Flag: {kvp.Value.use}");
-                if (count <= RecipeGridRowViewCount)
+                gridViewCount = RecipeGridRowViewCount;
+            }
+            for (i = 0; i < gridViewCount; i++)
+            {
+                
+                if (i < recipeCount)
                 {
-                    dataGridView_Recipe.Rows.Add(
-                        kvp.Value.use,
-                        kvp.Key,
-                        kvp.Value.value);
+                    dataGridView_Recipe.Rows.Add((i + 1).ToString(), Globalo.yamlManager.recipeYamlFiles[i]);
+
+
+                    if (Globalo.dataManage.mesData.m_sMesPPID == Globalo.yamlManager.recipeYamlFiles[i])
+                    {
+                        SelectedRecipeRow = i;
+                        dataGridView_Recipe.Rows[i].Cells[1].Style.BackColor = Color.YellowGreen; // 1번 열
+                        dataGridView_Recipe.Rows[i].Cells[1].Style.ForeColor = Color.Black; // 1번 열
+                        dataGridView_Recipe.Rows[i].Cells[1].Style.Font = new Font(dataGridView_Recipe.DefaultCellStyle.Font, FontStyle.Bold);
+                    }
+                    else
+                    {
+                        dataGridView_Recipe.Rows[i].Cells[1].Style.BackColor = Color.White; // 1번 열
+                        dataGridView_Recipe.Rows[i].Cells[1].Style.ForeColor = Color.Black; // 1번 열
+                        dataGridView_Recipe.Rows[i].Cells[1].Style.Font = new Font(dataGridView_Recipe.DefaultCellStyle.Font, FontStyle.Regular);
+                    }
+                    
                 }
                 else
                 {
-                    dataGridView_Recipe.Rows.Add(false, "", ""); // 행 추가
+                    dataGridView_Recipe.Rows.Add("", ""); // 행 추가
+                    dataGridView_Recipe.Rows[i].Cells[1].Style.BackColor = Color.White; // 1번 열
+                    dataGridView_Recipe.Rows[i].Cells[1].Style.ForeColor = Color.Black; // 1번 열
+                    dataGridView_Recipe.Rows[i].Cells[1].Style.Font = new Font(dataGridView_Recipe.DefaultCellStyle.Font, FontStyle.Regular);
                 }
-
-                dataGridView_Recipe.Rows[count].Cells[0].Style.BackColor = Color.White;
-                dataGridView_Recipe.Rows[count].Cells[0].Style.ForeColor = Color.Black;
-                dataGridView_Recipe.Rows[count].Cells[1].Style.BackColor = Color.White;
-                dataGridView_Recipe.Rows[count].Cells[1].Style.ForeColor = Color.Black;
-                dataGridView_Recipe.Rows[count].Cells[2].Style.BackColor = Color.White;
-                dataGridView_Recipe.Rows[count].Cells[2].Style.ForeColor = Color.Black;
-                dataGridView_Recipe.Rows[count].Cells[0].Style.Font = new Font("나눔고딕", 10F, FontStyle.Regular);
-                dataGridView_Recipe.Rows[count].Cells[1].Style.Font = new Font("나눔고딕", 10F, FontStyle.Regular);
-                dataGridView_Recipe.Rows[count].Cells[2].Style.Font = new Font("나눔고딕", 10F, FontStyle.Regular);
-
-               // dataGridView_Recipe.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-               // dataGridView_Recipe.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-                //dataGridView_Recipe.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                count++;
             }
-            int gridViewCount = dataCount;
+
+            currentRecipeNo = SelectedRecipeRow;
             if (gridViewCount > RecipeGridRowViewCount)
             {
                 dataGridView_Recipe.Width = RecipeGridWidth + 20; //스크롤 추가시 grid Width 조정
             }
-
             dataGridView_Recipe.ClearSelection();
+
         }
         private int GetRecipeList()
         {
             int nRtn = 0; //0 = 은 변경이 없는 경우
             int i = 0;
-            string selectedItem = comboBox_RecipeList.SelectedItem.ToString();
+            //string selectedItem = comboBox_RecipeList.SelectedItem.ToString();
+
+            string selectedItem = dataGridView_Recipe.Rows[currentRecipeNo].Cells[1].Value.ToString();
+
             Globalo.dataManage.mesData.m_sMesPPID = selectedItem;
 
             if(Globalo.yamlManager.vPPRecipeSpecEquip != null)
@@ -210,6 +218,8 @@ namespace ApsMotionControl.Dlg
             string sName = "";
             string sValue = "";
             bool bCheck = false;
+
+
             for (i = 0; i < getCount; i++)
             {
                 //strData = CardGrid.Rows[i].Cells[j].Value.ToString();
@@ -239,28 +249,7 @@ namespace ApsMotionControl.Dlg
             }
             return nRtn;
         }
-        public void ShowRecipeList()
-        {
-            int i = 0;
-            currentRecipeNo = -1;
-            comboBox_RecipeList.Items.Clear();
-            int recipeCount = Globalo.yamlManager.recipeYamlFiles.Count();
-            for (i = 0; i < recipeCount; i++)
-            {
-                if(Globalo.dataManage.mesData.m_sMesPPID == Globalo.yamlManager.recipeYamlFiles[i])
-                {
-                    currentRecipeNo = i;
-                }
-                comboBox_RecipeList.Items.Add(Globalo.yamlManager.recipeYamlFiles[i]);
-            }
-            if(recipeCount < 1 || currentRecipeNo  < 0)
-            {
-                return;
-            }
-            comboBox_RecipeList.SelectedIndex = currentRecipeNo;
-            //recipeYamlFiles
-            //comboBox_RecipeList
-        }
+        
         public void ShowOpid()
         {
             textBox_OperatorId.Text = Globalo.yamlManager.MesData.SecGemData.OperatorId;
@@ -296,16 +285,11 @@ namespace ApsMotionControl.Dlg
             {
                 if (i < dataCount)
                 {
-                    //dataGridView_Model.Rows[i].Cells[0].Value = (i + 1).ToString();
-                    //dataGridView_Model.Rows[i].Cells[1].Value = Globalo.yamlManager.MesData.SecGemData.Modellist[i];
                     dataGridView_Model.Rows.Add((i + 1).ToString(), Globalo.yamlManager.MesData.SecGemData.Modellist[i]);
 
                     if(i == Globalo.yamlManager.MesData.SecGemData.ModelNo)
                     {
                         SelectedCellRow = i;
-                        //dataGridView_Model.Rows[i].DefaultCellStyle.BackColor = Color.YellowGreen; // 배경색
-                        //dataGridView_Model.Rows[i].DefaultCellStyle.ForeColor = Color.Black; // 텍스트 색상
-                        //dataGridView_Model.Rows[i].DefaultCellStyle.Font = new Font(dataGridView_Model.DefaultCellStyle.Font, FontStyle.Bold);
 
                         dataGridView_Model.Rows[i].Cells[1].Style.BackColor = Color.YellowGreen; // 1번 열
                         dataGridView_Model.Rows[i].Cells[1].Style.ForeColor = Color.Black; // 1번 열
@@ -353,8 +337,7 @@ namespace ApsMotionControl.Dlg
            // dataGridView_Model.RowHeadersDefaultCellStyle.SelectionForeColor = dataGridView_Model.DefaultCellStyle.ForeColor;
 
         }
-
-        private void InitRecipeGrid()
+        private void InitRecipeListGrid()
         {
             //BankGrid
             int i = 0;
@@ -382,8 +365,10 @@ namespace ApsMotionControl.Dlg
             // 헤더 폰트 색
             dataGridView_Recipe.ColumnHeadersDefaultCellStyle.ForeColor = Color.Gray;// .Gray;
 
-            dataGridView_Recipe.RowsDefaultCellStyle.BackColor = Color.White;
-            dataGridView_Recipe.RowsDefaultCellStyle.ForeColor = Color.Black;
+            //dataGridView_Recipe.RowsDefaultCellStyle.BackColor = Color.White;
+            //dataGridView_Recipe.RowsDefaultCellStyle.ForeColor = Color.Black;
+            dataGridView_Recipe.RowsDefaultCellStyle.BackColor = Color.GhostWhite;
+            dataGridView_Recipe.RowsDefaultCellStyle.ForeColor = Color.Gray;
 
             // Set the selection background color for all the cells.
             //dataGridView_Recipe.DefaultCellStyle.SelectionBackColor = Color.White;
@@ -415,7 +400,7 @@ namespace ApsMotionControl.Dlg
 
             dataGridView_Recipe.DefaultCellStyle = cellStyle;
 
-            DataGridViewCheckBoxColumn checkBoxColumn = new DataGridViewCheckBoxColumn();
+            //DataGridViewCheckBoxColumn checkBoxColumn = new DataGridViewCheckBoxColumn();
             DataGridViewTextBoxColumn[] textColumns = new DataGridViewTextBoxColumn[2];
 
             for (i = 0; i < 2; i++)
@@ -424,10 +409,8 @@ namespace ApsMotionControl.Dlg
             }
 
             //DataGridView
-            checkBoxColumn.HeaderText = "";
-            checkBoxColumn.Name = "checkBoxColumn";
-            textColumns[0].HeaderText = "Name";
-            textColumns[1].HeaderText = "Value";
+            textColumns[0].HeaderText = "No";
+            textColumns[1].HeaderText = "Name";
 
             //textColumns[0].Name = "No";
             //textColumns[1].Name = "Model";
@@ -435,7 +418,6 @@ namespace ApsMotionControl.Dlg
 
 
 
-            dataGridView_Recipe.Columns.Add(checkBoxColumn);
             dataGridView_Recipe.Columns.Add(textColumns[0]);
             dataGridView_Recipe.Columns.Add(textColumns[1]);
 
@@ -445,8 +427,7 @@ namespace ApsMotionControl.Dlg
             }
             int gridWidth = dataGridView_Recipe.Width;
             dataGridView_Recipe.Columns[0].Width = GridColWidth[0];
-            dataGridView_Recipe.Columns[1].Width = GridColWidth[1];
-            dataGridView_Recipe.Columns[2].Width = gridWidth - GridColWidth[0] - GridColWidth[1];
+            dataGridView_Recipe.Columns[1].Width = gridWidth - GridColWidth[0];
 
 
 
@@ -469,7 +450,7 @@ namespace ApsMotionControl.Dlg
                     //dataGridView.Columns[i].Resizable = DataGridViewTriState.False;
                     //dataGridView_Recipe.Columns[j].Width = GridColWidth[j];
                     dataGridView_Recipe.Columns[j].Resizable = DataGridViewTriState.False;
-                    
+
                 }
             }
 
@@ -487,7 +468,7 @@ namespace ApsMotionControl.Dlg
             dataGridView_Recipe.CellContentClick += new DataGridViewCellEventHandler(RecipeGridView_CellContentClick);     //삭제 버튼 클릭시 사용
             // 버튼 클릭 이벤트 등록
             dataGridView_Recipe.CellClick += new DataGridViewCellEventHandler(RecipeGridView_CellClick); //textbox 한번 클릭으로 바로 수정되게 추가
-            //dataGridView_Recipe.SelectionChanged += dataGridView1_SelectionChanged;
+            dataGridView_Recipe.SelectionChanged += dataGridView_Recipe_SelectionChanged;
             // 이벤트 핸들러 추가
             //CardGrid.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(CardGrid_EditingControlShowing);
             //dataGridView_Recipe.CellFormatting += dataGridView_Model_CellFormatting;
@@ -501,29 +482,17 @@ namespace ApsMotionControl.Dlg
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
 
-            CheckBox headerCheckBox = new CheckBox();
-            headerCheckBox.Size = new Size(15, 15);
-            headerCheckBox.BackColor = Color.Transparent;
-            headerCheckBox.Checked = false;
-            // 헤더 위치 조정
-            Point headerCellLocation = dataGridView_Recipe.GetCellDisplayRectangle(0, -1, true).Location;
-            headerCheckBox.Location = new Point(headerCellLocation.X + (dataGridView_Recipe.Columns[0].Width / 2) - (headerCheckBox.Width / 2),
-                                                headerCellLocation.Y + (dataGridView_Recipe.ColumnHeadersHeight / 2) - (headerCheckBox.Height / 2));
-            headerCheckBox.CheckedChanged += new EventHandler(HeaderCheckBox_CheckedChanged);
-            dataGridView_Recipe.Controls.Add(headerCheckBox);
-
             //dataGridView_Model.Columns[0].ReadOnly = true; // 읽기 전용
             dataGridView_Recipe.Columns[0].DefaultCellStyle.BackColor = Color.LightGray; // 배경색 설정
             dataGridView_Recipe.Columns[0].DefaultCellStyle.ForeColor = Color.Yellow; // 배경색 설정
             dataGridView_Recipe.Columns[0].DefaultCellStyle.Font = new Font("나눔고딕", 10F, FontStyle.Bold); // 굵은 글씨
             dataGridView_Recipe.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridView_Recipe.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView_Recipe.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+
 
             dataGridView_Recipe.ClearSelection();
         }
-        
-
         private void InitModelGrid()
         {
             //BankGrid
@@ -667,6 +636,8 @@ namespace ApsMotionControl.Dlg
 
 
             //dataGridView_Model.Columns[0].ReadOnly = true; // 읽기 전용
+
+
             dataGridView_Model.Columns[0].DefaultCellStyle.BackColor = Color.LightGray; // 배경색 설정
             dataGridView_Model.Columns[0].DefaultCellStyle.ForeColor = Color.Yellow; // 배경색 설정
             dataGridView_Model.Columns[0].DefaultCellStyle.Font = new Font("나눔고딕", 10F, FontStyle.Bold); // 굵은 글씨
@@ -676,6 +647,8 @@ namespace ApsMotionControl.Dlg
         }
         private void RecipeGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            SelectedRecipeRow = e.RowIndex;           //세로
+
             if (e.RowIndex < 0) return;
             if (e.ColumnIndex == 0)//dataGridView.Columns["Selected"].Index)
             {
@@ -746,6 +719,27 @@ namespace ApsMotionControl.Dlg
                // e.CellStyle.ForeColor = dataGridView_Model.DefaultCellStyle.ForeColor;
             }
         }
+        private void dataGridView_Recipe_SelectionChanged(object sender, EventArgs e)
+        {
+            // 현재 선택된 행의 인덱스 가져오기
+            if (dataGridView_Recipe.SelectedCells.Count > 0)
+            {
+                // 첫 번째 선택된 셀을 가져오기
+                DataGridViewCell selectedCell = dataGridView_Recipe.SelectedCells[0];
+
+                // 행(Row) 인덱스
+                int selectedRowIndex = selectedCell.RowIndex;
+
+                // 열(Column) 인덱스
+                int selectedColumnIndex = selectedCell.ColumnIndex;
+                if (selectedColumnIndex == 0 || selectedRowIndex == currentRecipeNo)//Globalo.yamlManager.MesData.SecGemData.ModelNo)
+                {
+                    dataGridView_Recipe.ClearSelection();
+                }
+
+            }
+        }
+        
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
             // 현재 선택된 행의 인덱스 가져오기
@@ -902,6 +896,8 @@ namespace ApsMotionControl.Dlg
 
             BTN_MAIN_OFFLINE_REQ.BackColor = ColorTranslator.FromHtml("#FFB230");
             BTN_MAIN_ONLINE_REMOTE_REQ.BackColor = ColorTranslator.FromHtml("#FFB230"); //C3A279
+
+
             //ManualTitleLabel.Text = "MANUAL";
             //ManualTitleLabel.ForeColor = Color.Khaki;     
             //ManualTitleLabel.BackColor = Color.Maroon;
@@ -963,6 +959,7 @@ namespace ApsMotionControl.Dlg
                 Globalo.yamlManager.MesData.SecGemData.Modellist.Add(selectedKey);
 
                 Globalo.yamlManager.MesSave();
+
                 RefreshMain();
                 //MessageBox.Show("선택된 키: " + selectedKey);
             }
@@ -990,6 +987,7 @@ namespace ApsMotionControl.Dlg
                 
 
                 Globalo.yamlManager.MesSave();
+
                 RefreshMain();
             }
         }
@@ -1008,6 +1006,7 @@ namespace ApsMotionControl.Dlg
             }
 
             Globalo.yamlManager.MesLoad();
+
             RefreshMain();
         }
 
@@ -1136,61 +1135,14 @@ namespace ApsMotionControl.Dlg
             }
         }
 
-        private void BTN_MAIN_RECIPE_SAVE_Click(object sender, EventArgs e)
-        {
-            //SAVE
 
-            string selectedItem = comboBox_RecipeList.SelectedItem.ToString();
-
-            if (selectedItem != Globalo.dataManage.mesData.m_sMesPPID)
-            {
-                Globalo.LogPrint("MainControl", "사용중인 RECIPE ID가 아닙니다.", Globalo.eMessageName.M_WARNING);
-                return;
-            }
-
-            int ppIndex = GetRecipeList();	//2 = 값이 변경, 4 = 체크 변경
-
-
-            if(ppIndex == 0)
-            {
-                //_stprintf_s(szLog, SIZE_OF_1K, _T("Recipe no Change"));
-                Globalo.LogPrint("MainControl", "Recipe no Change", Globalo.eMessageName.M_INFO);
-                return;
-            }
-
-
-            Globalo.dataManage.mesData.m_dPPChangeArr[0] = ppIndex;
-            Globalo.dataManage.mesData.m_dPPChangeArr[1] = (int)Ubisam.ePP_CHANGE_ORDER_TYPE.eOperator;
-
-            if(Globalo.dataManage.mesData.m_dPPChangeArr[0] == (int)Ubisam.ePP_CHANGE_STATE.eEdited)
-            {
-                int tempVer = Convert.ToInt32(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Version);
-                tempVer++;
-                Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Version = tempVer.ToString();
-                string logData = $"[Rerpot] Process Program State Changed Report - Edited{Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Version}";
-                Globalo.LogPrint("MainControl", logData);
-            }else
-            {
-                string logData = "[Rerpot] Process Program State Changed Report - UploadListChanged";
-                Globalo.LogPrint("MainControl", logData);
-            }
-
-            Globalo.yamlManager.RecipeSave(Globalo.yamlManager.vPPRecipeSpecEquip);
-            Globalo.ubisamForm.EventReportSendFn(Ubisam.ReportConstants.PROCESS_PROGRAM_STATE_CHANGED_REPORT_10601, selectedItem);
-        }
-
-        private void BTN_MAIN_RECIPE_DOWN_REQ_Click(object sender, EventArgs e)
-        {
-            //DOWNLOAD REQ
-            string selectedItem = comboBox_RecipeList.SelectedItem.ToString();
-
-            Globalo.ubisamForm.FormattedProcessProgramRequest(selectedItem);
-        }
 
         private void BTN_MAIN_RECIPE_DEL_Click(object sender, EventArgs e)
         {
             //Delete
-            string selectedItem = comboBox_RecipeList.SelectedItem.ToString();
+            //string selectedItem = comboBox_RecipeList.SelectedItem.ToString();
+            string selectedItem = dataGridView_Recipe.Rows[SelectedRecipeRow].Cells[1].Value.ToString();
+
             if (selectedItem == Globalo.dataManage.mesData.m_sMesPPID)
             {
                 Globalo.LogPrint("MainControl", "사용중인 RECIPE ID 입니다.", Globalo.eMessageName.M_WARNING);
@@ -1230,8 +1182,8 @@ namespace ApsMotionControl.Dlg
         private void BTN_MAIN_RECIPE_CREATE_Click(object sender, EventArgs e)
         {
             //Create
-            string selectedItem = comboBox_RecipeList.SelectedItem.ToString();
-
+            //string selectedItem = comboBox_RecipeList.SelectedItem.ToString();
+            string selectedItem = dataGridView_Recipe.Rows[SelectedRecipeRow].Cells[1].Value.ToString();
             KeyBoardForm keyBoardForm = new KeyBoardForm();
 
             // 모달로 폼을 띄우고, 사용자가 OK를 클릭했을 때 KeyValue 값을 받음
@@ -1280,7 +1232,8 @@ namespace ApsMotionControl.Dlg
         private void BTN_MAIN_RECIPE_CHANGE_Click(object sender, EventArgs e)
         {
             //Change
-            string selectedItem = comboBox_RecipeList.SelectedItem.ToString();
+            //string selectedItem = comboBox_RecipeList.SelectedItem.ToString();
+            string selectedItem = dataGridView_Recipe.Rows[SelectedRecipeRow].Cells[1].Value.ToString();
 
             MessagePopUpForm messagePopUp3 = new MessagePopUpForm("", "YES", "NO");
 
@@ -1301,9 +1254,10 @@ namespace ApsMotionControl.Dlg
                 }
 
 
-                currentRecipeNo = comboBox_RecipeList.SelectedIndex;
+                currentRecipeNo = SelectedRecipeRow;// comboBox_RecipeList.SelectedIndex;
 
-                ShowRecipeGrid();
+                //ShowRecipeGrid();
+                
 
                 Globalo.dataManage.mesData.m_sMesPPID = selectedItem;
                 Globalo.dataManage.mesData.m_sRecipeId = selectedItem;
@@ -1311,7 +1265,13 @@ namespace ApsMotionControl.Dlg
 
                 Globalo.yamlManager.MesData.SecGemData.RecipeId = Globalo.dataManage.mesData.m_sMesPPID;
 
+                
                 Globalo.yamlManager.MesSave();
+
+                ShowRecipeList();
+
+                //RecipePopup recipePopup = new RecipePopup();
+                //recipePopup.ShowDialog();
             }
         }
     }

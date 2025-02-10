@@ -1518,14 +1518,14 @@ namespace ApsMotionControl.Ubisam
                         {
                             Globalo.yamlManager.vPPRecipeSpecEquip = Globalo.yamlManager.vPPRecipeSpec__Host;
                         }
-                        if (this.InvokeRequired)
-                        {
-                            this.Invoke(new Action(Globalo.mMainPanel.ShowRecipeGrid));
-                        }
-                        else
-                        {
-                            Globalo.mMainPanel.ShowRecipeGrid();
-                        }
+                        //if (this.InvokeRequired)
+                        //{
+                        //    this.Invoke(new Action(Globalo.mMainPanel.ShowRecipeGrid));     //Recipe parameter 갱신
+                        //}
+                        //else
+                        //{
+                        //    Globalo.mMainPanel.ShowRecipeGrid();     //Recipe parameter 갱신
+                        //}
 
                         EventReportSendFn(ReportConstants.PROCESS_PROGRAM_STATE_CHANGED_REPORT_10601, Globalo.yamlManager.vPPRecipeSpec__Host.RECIPE.Ppid); //SEND
                     }

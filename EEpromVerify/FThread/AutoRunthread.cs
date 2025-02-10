@@ -11,19 +11,23 @@ namespace ApsMotionControl.FThread
     {
         public event delLogSender eLogSender;       //외부에서 호출할때 사용
         private Thread thread;
-        private bool threadRun = true;
+        private bool threadRun = false;
         private bool m_bPause = false;
-        private Process.PcbProcess PcbProcess = new Process.PcbProcess();
+        private Process.PcbProcess RunProcess = new Process.PcbProcess();
         public AutoRunthread()
         {
-            thread = new Thread(Run);
+            //thread = new Thread(Run);
         }
         public bool GetThreadRun()
         {
-            if (thread.IsAlive || threadRun)
+            if(thread != null)
             {
-                return true;
+                if (thread.IsAlive || threadRun)
+                {
+                    return true;
+                }
             }
+            
             return false;
         }
         public bool GetThreadPause()
@@ -50,10 +54,9 @@ namespace ApsMotionControl.FThread
                         Globalo.MainForm.StopAutoProcess();
                         return;
                     }
-                    if (Globalo.taskWork.m_nCurrentStep >= 30000 && Globalo.taskWork.m_nCurrentStep < 40000)
+                    if (Globalo.taskWork.m_nCurrentStep >= 20000 && Globalo.taskWork.m_nCurrentStep < 30000)
                     {
-                        Globalo.taskWork.m_nCurrentStep = PcbProcess.AutoReady(Globalo.taskWork.m_nCurrentStep);
-                        return;
+                        Globalo.taskWork.m_nCurrentStep = RunProcess.AutoReady(Globalo.taskWork.m_nCurrentStep);
                     }
 
                 }
@@ -74,23 +77,26 @@ namespace ApsMotionControl.FThread
         }
         public bool Start()
         {
-            if (thread != null)
+            if (thread != null && thread.IsAlive)
             {
-                m_bPause = false;
-                try
-                {
-                    // 이미 시작된 스레드를 다시 시작하려고 하면 예외가 발생합니다.
-                    thread.Start();
-                    return true;
-                }
-                catch (ThreadStateException ex)
-                {
-                    // Console.WriteLine($"ThreadStateException: {ex.Message}");
-                    eLogSender("AutoRunthread", $"[ERR] ThreadStateException: {ex.Message}");
-                    return false;
-                }
+                eLogSender("AutoRunthread", $"[ERR] 자동 운전 중입니다.");
+                return false;
             }
-            return false;
+            m_bPause = false;
+            try
+            {
+                thread = new Thread(Run);
+                threadRun = true;
+                thread.Start();
+            }
+            catch (ThreadStateException ex)
+            {
+                // Console.WriteLine($"ThreadStateException: {ex.Message}");
+                eLogSender("AutoRunthread", $"[ERR] ThreadStateException: {ex.Message}");
+                return false;
+            }
+
+            return true;
         }
         public void Stop()
         {
