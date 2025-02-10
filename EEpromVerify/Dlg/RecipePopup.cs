@@ -18,16 +18,20 @@ namespace ApsMotionControl.Dlg
         private int GridRowHeight = 30;
         private int GridHeaderHeight = 30;
 
+        private string loadRecipeName = "";
+
         //private int SelectedCellRow = 0;
         //private int SelectedCellCol = 0;
-        public RecipePopup()
+        public RecipePopup(string recipyName)
         {
             InitializeComponent();
+
+            loadRecipeName = recipyName;
             this.CenterToScreen();
             InitRecipeGrid();
 
 
-            //label_Recipe.text = "";
+            label_Recipe.Text = loadRecipeName;
         }
         private int GetRecipeList()
         {
@@ -35,7 +39,7 @@ namespace ApsMotionControl.Dlg
             int i = 0;
            // string selectedItem = comboBox_RecipeList.SelectedItem.ToString();
 
-            string selectedItem = label_Recipe.Text.ToString();
+            string selectedItem = loadRecipeName;
 
             Globalo.dataManage.mesData.m_sMesPPID = selectedItem;
 
@@ -344,7 +348,7 @@ namespace ApsMotionControl.Dlg
         {
             //DOWNLOAD REQ
             //string selectedItem = comboBox_RecipeList.SelectedItem.ToString();
-            string selectedItem = label_Recipe.Text.ToString();
+            string selectedItem = loadRecipeName;
             Globalo.ubisamForm.FormattedProcessProgramRequest(selectedItem);
         }
 
@@ -352,7 +356,7 @@ namespace ApsMotionControl.Dlg
         {
             //SAVE
             //string selectedItem = comboBox_RecipeList.SelectedItem.ToString();
-            string selectedItem = label_Recipe.Text.ToString();
+            string selectedItem = loadRecipeName;
             if (selectedItem != Globalo.dataManage.mesData.m_sMesPPID)
             {
                 Globalo.LogPrint("MainControl", "사용중인 RECIPE ID가 아닙니다.", Globalo.eMessageName.M_WARNING);
