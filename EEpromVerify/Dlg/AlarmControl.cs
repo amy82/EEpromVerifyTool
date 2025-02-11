@@ -47,8 +47,18 @@ namespace ApsMotionControl.Dlg
         }
         public void RefreshAlarm()
         {
-            ShowAlarmGrid();
-            ShowAlarmPageLabel();
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(ShowAlarmGrid));
+                this.Invoke(new Action(ShowAlarmPageLabel));
+            }
+            else
+            {
+                ShowAlarmGrid();
+                ShowAlarmPageLabel();
+            }
+            //ShowAlarmGrid();
+            //ShowAlarmPageLabel();
         }
         private void ShowAlarmPageLabel()
         {

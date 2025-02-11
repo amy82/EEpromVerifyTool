@@ -900,7 +900,9 @@ namespace ApsMotionControl
             }
 
             Globalo.threadControl.autoRunthread.Pause();
+
             AutoRunTimerStop();
+
             AutoButtonSet(ProgramState.CurrentState);
         }
         public bool StartAutoProcess()
@@ -966,6 +968,7 @@ namespace ApsMotionControl
 
             }
 
+            labelGuide.Text = "자동 운전 중입니다.";
             AutoButtonSet(ProgramState.CurrentState);
 
 

@@ -15,6 +15,7 @@ namespace ApsMotionControl.Process
         //public int[] SensorSet;
         public int[] SensorSet = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         public int[] OrgOnGoing = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        private bool autoPause = true;
         public PcbProcess()
         {
             //SensorSet = new int[4];
@@ -70,14 +71,19 @@ namespace ApsMotionControl.Process
                     nRetStep = 30050;
                     break;
                 case 30050:
-
+                    if(autoPause)
+                    {
+                        autoPause = false;
+                        szLog = $"[AUTO] 자동운전 TEST 2 일시정지[STEP : {nStep}]";
+                        Globalo.LogPrint("AutoPrecess", szLog, Globalo.eMessageName.M_WARNING);
+                        nRetStep = -30050;
+                        break;
+                    }
                     nRetStep = 30100;
                     break;
                 case 30100:
-                    MessagePopUpForm messagePopUp3 = new MessagePopUpForm("", "YES", "NO");
-                    messagePopUp3.MessageSet(Globalo.eMessageName.M_ASK, "제품 투입후 진행해주세요!");
 
-                    DialogResult result = messagePopUp3.ShowDialog();
+                    DialogResult result = Globalo.MessageAskPopup("제품 투입후 진행해주세요!");
                     if (result == DialogResult.Yes)
                     {
                         nRetStep = 30150;
@@ -105,7 +111,7 @@ namespace ApsMotionControl.Process
                 case 39000:
                     szLog = $"[AUTO] 자동운전 TEST End [STEP : {nStep}]";
                     Globalo.LogPrint("AutoPrecess", szLog);
-                    nRetStep = 40000;
+                    nRetStep = UniqueNum;
                     break;
             }
             return nRetStep;
