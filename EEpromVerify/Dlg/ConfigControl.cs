@@ -33,11 +33,38 @@ namespace ApsMotionControl.Dlg
 
             setInterface();
 
-            //manualPcb.Visible = false;
-            //manualLens.Visible = false;
-            //ManualPanel.Controls.Add(manualPcb);
-            //ManualPanel.Controls.Add(manualLens);
-            //ManualBtnChange(eManualBtn.pcbTab);
+        }
+        public void RefreshConfig()
+        {
+            ShowComPort();
+        }
+        public void ShowComPort()
+        {
+            
+        }
+        public void setInterface()
+        {
+            int i = 0;
+            ManualTitleLabel.ForeColor = ColorTranslator.FromHtml("#6F6F6F");
+
+            for (i = 0; i < 20; i++)
+            {
+                comboBox_Port_Bcr.Items.Add("COM" + (i + 1).ToString());
+            }
+
+            string comData = Globalo.yamlManager.configData.SerialPort.Bcr;
+            int index = comboBox_Port_Bcr.Items.IndexOf(comData);  // 값이 목록에서 어디 있는지 확인
+            if(index < 0)
+            {
+                comboBox_Port_Bcr.SelectedIndex = 0;  // 첫 번째 항목 선택
+            }
+            else
+            {
+                comboBox_Port_Bcr.SelectedIndex = index;
+            }
+            
+            //string selectedValue = comboBox_Port_Bcr.SelectedItem.ToString();
+
         }
         private void Form_Paint(object sender, PaintEventArgs e)
         {
@@ -71,29 +98,7 @@ namespace ApsMotionControl.Dlg
             //pen2.Dispose();
             //pen3.Dispose();
         }
-        public void setInterface()
-        {
-
-            ManualTitleLabel.ForeColor = ColorTranslator.FromHtml("#6F6F6F");
-
-
-            //BTN_MANUAL_PCB.FlatAppearance.BorderColor = ColorTranslator.FromHtml("#BBBBBB");
-            //BTN_MANUAL_LENS.FlatAppearance.BorderColor = ColorTranslator.FromHtml("#BBBBBB");
-            //ManualTitleLabel.Text = "MANUAL";
-            //ManualTitleLabel.ForeColor = Color.Khaki;     
-            //ManualTitleLabel.BackColor = Color.Maroon;
-            //ManualTitleLabel.Font = new Font("Microsoft Sans Serif", 15, FontStyle.Regular);
-            //ManualTitleLabel.Width = this.Width;
-            //ManualTitleLabel.Height = 45;
-            //ManualTitleLabel.Location = new Point(0, 0);
-
-
-
-            //ManualPanel.Location = new Point(BTN_MANUAL_PCB.Location.X, BTN_MANUAL_PCB.Location.Y + panelYGap);
-
-
-
-        }
+        
         private void ManualBtnChange(eManualBtn index)
         {
             BTN_MANUAL_PCB.BackColor = ColorTranslator.FromHtml("#E1E0DF");
@@ -122,6 +127,14 @@ namespace ApsMotionControl.Dlg
         private void BTN_MANUAL_LENS_Click(object sender, EventArgs e)
         {
             ManualBtnChange(eManualBtn.lensTab);
+        }
+
+        private void comboBox_Port_Bcr_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.Visible)
+            {
+
+            }
         }
     }
 }

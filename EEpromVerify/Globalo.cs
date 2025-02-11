@@ -38,6 +38,9 @@ namespace ApsMotionControl
         public static Dlg.CamControl camControl;
         public static Ubisam.UbisamForm ubisamForm;
 
+        public static Serial.SerialPortManager serialPortManager = new Serial.SerialPortManager();
+
+
         public const int MAX_PATH = 256;
 
         public const int CHART_ROI_COUNT = 9;

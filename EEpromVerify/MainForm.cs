@@ -80,6 +80,7 @@ namespace ApsMotionControl
             ///Data Load
             //
 
+            Globalo.yamlManager.configDataLoad();
             Globalo.dataManage.teachingData.DataLoad();
             Globalo.yamlManager.RecipeYamlListLoad();
             Globalo.yamlManager.UgcLoad();
@@ -157,17 +158,9 @@ namespace ApsMotionControl
             MainUiSet();
             AutoButtonSet(ProgramState.CurrentState);
             MenuButtonSet(0);
-            //MessagePopUpForm messagePopUp = new MessagePopUpForm();
-            //messagePopUp.MessageSet(Globalo.eMessageName.M_INFO,"자동운전 중 진행할 수 없습니다.");
-            //messagePopUp.Show();
 
-            //MessagePopUpForm messagePopUp2 = new MessagePopUpForm();
-            //messagePopUp2.MessageSet(Globalo.eMessageName.M_WARNING, "원점 복귀가 완료되지 않았습니다.");
-            //messagePopUp2.Show();
+            SerialConnect();
 
-            //MessagePopUpForm messagePopUp3 = new MessagePopUpForm();
-            //messagePopUp3.MessageSet(Globalo.eMessageName.M_ERROR, "자동운전 중 진행할 수 없습니다.자동운전 중 진행할 수 없습니다.자동운전 중 진행할 수 없습니다.");
-            //messagePopUp3.Show();
             TopPanel.Paint += new PaintEventHandler(Form_Paint);
 
 
@@ -175,6 +168,28 @@ namespace ApsMotionControl
 
             eLogPrint("Main", "PG START");
             //eLogPrint("Main", "자동운전 중 진행할 수 없습니다.", Globalo.eMessageName.M_INFO);
+        }
+        private void SerialConnect()
+        {
+            // 바코드 리더기 Serial Port 설정
+            string portData = "";
+            bool connectRtn = false;
+            string logData = "";
+
+
+
+            portData = Globalo.yamlManager.configData.SerialPort.Bcr;
+
+            Globalo.serialPortManager.Barcode = new Serial.SerialCommunicator(portData);
+            Globalo.serialPortManager.Barcode.myName = "Bcr";
+;            //barcodePort.DataReceived += (sender, data) =>
+            //{
+            //    Console.WriteLine("Barcode Reader Data: " + data);
+            //};
+            Globalo.serialPortManager.Barcode.Open();
+
+
+
         }
         private void AutoRunBtnUiTimer(int Mode, int interval = 300)
         {
@@ -605,7 +620,7 @@ namespace ApsMotionControl
                 return;
             }
 
-            string logStr = "";
+            string logStr = "자동운전 진행 하시겠습니까 ?";
             if (ProgramState.CurrentState == OperationState.Paused)
             {
                 if (Math.Abs(Globalo.taskWork.m_nCurrentStep) < 30000 || Math.Abs(Globalo.taskWork.m_nCurrentStep) >= 90000)
@@ -613,7 +628,7 @@ namespace ApsMotionControl
                     eLogPrint("MainForm", "[INFO] 자동 운전만 가능합니다.", Globalo.eMessageName.M_WARNING);
                     return;
                 }
-                //logStr = "운전준비 재개 하시겠습니까 ?";    //이때 스텝이 20000보다 작아야된다.
+                logStr = "자동운전 재개 하시겠습니까 ?";
                 //if (Globalo.taskWork.m_nCurrentStep >= 20000 && Globalo.taskWork.m_nCurrentStep < 30000)
             }
             else
@@ -625,7 +640,17 @@ namespace ApsMotionControl
                 }
             }
 
-            StartAutoProcess();     //자동 운전 시작
+            MessagePopUpForm messagePopUp = new MessagePopUpForm("", "YES", "NO");
+
+            messagePopUp.MessageSet(Globalo.eMessageName.M_ASK, logStr);
+            DialogResult result = messagePopUp.ShowDialog();
+
+
+            if (result == DialogResult.Yes)
+            {
+                StartAutoProcess();     //자동 운전 시작
+            }
+            
 
 
         }
