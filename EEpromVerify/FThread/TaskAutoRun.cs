@@ -16,6 +16,7 @@ namespace ApsMotionControl.FThread
         private Task _task;
         private bool _isPaused = false;
         private Process.PcbProcess RunProcess = new Process.PcbProcess();
+        private Process.ReadyProcess readyProcess = new Process.ReadyProcess();
         public TaskAutoRun()
         {
             _cancellationTokenSource = new CancellationTokenSource();
@@ -64,12 +65,9 @@ namespace ApsMotionControl.FThread
                         }
                         if (Globalo.taskWork.m_nCurrentStep >= 20000 && Globalo.taskWork.m_nCurrentStep < 30000)
                         {
-                            Globalo.taskWork.m_nCurrentStep = RunProcess.AutoReady(Globalo.taskWork.m_nCurrentStep);
+                            Globalo.taskWork.m_nCurrentStep = readyProcess.AutoReady(Globalo.taskWork.m_nCurrentStep);
                         }
-                        else if (Globalo.taskWork.m_nCurrentStep >= 30000 && Globalo.taskWork.m_nCurrentStep < 40000)
-                        {
-                            Globalo.taskWork.m_nCurrentStep = RunProcess.Auto_Loading(Globalo.taskWork.m_nCurrentStep);
-                        }
+
 
                     }
                     else if (Globalo.taskWork.m_nCurrentStep == -1)

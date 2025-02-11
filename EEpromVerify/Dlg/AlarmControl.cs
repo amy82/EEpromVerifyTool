@@ -314,21 +314,27 @@ namespace ApsMotionControl.Dlg
             //ManualPanel.Location = new Point(BTN_MANUAL_PCB.Location.X, BTN_MANUAL_PCB.Location.Y + panelYGap);
 
             int AlarmDetailsRemain = 0;
-            if (Globalo.yamlManager.alarmData == null)
+
+            
+            if (Globalo.yamlManager.alarmData == null || Globalo.yamlManager.alarmData.Alarms.Count < 1)
             {
-                TotalAlarmPage = 0;
+                TotalAlarmPage = 1;
+                CurrentAlarmPage = 0;
             }
             else
             {
                 TotalAlarmPage = (int)(Globalo.yamlManager.alarmData.Alarms.Count / AlarmGridRowViewCount);
                 AlarmDetailsRemain = (int)(Globalo.yamlManager.alarmData.Alarms.Count % AlarmGridRowViewCount);
+
+                if (AlarmDetailsRemain > 0)
+                {
+                    TotalAlarmPage++;
+                }
+                CurrentAlarmPage = TotalAlarmPage - 1;       // 0 이 첫페이지
             }
 
-            if (AlarmDetailsRemain > 0)
-            {
-                TotalAlarmPage++;
-            }
-            CurrentAlarmPage = TotalAlarmPage - 1;       // 0 이 첫페이지
+            
+            
 
         }
         private void ManualBtnChange(eManualBtn index)

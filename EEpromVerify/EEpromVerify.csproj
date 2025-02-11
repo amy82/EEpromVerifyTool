@@ -215,7 +215,6 @@
     <Compile Include="Ezterm\AXM.cs" />
     <Compile Include="FThread\AutoRunthread.cs" />
     <Compile Include="FThread\DIoThread.cs" />
-    <Compile Include="FThread\ReadyThread.cs" />
     <Compile Include="FThread\TaskAutoRun.cs" />
     <Compile Include="KeyBoardForm.cs">
       <SubType>Form</SubType>
@@ -250,6 +249,7 @@
       <DependentUpon>NumPadForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Process\PcbProcess.cs" />
+    <Compile Include="Process\ReadyProcess.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgramState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
