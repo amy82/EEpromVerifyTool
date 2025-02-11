@@ -1,3 +1,4 @@
 Output/
 packages/
-EEpromVerify/obj/
+**/obj/
+.vs/
