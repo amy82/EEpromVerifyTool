@@ -11,37 +11,34 @@ namespace ApsMotionControl.FThread
     {
         public event delLogSender eLogSender;       //외부에서 호출할때 사용
         private Thread thread;
-        private bool threadRun = false;
         private bool m_bPause = false;
+        private CancellationTokenSource cts;
         private Process.PcbProcess RunProcess = new Process.PcbProcess();
         public AutoRunthread()
         {
             //thread = new Thread(Run);
+            thread = null;
         }
         public bool GetThreadRun()
         {
             if(thread != null)
             {
-                if (thread.IsAlive || threadRun)
-                {
-                    return true;
-                }
+                return thread.IsAlive;    //thread 동작 중
+
+                ////return thread?.IsAlive ?? false;
             }
-            
+
             return false;
         }
         public bool GetThreadPause()
         {
-            if (m_bPause)
-            {
-                return true;
-            }
-            return false;
+            return m_bPause;
         }
-        public void Run()
+        public void ProcessRun(CancellationToken token)
         {
-            while (threadRun)
+            while (!token.IsCancellationRequested)
             {
+                //Console.WriteLine("Worker thread running...");
                 if (m_bPause)
                 {
                     continue;
@@ -74,6 +71,8 @@ namespace ApsMotionControl.FThread
                 }
                 Thread.Sleep(10);
             }
+
+            Console.WriteLine("Worker thread stopped safely.");
         }
         public bool Start()
         {
@@ -85,9 +84,13 @@ namespace ApsMotionControl.FThread
             m_bPause = false;
             try
             {
-                thread = new Thread(Run);
-                threadRun = true;
+
+                //thread = new Thread(ProcessRun);
+                cts = new CancellationTokenSource();
+                thread = new Thread(() => ProcessRun(cts.Token));
                 thread.Start();
+
+                Console.WriteLine("Worker thread start.");
             }
             catch (ThreadStateException ex)
             {
@@ -100,13 +103,13 @@ namespace ApsMotionControl.FThread
         }
         public void Stop()
         {
-            threadRun = false;
-            if (thread != null)
+            if (thread != null && cts != null)
             {
-                if (thread.IsAlive)
-                {
-                    thread.Abort();
-                }
+                cts.Cancel();
+                thread.Join();
+                thread = null;
+                cts = null;
+                Console.WriteLine("Worker thread stop.");
             }
         }
     }

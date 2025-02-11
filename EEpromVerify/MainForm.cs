@@ -539,11 +539,9 @@ namespace ApsMotionControl
         /// </summary>
         private void BTN_MAIN_STOP1_Click(object sender, EventArgs e)
         {
-            //Globalo.ubisamForm.Visible = true;
-
-            
             StopAutoProcess();
             labelGuide.Text = "설비 정지 상태입니다.";
+            Globalo.LogPrint("MainForm", "[AUTO] AUTO RUN STOP.");
         }
         /// <summary>
         /// 원점 잡기
@@ -864,8 +862,6 @@ namespace ApsMotionControl
             {
                 Globalo.threadControl.readyThread.Stop();
             }
-
-            //Globalo.threadControl.taskAutoRun.Stop();
 
 
             Globalo.motorControl.StopAxisAll(0);
