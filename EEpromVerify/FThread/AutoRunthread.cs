@@ -30,6 +30,8 @@ namespace ApsMotionControl.FThread
 
             return false;
         }
+
+        
         public bool GetThreadPause()
         {
             return m_bPause;
@@ -74,21 +76,27 @@ namespace ApsMotionControl.FThread
 
             Console.WriteLine("Worker thread stopped safely.");
         }
+        public void Pause()
+        {
+            m_bPause = true;
+        }
         public bool Start()
         {
-            if (thread != null && thread.IsAlive)
-            {
-                eLogSender("AutoRunthread", $"[ERR] 자동 운전 중입니다.");
-                return false;
-            }
-            m_bPause = false;
+            //if (thread != null && thread.IsAlive)
+            //{
+            //    eLogSender("AutoRunthread", $"[ERR] 자동 운전 중입니다.");
+            //    return false;
+            //}
+            
             try
             {
-
-                //thread = new Thread(ProcessRun);
-                cts = new CancellationTokenSource();
-                thread = new Thread(() => ProcessRun(cts.Token));
-                thread.Start();
+                if(m_bPause == false)   //정지 상태일때만
+                {
+                    cts = new CancellationTokenSource();
+                    thread = new Thread(() => ProcessRun(cts.Token));
+                    thread.Start();
+                }
+                m_bPause = false;
 
                 Console.WriteLine("Worker thread start.");
             }
@@ -101,15 +109,31 @@ namespace ApsMotionControl.FThread
 
             return true;
         }
+        public bool StopCheck()
+        {
+
+            if (thread == null)
+            {
+                return true;
+            }
+            bool brtn = thread.Join(3000);
+            if(brtn)
+            {
+                thread = null;
+            }
+            return brtn;
+        }
         public void Stop()
         {
             if (thread != null && cts != null)
             {
+                Console.WriteLine("Worker thread stop 1");
                 cts.Cancel();
-                thread.Join();
-                thread = null;
+               //// thread.Join();
+                //thread = null;
                 cts = null;
-                Console.WriteLine("Worker thread stop.");
+                m_bPause = false;
+                Console.WriteLine("Worker thread stop 2");
             }
         }
     }
