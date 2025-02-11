@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ApsMotionControl.FThread
 {
@@ -14,18 +15,17 @@ namespace ApsMotionControl.FThread
         private bool m_bPause = false;
         private CancellationTokenSource cts;
         private Process.PcbProcess RunProcess = new Process.PcbProcess();
+        private Process.ReadyProcess readyProcess = new Process.ReadyProcess();
         public AutoRunthread()
         {
-            //thread = new Thread(Run);
             thread = null;
         }
         public bool GetThreadRun()
         {
             if(thread != null)
             {
-                return thread.IsAlive;    //thread 동작 중
-
                 ////return thread?.IsAlive ?? false;
+                return thread.IsAlive;    //thread 동작 중
             }
 
             return false;
@@ -53,9 +53,19 @@ namespace ApsMotionControl.FThread
                         Globalo.MainForm.StopAutoProcess();
                         return;
                     }
+                    //// 원점 복귀
+                    //if (Globalo.taskWork.m_nCurrentStep >= 10000 && Globalo.taskWork.m_nCurrentStep < 20000)
+                    //{
+                    //    Globalo.taskWork.m_nCurrentStep = readyProcess.HomeProcess(Globalo.taskWork.m_nCurrentStep);
+                    //}
+
                     if (Globalo.taskWork.m_nCurrentStep >= 20000 && Globalo.taskWork.m_nCurrentStep < 30000)
                     {
-                        Globalo.taskWork.m_nCurrentStep = RunProcess.AutoReady(Globalo.taskWork.m_nCurrentStep);
+                        Globalo.taskWork.m_nCurrentStep = readyProcess.AutoReady(Globalo.taskWork.m_nCurrentStep);
+                    }
+                    else if (Globalo.taskWork.m_nCurrentStep >= 30000 && Globalo.taskWork.m_nCurrentStep < 40000)
+                    {
+                        Globalo.taskWork.m_nCurrentStep = RunProcess.Auto_Loading(Globalo.taskWork.m_nCurrentStep);
                     }
 
                 }
@@ -82,12 +92,6 @@ namespace ApsMotionControl.FThread
         }
         public bool Start()
         {
-            //if (thread != null && thread.IsAlive)
-            //{
-            //    eLogSender("AutoRunthread", $"[ERR] 자동 운전 중입니다.");
-            //    return false;
-            //}
-            
             try
             {
                 if(m_bPause == false)   //정지 상태일때만
@@ -111,7 +115,6 @@ namespace ApsMotionControl.FThread
         }
         public bool StopCheck()
         {
-
             if (thread == null)
             {
                 return true;

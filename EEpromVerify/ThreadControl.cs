@@ -12,7 +12,9 @@ namespace ApsMotionControl
         public FThread.TimeThread timeThread;
         public FThread.DIoThread dIoThread;
         public FThread.AutoRunthread autoRunthread;
-        public FThread.ReadyThread readyThread;
+        //public FThread.AutoReadyThread readyRunthread;
+
+        //public FThread.ReadyThread readyThread;
 
 
         public FThread.TaskAutoRun taskAutoRun;
@@ -22,7 +24,7 @@ namespace ApsMotionControl
             logThread = new FThread.LogThread();
             timeThread = new FThread.TimeThread();
             autoRunthread = new FThread.AutoRunthread();
-            readyThread = new FThread.ReadyThread();
+            //readyThread = new FThread.ReadyThread();
             if (ProgramState.ON_LINE_MOTOR)
             {
                 dIoThread = new FThread.DIoThread();
@@ -43,7 +45,7 @@ namespace ApsMotionControl
             logThread.Stop();
             timeThread.Stop();
             autoRunthread.Stop();
-            readyThread.Stop();
+            //readyThread.Stop();
             if (ProgramState.ON_LINE_MOTOR)
             {
                 dIoThread.Stop();

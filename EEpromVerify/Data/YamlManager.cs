@@ -268,11 +268,16 @@ namespace ApsMotionControl.Data
             try
             {
                 if (!File.Exists(filePath))
+                {
+                    alarmData = new AlarmData();
                     return false;
+                }
+                    
 
                 alarmData = LoadYaml<AlarmData>(filePath);
                 if (alarmData == null)
                 {
+                    alarmData = new AlarmData();
                     return false;
                 }
                 return true;
