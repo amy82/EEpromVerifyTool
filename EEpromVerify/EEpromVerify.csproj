@@ -128,6 +128,7 @@
     <Compile Include="Data\TeachingData.cs" />
     <Compile Include="Data\WorkData.cs" />
     <Compile Include="Data\YamlAlarmData.cs" />
+    <Compile Include="Data\YamlConfigData.cs" />
     <Compile Include="Data\YamlManager.cs" />
     <Compile Include="Data\YamlRecipe.cs" />
     <Compile Include="Data\YamlModelData.cs" />
@@ -258,6 +259,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Serial\SerialCommunicator.cs" />
+    <Compile Include="Serial\SerialPortManager.cs" />
     <Compile Include="ThreadControl.cs" />
     <Compile Include="FThread\LogThread.cs" />
     <Compile Include="Ubisam\Constants.cs" />

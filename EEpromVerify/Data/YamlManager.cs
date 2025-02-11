@@ -21,6 +21,7 @@ namespace ApsMotionControl.Data
         public RootRecipe vPPRecipeSpecEquip { get; set; }
         public RootRecipe vPPRecipeSpec__Host { get; set; }
         public UgcSetFile ugcSetFile { get; private set; }
+        public ConfigData configData { get; private set; }
         public List<string> recipeYamlFiles = new List<string>();
 
 
@@ -220,6 +221,53 @@ namespace ApsMotionControl.Data
                 return false;
             }
         }
+        public bool configDataSave()
+        {
+            string filePath = Path.Combine(CPath.BASE_DATA_PATH, CPath.yamlFilePathConfig);
+            try
+            {
+                if (!File.Exists(filePath))
+                    return false;
+
+                SaveYaml(filePath, configData);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error Save YAML: {ex.Message}");
+                return false;
+            }
+        }
+        public bool configDataLoad()
+        {
+            string filePath = Path.Combine(CPath.BASE_DATA_PATH, CPath.yamlFilePathConfig);
+            try
+            {
+                if (!File.Exists(filePath))
+                    return false;
+
+
+                configData = LoadYaml<ConfigData>(filePath);
+                if (configData == null)
+                {
+                    return false;
+                }
+                ///configData.ugcFilePath = Path.Combine(CPath.BASE_UBISAM_PATH, configData.ugcFilePath);
+                //// 결과 출력
+                //Console.WriteLine($"OperatorId: {MesData.SecGemData.OperatorId}");
+                //foreach (var model in MesData.SecGemData.Modellist)
+                //{
+                //    Console.WriteLine($"- {model}");
+                //}
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading YAML: {ex.Message}");
+                return false;
+            }
+        }
+        //
         public bool UgcLoad()
         {
             string filePath = Path.Combine(CPath.BASE_UBISAM_PATH, "UIConfig", CPath.yamlFilePathUgc);
