@@ -43,6 +43,27 @@ namespace ApsMotionControl
         public const int CHART_ROI_COUNT = 9;
         public const int MTF_ROI_COUNT = 20;
 
+        public static void MessageShowPopup(string LogDesc, Globalo.eMessageName bPopUpView = Globalo.eMessageName.M_NULL)
+        {
+            if (Globalo.MainForm.InvokeRequired)
+            {
+                Globalo.MainForm.Invoke(new Action(() => MessageShowPopup(LogDesc, bPopUpView)));
+            }
+            else
+            {
+                MessagePopUpForm messagePopUp = new MessagePopUpForm();
+                messagePopUp.MessageSet(bPopUpView, LogDesc);
+                messagePopUp.Show();
+            }
+        }
+        public static DialogResult MessageAskPopup(string LogDesc)
+        {
+            MessagePopUpForm messagePopUp3 = new MessagePopUpForm("", "YES", "NO");
+            messagePopUp3.MessageSet(Globalo.eMessageName.M_ASK, LogDesc);
+            DialogResult result = messagePopUp3.ShowDialog();
+
+            return result;
+        }
         public static void LogPrint(object oSender, string LogDesc, Globalo.eMessageName bPopUpView = Globalo.eMessageName.M_NULL)
         {
             DateTime dTime = DateTime.Now;
@@ -51,9 +72,11 @@ namespace ApsMotionControl
 
             if (bPopUpView != Globalo.eMessageName.M_NULL)
             {
-                MessagePopUpForm messagePopUp = new MessagePopUpForm();
-                messagePopUp.MessageSet(bPopUpView, LogDesc);
-                messagePopUp.Show();
+
+                MessageShowPopup(LogDesc, bPopUpView);
+                //MessagePopUpForm messagePopUp = new MessagePopUpForm();
+                //messagePopUp.MessageSet(bPopUpView, LogDesc);
+                //messagePopUp.Show();
 
                 if (bPopUpView == Globalo.eMessageName.M_WARNING || bPopUpView == Globalo.eMessageName.M_ERROR)
                 {
