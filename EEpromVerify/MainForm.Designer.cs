@@ -30,6 +30,7 @@ namespace ApsMotionControl
         private void InitializeComponent()
         {
             this.TopPanel = new System.Windows.Forms.Panel();
+            this.BTN_TOP_MES = new System.Windows.Forms.Button();
             this.MainTitlepictureBox = new System.Windows.Forms.PictureBox();
             this.MainTitleLabel = new System.Windows.Forms.Label();
             this.TimeLabel = new System.Windows.Forms.Label();
@@ -44,6 +45,8 @@ namespace ApsMotionControl
             this.RightPanel = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.BottomPanel = new System.Windows.Forms.Panel();
+            this.label_build = new System.Windows.Forms.Label();
+            this.label_version = new System.Windows.Forms.Label();
             this.BTN_BOTTOM_WALLPAPER = new System.Windows.Forms.Button();
             this.BTN_BOTTOM_EXIT = new System.Windows.Forms.Button();
             this.BTN_BOTTOM_ALARM = new System.Windows.Forms.Button();
@@ -65,6 +68,7 @@ namespace ApsMotionControl
             // 
             this.TopPanel.BackColor = System.Drawing.Color.WhiteSmoke;
             this.tableLayoutPanel1.SetColumnSpan(this.TopPanel, 2);
+            this.TopPanel.Controls.Add(this.BTN_TOP_MES);
             this.TopPanel.Controls.Add(this.MainTitlepictureBox);
             this.TopPanel.Controls.Add(this.MainTitleLabel);
             this.TopPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -73,6 +77,20 @@ namespace ApsMotionControl
             this.TopPanel.Name = "TopPanel";
             this.TopPanel.Size = new System.Drawing.Size(1331, 60);
             this.TopPanel.TabIndex = 0;
+            // 
+            // BTN_TOP_MES
+            // 
+            this.BTN_TOP_MES.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.BTN_TOP_MES.FlatAppearance.BorderColor = System.Drawing.Color.Gainsboro;
+            this.BTN_TOP_MES.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BTN_TOP_MES.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BTN_TOP_MES.Location = new System.Drawing.Point(830, 0);
+            this.BTN_TOP_MES.Name = "BTN_TOP_MES";
+            this.BTN_TOP_MES.Size = new System.Drawing.Size(79, 58);
+            this.BTN_TOP_MES.TabIndex = 11;
+            this.BTN_TOP_MES.Text = "MES";
+            this.BTN_TOP_MES.UseVisualStyleBackColor = false;
+            this.BTN_TOP_MES.Click += new System.EventHandler(this.BTN_TOP_MES_Click);
             // 
             // MainTitlepictureBox
             // 
@@ -87,11 +105,11 @@ namespace ApsMotionControl
             // MainTitleLabel
             // 
             this.MainTitleLabel.AutoSize = true;
-            this.MainTitleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.MainTitleLabel.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 17.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.MainTitleLabel.ForeColor = System.Drawing.Color.DarkGray;
             this.MainTitleLabel.Location = new System.Drawing.Point(74, 14);
             this.MainTitleLabel.Name = "MainTitleLabel";
-            this.MainTitleLabel.Size = new System.Drawing.Size(360, 29);
+            this.MainTitleLabel.Size = new System.Drawing.Size(347, 26);
             this.MainTitleLabel.TabIndex = 0;
             this.MainTitleLabel.Text = "Active Alignment [Ver. 1.0.1.1]";
             // 
@@ -100,7 +118,7 @@ namespace ApsMotionControl
             this.TimeLabel.BackColor = System.Drawing.Color.Transparent;
             this.TimeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.TimeLabel.ForeColor = System.Drawing.SystemColors.Info;
-            this.TimeLabel.Location = new System.Drawing.Point(9, 567);
+            this.TimeLabel.Location = new System.Drawing.Point(3, 739);
             this.TimeLabel.Margin = new System.Windows.Forms.Padding(0);
             this.TimeLabel.Name = "TimeLabel";
             this.TimeLabel.Size = new System.Drawing.Size(131, 40);
@@ -122,7 +140,7 @@ namespace ApsMotionControl
             this.LeftPanel.Location = new System.Drawing.Point(0, 60);
             this.LeftPanel.Margin = new System.Windows.Forms.Padding(0);
             this.LeftPanel.Name = "LeftPanel";
-            this.LeftPanel.Size = new System.Drawing.Size(830, 561);
+            this.LeftPanel.Size = new System.Drawing.Size(830, 740);
             this.LeftPanel.TabIndex = 1;
             // 
             // labelGuide
@@ -132,7 +150,7 @@ namespace ApsMotionControl
             this.labelGuide.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelGuide.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.labelGuide.ForeColor = System.Drawing.Color.Black;
-            this.labelGuide.Location = new System.Drawing.Point(574, 360);
+            this.labelGuide.Location = new System.Drawing.Point(574, 450);
             this.labelGuide.Name = "labelGuide";
             this.labelGuide.Size = new System.Drawing.Size(253, 57);
             this.labelGuide.TabIndex = 6;
@@ -146,7 +164,7 @@ namespace ApsMotionControl
             this.BTN_MAIN_START1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_MAIN_START1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
             this.BTN_MAIN_START1.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_START1.Location = new System.Drawing.Point(425, 360);
+            this.BTN_MAIN_START1.Location = new System.Drawing.Point(427, 428);
             this.BTN_MAIN_START1.Name = "BTN_MAIN_START1";
             this.BTN_MAIN_START1.Size = new System.Drawing.Size(126, 57);
             this.BTN_MAIN_START1.TabIndex = 5;
@@ -161,7 +179,7 @@ namespace ApsMotionControl
             this.BTN_MAIN_STOP1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_MAIN_STOP1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
             this.BTN_MAIN_STOP1.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_STOP1.Location = new System.Drawing.Point(291, 360);
+            this.BTN_MAIN_STOP1.Location = new System.Drawing.Point(295, 423);
             this.BTN_MAIN_STOP1.Name = "BTN_MAIN_STOP1";
             this.BTN_MAIN_STOP1.Size = new System.Drawing.Size(126, 57);
             this.BTN_MAIN_STOP1.TabIndex = 4;
@@ -176,7 +194,7 @@ namespace ApsMotionControl
             this.BTN_MAIN_PAUSE1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_MAIN_PAUSE1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
             this.BTN_MAIN_PAUSE1.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_PAUSE1.Location = new System.Drawing.Point(159, 360);
+            this.BTN_MAIN_PAUSE1.Location = new System.Drawing.Point(144, 428);
             this.BTN_MAIN_PAUSE1.Name = "BTN_MAIN_PAUSE1";
             this.BTN_MAIN_PAUSE1.Size = new System.Drawing.Size(126, 57);
             this.BTN_MAIN_PAUSE1.TabIndex = 3;
@@ -191,7 +209,7 @@ namespace ApsMotionControl
             this.BTN_MAIN_READY1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_MAIN_READY1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
             this.BTN_MAIN_READY1.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_READY1.Location = new System.Drawing.Point(19, 360);
+            this.BTN_MAIN_READY1.Location = new System.Drawing.Point(12, 430);
             this.BTN_MAIN_READY1.Name = "BTN_MAIN_READY1";
             this.BTN_MAIN_READY1.Size = new System.Drawing.Size(126, 57);
             this.BTN_MAIN_READY1.TabIndex = 2;
@@ -221,7 +239,7 @@ namespace ApsMotionControl
             this.listBox_Log.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.listBox_Log.FormattingEnabled = true;
             this.listBox_Log.ItemHeight = 15;
-            this.listBox_Log.Location = new System.Drawing.Point(0, 420);
+            this.listBox_Log.Location = new System.Drawing.Point(0, 510);
             this.listBox_Log.Margin = new System.Windows.Forms.Padding(0);
             this.listBox_Log.Name = "listBox_Log";
             this.listBox_Log.Size = new System.Drawing.Size(827, 139);
@@ -234,7 +252,7 @@ namespace ApsMotionControl
             this.RightPanel.Location = new System.Drawing.Point(830, 60);
             this.RightPanel.Margin = new System.Windows.Forms.Padding(0);
             this.RightPanel.Name = "RightPanel";
-            this.RightPanel.Size = new System.Drawing.Size(501, 561);
+            this.RightPanel.Size = new System.Drawing.Size(501, 740);
             this.RightPanel.TabIndex = 2;
             // 
             // tableLayoutPanel1
@@ -254,12 +272,14 @@ namespace ApsMotionControl
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1481, 621);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1481, 800);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // BottomPanel
             // 
             this.BottomPanel.BackColor = System.Drawing.Color.Pink;
+            this.BottomPanel.Controls.Add(this.label_build);
+            this.BottomPanel.Controls.Add(this.label_version);
             this.BottomPanel.Controls.Add(this.BTN_BOTTOM_WALLPAPER);
             this.BottomPanel.Controls.Add(this.BTN_BOTTOM_EXIT);
             this.BottomPanel.Controls.Add(this.TimeLabel);
@@ -276,8 +296,32 @@ namespace ApsMotionControl
             this.BottomPanel.Margin = new System.Windows.Forms.Padding(0);
             this.BottomPanel.Name = "BottomPanel";
             this.tableLayoutPanel1.SetRowSpan(this.BottomPanel, 2);
-            this.BottomPanel.Size = new System.Drawing.Size(150, 621);
+            this.BottomPanel.Size = new System.Drawing.Size(150, 800);
             this.BottomPanel.TabIndex = 3;
+            // 
+            // label_build
+            // 
+            this.label_build.BackColor = System.Drawing.Color.Transparent;
+            this.label_build.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_build.ForeColor = System.Drawing.Color.DimGray;
+            this.label_build.Location = new System.Drawing.Point(4, 699);
+            this.label_build.Name = "label_build";
+            this.label_build.Size = new System.Drawing.Size(144, 42);
+            this.label_build.TabIndex = 12;
+            this.label_build.Text = "buildInfo : 25.02.11.01";
+            this.label_build.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label_version
+            // 
+            this.label_version.BackColor = System.Drawing.Color.Transparent;
+            this.label_version.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_version.ForeColor = System.Drawing.Color.DimGray;
+            this.label_version.Location = new System.Drawing.Point(4, 645);
+            this.label_version.Name = "label_version";
+            this.label_version.Size = new System.Drawing.Size(144, 42);
+            this.label_version.TabIndex = 11;
+            this.label_version.Text = "VersionInfo : V1.1.0";
+            this.label_version.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // BTN_BOTTOM_WALLPAPER
             // 
@@ -342,7 +386,7 @@ namespace ApsMotionControl
             this.BTN_BOTTOM_LIGHT.ForeColor = System.Drawing.Color.DimGray;
             this.BTN_BOTTOM_LIGHT.Image = global::ApsMotionControl.Properties.Resources.Light;
             this.BTN_BOTTOM_LIGHT.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BTN_BOTTOM_LIGHT.Location = new System.Drawing.Point(7, 452);
+            this.BTN_BOTTOM_LIGHT.Location = new System.Drawing.Point(6, 465);
             this.BTN_BOTTOM_LIGHT.Name = "BTN_BOTTOM_LIGHT";
             this.BTN_BOTTOM_LIGHT.Size = new System.Drawing.Size(133, 36);
             this.BTN_BOTTOM_LIGHT.TabIndex = 6;
@@ -376,7 +420,7 @@ namespace ApsMotionControl
             this.BTN_BOTTOM_IO.ForeColor = System.Drawing.Color.DimGray;
             this.BTN_BOTTOM_IO.Image = global::ApsMotionControl.Properties.Resources.Io;
             this.BTN_BOTTOM_IO.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BTN_BOTTOM_IO.Location = new System.Drawing.Point(7, 393);
+            this.BTN_BOTTOM_IO.Location = new System.Drawing.Point(6, 488);
             this.BTN_BOTTOM_IO.Name = "BTN_BOTTOM_IO";
             this.BTN_BOTTOM_IO.Size = new System.Drawing.Size(133, 36);
             this.BTN_BOTTOM_IO.TabIndex = 5;
@@ -412,7 +456,7 @@ namespace ApsMotionControl
             this.BTN_BOTTOM_TEACH.ForeColor = System.Drawing.Color.DimGray;
             this.BTN_BOTTOM_TEACH.Image = global::ApsMotionControl.Properties.Resources.Teaching1;
             this.BTN_BOTTOM_TEACH.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BTN_BOTTOM_TEACH.Location = new System.Drawing.Point(7, 494);
+            this.BTN_BOTTOM_TEACH.Location = new System.Drawing.Point(5, 511);
             this.BTN_BOTTOM_TEACH.Name = "BTN_BOTTOM_TEACH";
             this.BTN_BOTTOM_TEACH.Size = new System.Drawing.Size(133, 36);
             this.BTN_BOTTOM_TEACH.TabIndex = 3;
@@ -462,7 +506,7 @@ namespace ApsMotionControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1481, 621);
+            this.ClientSize = new System.Drawing.Size(1481, 800);
             this.Controls.Add(this.tableLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "MainForm";
@@ -504,6 +548,9 @@ namespace ApsMotionControl
         public System.Windows.Forms.Button BTN_MAIN_START1;
         public System.Windows.Forms.Button BTN_MAIN_STOP1;
         public System.Windows.Forms.Button BTN_MAIN_READY1;
+        private System.Windows.Forms.Label label_version;
+        private System.Windows.Forms.Label label_build;
+        private System.Windows.Forms.Button BTN_TOP_MES;
     }
 }
 

@@ -113,6 +113,11 @@ namespace ApsMotionControl
         }
     }
 
+    public static class ButtonColor
+    {
+        public static readonly string BTN_ON = "#FFB230";
+        public static readonly string BTN_OFF = "#C3A279";
+    }
     public static class SecsGemData
     {
         public static readonly string[] LOT_APD_INFO =
