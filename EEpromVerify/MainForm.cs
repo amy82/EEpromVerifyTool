@@ -541,7 +541,7 @@ namespace ApsMotionControl
         {
             StopAutoProcess();
             labelGuide.Text = "설비 정지 상태입니다.";
-            Globalo.LogPrint("MainForm", "[AUTO] AUTO RUN STOP");
+            Globalo.LogPrint("MainForm", "[AUTO] AUTO RUN STOP.");
         }
         /// <summary>
         /// 원점 잡기
