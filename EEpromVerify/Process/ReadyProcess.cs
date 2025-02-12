@@ -996,13 +996,13 @@ namespace ApsMotionControl.Process
                     szLog = $"[READY] 운전준비 TEST 1 [STEP : {nStep}]";
                     Globalo.LogPrint("ReadyPrecess", szLog);
                     nRetStep = 20050;
-                    Thread.Sleep(100);
+                    Thread.Sleep(300);
                     break;
                 case 20050:
                     szLog = $"[READY] 운전준비 TEST 2 [STEP : {nStep}]";
                     Globalo.LogPrint("PcbPrecess", szLog);
                     nRetStep = 20100;
-                    Thread.Sleep(100);
+                    Thread.Sleep(300);
                     break;
                 case 20100:
                     if (pauseTest)
@@ -1017,19 +1017,19 @@ namespace ApsMotionControl.Process
                     szLog = $"[READY] 운전준비 TEST 3 [STEP : {nStep}]";
                     Globalo.LogPrint("PcbPrecess", szLog);
                     nRetStep = 20150;
-                    Thread.Sleep(100);
+                    Thread.Sleep(300);
                     break;
                 case 20150:
                     szLog = $"[READY] 운전준비 TEST 4 [STEP : {nStep}]";
                     Globalo.LogPrint("PcbPrecess", szLog);
                     nRetStep = 20200;
-                    Thread.Sleep(100);
+                    Thread.Sleep(300);
                     break;
                 case 20200:
                     szLog = $"[READY] 운전준비 TEST 5 [STEP : {nStep}]";
                     Globalo.LogPrint("PcbPrecess", szLog);
                     nRetStep = 29100;
-                    Thread.Sleep(100);
+                    Thread.Sleep(300);
                     break;
                 case 29100:
                     ProgramState.CurrentState = OperationState.PreparationComplete;

@@ -225,6 +225,7 @@
     <Compile Include="Ezterm\AXL.cs" />
     <Compile Include="Ezterm\AXM.cs" />
     <Compile Include="FThread\AutoRunthread.cs" />
+    <Compile Include="FThread\BaseThread.cs" />
     <Compile Include="FThread\CcdColorThread.cs" />
     <Compile Include="FThread\CcdGrabThread.cs" />
     <Compile Include="FThread\DIoThread.cs" />
