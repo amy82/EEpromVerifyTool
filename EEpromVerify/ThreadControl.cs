@@ -12,6 +12,11 @@ namespace ApsMotionControl
         public FThread.TimeThread timeThread;
         public FThread.DIoThread dIoThread;
         public FThread.AutoRunthread autoRunthread;
+
+        //CCD thread
+        public FThread.CcdColorThread ccdColorThread;
+        public FThread.CcdGrabThread ccdGrabThread;
+
         //public FThread.AutoReadyThread readyRunthread;
 
         //public FThread.ReadyThread readyThread;
@@ -24,6 +29,9 @@ namespace ApsMotionControl
             logThread = new FThread.LogThread();
             timeThread = new FThread.TimeThread();
             autoRunthread = new FThread.AutoRunthread();
+            ccdColorThread = new FThread.CcdColorThread();
+            ccdGrabThread = new FThread.CcdGrabThread();
+
             //readyThread = new FThread.ReadyThread();
             if (ProgramState.ON_LINE_MOTOR)
             {
@@ -45,6 +53,9 @@ namespace ApsMotionControl
             logThread.Stop();
             timeThread.Stop();
             autoRunthread.Stop();
+            ccdColorThread.Stop();
+            ccdGrabThread.Stop();
+
             //readyThread.Stop();
             if (ProgramState.ON_LINE_MOTOR)
             {

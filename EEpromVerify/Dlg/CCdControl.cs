@@ -279,6 +279,7 @@ namespace ApsMotionControl.Dlg
 
         private void BTN_CCD_GABBER_OPEN_Click(object sender, EventArgs e)
         {
+            Globalo.LogPrint("", "[CCD] MANUAL CCD OPEN");
             Globalo.mLaonGrabberClass.OpenDevice();
         }
 
@@ -503,6 +504,12 @@ namespace ApsMotionControl.Dlg
         private void button4_Click(object sender, EventArgs e)
         {
             bool kk = CLaonGrabberClass.SensorIdRead_Head_Fn();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            int maxLength = CLaonGrabberClass.MAX_READ_WRITE_LENGTH;
+            maxLength += 1;
         }
     }
 }

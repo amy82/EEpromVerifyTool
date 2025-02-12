@@ -36,11 +36,34 @@ namespace ApsMotionControl.Dlg
         }
         public void RefreshConfig()
         {
+            ShowDriveSet();
             ShowComPort();
+        }
+        public void GetConfigData()
+        {
+            //운전 설정
+            Globalo.yamlManager.configData.DrivingSettings.IdleReportPass = checkBox_IdleReportPass.Checked;
+
+            //Serial Port
+            Globalo.yamlManager.configData.SerialPort.Bcr = comboBox_Port_Bcr.Text;
+        }
+        public void ShowDriveSet()
+        {
+            bool setBool = Globalo.yamlManager.configData.DrivingSettings.IdleReportPass;
+            checkBox_IdleReportPass.Checked = Globalo.yamlManager.configData.DrivingSettings.IdleReportPass;
         }
         public void ShowComPort()
         {
-            
+            string comData = Globalo.yamlManager.configData.SerialPort.Bcr;
+            int index = comboBox_Port_Bcr.Items.IndexOf(comData);
+            if (index < 0)
+            {
+                comboBox_Port_Bcr.SelectedIndex = 0;  // 첫 번째 항목 선택
+            }
+            else
+            {
+                comboBox_Port_Bcr.SelectedIndex = index;
+            }
         }
         public void setInterface()
         {
@@ -52,16 +75,7 @@ namespace ApsMotionControl.Dlg
                 comboBox_Port_Bcr.Items.Add("COM" + (i + 1).ToString());
             }
 
-            string comData = Globalo.yamlManager.configData.SerialPort.Bcr;
-            int index = comboBox_Port_Bcr.Items.IndexOf(comData);  // 값이 목록에서 어디 있는지 확인
-            if(index < 0)
-            {
-                comboBox_Port_Bcr.SelectedIndex = 0;  // 첫 번째 항목 선택
-            }
-            else
-            {
-                comboBox_Port_Bcr.SelectedIndex = index;
-            }
+            
             
             //string selectedValue = comboBox_Port_Bcr.SelectedItem.ToString();
 
@@ -133,8 +147,19 @@ namespace ApsMotionControl.Dlg
         {
             if (this.Visible)
             {
-
+                RefreshConfig();
             }
+        }
+
+        private void BTN_CONFIG_SAVE_Click(object sender, EventArgs e)
+        {
+            //Save
+
+            GetConfigData();
+            //
+            Globalo.yamlManager.configDataSave();
+            //
+            RefreshConfig();
         }
     }
 }

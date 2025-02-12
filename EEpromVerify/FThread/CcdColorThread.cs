@@ -1,0 +1,166 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;       //<- Marshal
+using System.Threading;
+using OpenCvSharp;
+using Matrox.MatroxImagingLibrary;
+using System.Diagnostics;
+
+namespace ApsMotionControl.FThread
+{
+    
+    public class CcdColorThread
+    {
+        public event delLogSender eLogSender;       //외부에서 호출할때 사용
+        public bool mCcdColorThreadRun = false;
+        private Thread thread = null;
+        private bool m_bPause = false;
+        private CancellationTokenSource cts;
+
+        public void FuncGrabColorRun(CancellationToken token)
+        {
+            if (Globalo.mLaonGrabberClass.M_GrabDllLoadComplete == false)
+            {
+                return;
+            }
+
+            IntPtr RawPtr = Marshal.UnsafeAddrOfPinnedArrayElement(Globalo.mLaonGrabberClass.m_pFrameRawBuffer, 0);
+            IntPtr BmpPtr = Marshal.UnsafeAddrOfPinnedArrayElement(Globalo.mLaonGrabberClass.m_pFrameBMPBuffer, 0);
+
+
+            int mWidth = Globalo.GrabberDll.mGetWidth();
+            int mHeight = Globalo.GrabberDll.mGetHeight();
+            //Mat imageItp = new Mat(mHeight, mWidth, MatType.CV_8UC3);//MatType.CV_8UC3);
+
+            double dZoomX = 0.0;
+            double dZoomY = 0.0;
+            dZoomX = ((double)Globalo.camControl.CcdPanel.Width / (double)mWidth);
+            dZoomY = ((double)Globalo.camControl.CcdPanel.Height / (double)mHeight);
+            byte[] bytes2 = new byte[mWidth * mHeight];
+
+            try
+            {
+                mCcdColorThreadRun = true;
+                //while (mCcdColorThreadRun)
+                while (!token.IsCancellationRequested)
+                {
+                    if (Globalo.mLaonGrabberClass.M_bOpen == false) continue;
+
+                    if (Globalo.vision.m_nGrabIndex[0] == Globalo.vision.m_nCvtColorReadyIndex[0])
+                    {
+                        Thread.Sleep(50);
+                        continue;
+                    }
+
+                    if (Globalo.vision.m_nCvtColorReadyIndex[0] < 0 || Globalo.vision.m_nCvtColorReadyIndex[0] >= 3)
+                    {
+                        Thread.Sleep(50);
+                        continue;
+                    }
+
+
+                    //0 = B , 1 = G , 2 = R
+                    //Cv2.Split 이걸쓰면 메모리 상승
+                    //Cv2.Split(oGlobal.mLaonGrabberClass.m_pGrabBuff[oGlobal.vision.m_nCvtColorReadyIndex[0]], out oGlobal.mLaonGrabberClass.m_pImageBuff);
+                    Cv2.ExtractChannel(Globalo.mLaonGrabberClass.m_pGrabBuff[Globalo.vision.m_nCvtColorReadyIndex[0]], Globalo.mLaonGrabberClass.m_pImageBuff[0], 0);
+                    Cv2.ExtractChannel(Globalo.mLaonGrabberClass.m_pGrabBuff[Globalo.vision.m_nCvtColorReadyIndex[0]], Globalo.mLaonGrabberClass.m_pImageBuff[1], 1);
+                    Cv2.ExtractChannel(Globalo.mLaonGrabberClass.m_pGrabBuff[Globalo.vision.m_nCvtColorReadyIndex[0]], Globalo.mLaonGrabberClass.m_pImageBuff[2], 2);
+
+                    //Cv2.Split(m_pGrabBuff[oGlobal.vision.m_nCvtColorReadyIndex[0]], out m_pImageBuff);
+                    //byte* data = (byte*)oGlobal.mLaonGrabberClass.m_pImageBuff[2].DataPointer;
+
+
+                    //Cv2.ImEncode(".bmp", oGlobal.mLaonGrabberClass.m_pImageBuff[2], out bytes2);
+                    //oGlobal.mLaonGrabberClass.m_pImageBuff[2].GetArray(0,0, bytes2);
+                    //IntPtr ptr = oGlobal.mLaonGrabberClass.m_pImageBuff[2];
+                    // int size = Marshal.SizeOf(ptr);
+
+                    Marshal.Copy(Globalo.mLaonGrabberClass.m_pImageBuff[2].Data, bytes2, 0, bytes2.Length); // Mat 데이터를 바이트 배열로 복사
+                    MIL.MbufPut(Globalo.vision.m_MilCcdProcChild[0, 0], bytes2);
+                    Marshal.Copy(Globalo.mLaonGrabberClass.m_pImageBuff[1].Data, bytes2, 0, bytes2.Length); // Mat 데이터를 바이트 배열로 복사
+                    MIL.MbufPut(Globalo.vision.m_MilCcdProcChild[0, 1], bytes2);
+                    Marshal.Copy(Globalo.mLaonGrabberClass.m_pImageBuff[0].Data, bytes2, 0, bytes2.Length); // Mat 데이터를 바이트 배열로 복사
+                    MIL.MbufPut(Globalo.vision.m_MilCcdProcChild[0, 2], bytes2);
+
+
+                    MIL.MimResize(Globalo.vision.m_MilCcdProcImage[0], Globalo.vision.m_MilSmallImage[0], dZoomX, dZoomY, MIL.M_DEFAULT);
+                }
+
+            }
+            catch (ThreadInterruptedException err)
+            {
+                Debug.WriteLine(err);
+            }
+            finally
+            {
+                //Debug.WriteLine("리소스 지우기");
+            }
+        }
+        public bool GetThreadRun()
+        {
+            if (thread != null)
+            {
+                ////return thread?.IsAlive ?? false;
+                return thread.IsAlive;    //thread 동작 중
+            }
+
+            return false;
+        }
+        public void Stop()
+        {
+            if (thread != null && cts != null)
+            {
+                Console.WriteLine("CcdColor thread stop 1");
+                cts.Cancel();
+                cts = null;
+                m_bPause = false;
+                Console.WriteLine("CcdColor thread stop 2");
+            }
+        }
+        public bool StopCheck()
+        {
+            if (thread == null)
+            {
+                return true;
+            }
+            bool brtn = thread.Join(3000);
+            if (brtn)
+            {
+                thread = null;
+            }
+            return brtn;
+        }
+        public void Pause()
+        {
+            m_bPause = true;
+        }
+        public bool Start()
+        {
+            try
+            {
+                if (m_bPause == false)   //정지 상태일때만
+                {
+                    cts = new CancellationTokenSource();
+                    thread = new Thread(() => FuncGrabColorRun(cts.Token));
+                    thread.Start();
+                }
+                m_bPause = false;
+
+                Console.WriteLine("Worker thread start.");
+            }
+            catch (ThreadStateException ex)
+            {
+                // Console.WriteLine($"ThreadStateException: {ex.Message}");
+                eLogSender("AutoRunthread", $"[ERR] ThreadStateException: {ex.Message}");
+                return false;
+            }
+
+            return true;
+        }
+    }
+
+    
+}

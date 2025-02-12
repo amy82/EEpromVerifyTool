@@ -34,22 +34,51 @@ namespace ApsMotionControl.Serial
         public SerialCommunicator(string portName)
         {
             //, int dataBits = 8, StopBits stopBits = StopBits.One, Parity parity = Parity.None
+            this.PortName = portName;
+            this.BaudRate = (int)BaudRates.Baud9600;
+            this.DataBits = 8;
+            this.StopBits = StopBits.One;
+            this.Parity = Parity.None;
 
-            PortName = portName;
-            BaudRate = (int)BaudRates.Baud19200;
-            DataBits = 8;
-            StopBits = StopBits.One;
-            Parity = Parity.None;
-
-            _serialPort = new SerialPort(PortName, BaudRate, Parity, DataBits, StopBits)
+            _serialPort = new SerialPort    //(PortName, BaudRate, Parity, DataBits, StopBits)
             {
+                PortName = this.PortName,
+                BaudRate = this.BaudRate,
+                DataBits = this.DataBits,
+                StopBits = this.StopBits,
+                Parity = this.Parity,
                 Encoding = Encoding.ASCII,   // 기본 인코딩 설정
                 NewLine = "\r\n",            // 종료 문자를 설정 (Enter)
                 DtrEnable = true,           // Data Terminal Ready 설정 (옵션)
                 RtsEnable = true            // Request to Send 설정 (옵션)
             };
-        }
 
+
+
+            // 2. 데이터 수신 이벤트 핸들러 등록
+            _serialPort.DataReceived += SerialPort_DataReceived;
+        }
+        // 6. 바코드 데이터 수신 이벤트 처리
+        private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            try
+            {
+                string rawData = _serialPort.ReadExisting(); // 버퍼에 있는 모든 데이터 읽기
+                //string scanData = rawData.Trim(); // 불필요한 개행 문자 제거
+                string scanData = rawData.Replace("\r", "").Replace("\n", ""); // \r\n 제거
+
+
+                ///string data = _serialPort.ReadLine();       //<--\r\n 붙을 경우 못 빠져나온다.
+                Console.WriteLine("바코드 데이터: " + scanData);
+                string logData = $"[Bcr] Scan Data:{scanData}";
+
+                Globalo.LogPrint("Serial", logData);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("데이터 수신 오류: " + ex.Message);
+            }
+        }
         // SerialPort 열기
         public bool Open()
         {
@@ -63,12 +92,12 @@ namespace ApsMotionControl.Serial
 
 
                     // 비동기적으로 데이터를 받기 위한 설정
-                    _serialPort.DataReceived += (sender, e) =>
-                    {
-                        // 데이터 받기 전에 Invoke로 UI 스레드로 전환
-                        string receivedData = _serialPort.ReadLine();  // 한 줄씩 받기
-                        OnDataReceived(receivedData);
-                    };
+                    //_serialPort.DataReceived += (sender, e) =>
+                    //{
+                    //    // 데이터 받기 전에 Invoke로 UI 스레드로 전환
+                    //    string receivedData = _serialPort.ReadLine();  // 한 줄씩 받기
+                    //    OnDataReceived(receivedData);
+                    //};
                     //string data = "]011";       //power on
                     // _serialPort.WriteLine(data);
 
@@ -82,7 +111,7 @@ namespace ApsMotionControl.Serial
                     //_serialPort.WriteLine(data);
 
 
-                    logData = $"[Serial] Bcr Connect Ok  {PortName} / {BaudRate}";
+                    logData = $"[Serial] Bcr Connect Ok  [{PortName}/{BaudRate}]";
                     Globalo.LogPrint("SerialConnect", logData);
                     return true;
                 }

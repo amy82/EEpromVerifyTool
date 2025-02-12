@@ -16,6 +16,28 @@ namespace ApsMotionControl
         public event delLogSender eLogSender;       //외부에서 호출할때 사용
 
         private int m_nUnit = 0;
+
+        public const int MAX_READ_WRITE_LENGTH = 1024;      //라온 보드 최대 1024 Byte 까지 Read / Write 가능
+
+
+        //제품에서 읽은 eeprom Data 저장 
+        //
+        //
+        public byte[] EEpromReadData; // EEPROM 데이터 읽기
+        Dictionary<ushort, byte> eepromDicData = new Dictionary<ushort, byte>();
+        //eepromDicData[0x0001] = 0xA5;
+        //eepromDicData.Clear();  //초기화 방법
+        //eepromDicData = new Dictionary<ushort, byte>(); //다시 할당
+
+        List<Tuple<ushort, byte>> eepromListData = new List<Tuple<ushort, byte>>();
+        //eepromListData.Add(Tuple.Create((ushort)0x0001, (byte)0xA5));
+        //eepromListData.Clear(); //초기화 방법
+        //eepromListData = new List<Tuple<ushort, byte>>(); //다시 할당
+
+
+        //if (eepromData1.SequenceEqual(eepromData2))
+
+
         private bool m_GrabDllLoadComplete;
         public bool M_GrabDllLoadComplete
         {
@@ -168,6 +190,7 @@ namespace ApsMotionControl
             if (Globalo.GrabberDll.mGrabStart() == 0)
             {
                 //ok
+                m_nCurrentCcdState = (int)CCD_GRAB_MODE.CCD_GRAB_LIVE;
                 eLogSender("GrabberDll", $"[CCD]Laon Start Ok");
             }
             else
@@ -176,8 +199,7 @@ namespace ApsMotionControl
                 eLogSender("GrabberDll", $"[CCD]Laon Start Fail");
                 return false;
             }
-
-            m_nCurrentCcdState = (int)CCD_GRAB_MODE.CCD_GRAB_LIVE;
+            
             return true;
         }
         public bool OpenDevice()
