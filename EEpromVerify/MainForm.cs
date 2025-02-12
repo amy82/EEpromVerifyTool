@@ -87,6 +87,7 @@ namespace ApsMotionControl
             //
 
             Globalo.yamlManager.configDataLoad();
+            Globalo.yamlManager.imageDataLoad();
             Globalo.dataManage.teachingData.DataLoad();
             Globalo.yamlManager.RecipeYamlListLoad();
             Globalo.yamlManager.UgcLoad();
@@ -124,6 +125,7 @@ namespace ApsMotionControl
                 Globalo.threadControl.ccdColorThread.Start();
                 Globalo.threadControl.ccdGrabThread.Start();
             }
+
             if (ProgramState.ON_LINE_MIL)
             {
                 InitMilLib();

@@ -20,7 +20,12 @@ namespace ApsMotionControl
     {
         // 현재 상태를 나타내는 static 변수
         public static OperationState CurrentState { get; set; } = OperationState.Stopped;
-        public static bool ON_LINE_MOTOR = false;//false;    //true
-        public static bool ON_LINE_MIL = true;//false;    //true
+
+        public static bool ON_LINE_MOTOR = false;    //true
+        public static bool ON_LINE_MIL = true;      //true
+
+        public static bool ON_LINE_CAM = false;      //true
+        public static bool ON_LINE_GRABBER = true;      //true
+
     }
 }
