@@ -20,6 +20,14 @@ namespace ApsMotionControl.Dlg
         //public event delLogSender eLogSender;       //외부에서 호출할때 사용
         //private ManualPcb manualPcb = new ManualPcb();
         //private ManualLens manualLens = new ManualLens();
+        private const int EEpromGridRowViewCount = 10;
+
+        private int[] GridColWidth = { 50, 80, 65, 65, 70, 270, 50, 50, 1 };
+        private int GridRowHeight = 30;
+        private int GridHeaderHeight = 30;
+        private int GridInitWidth = 0;
+        private int SelectedCellRow = 0;
+        private int SelectedCellCol = 0;
 
         Rectangle[] m_clRectROI = new Rectangle[Globalo.CHART_ROI_COUNT];
         Rectangle[] m_clRectCircle = new Rectangle[4];
@@ -32,6 +40,8 @@ namespace ApsMotionControl.Dlg
         public int m_iCurNo_SFR;
         public Rectangle[] m_rcRoiBox;						// 원형 마크 검색 영역
 
+
+        List<byte> CcdEEpromReadData = new List<byte>();
         private enum eManualBtn : int
         {
             pcbTab = 0, lensTab
@@ -46,8 +56,179 @@ namespace ApsMotionControl.Dlg
             this.Height = _h;
 
             setInterface();
-
+            InitEEpromGrid();
         }
+
+        private void InitEEpromGrid()
+        {
+            int i = 0;
+            int j = 0;
+            // 열 추가
+            // 행 헤더 숨기기
+            dataGridView_EEpromData.RowHeadersVisible = false;
+            //사이즈 조절 막기
+            dataGridView_EEpromData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            // 행 높이 자동 조정
+            dataGridView_EEpromData.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None; // 모든 셀에 맞게 자동 조정
+
+            // 열 자동 크기 조정
+            dataGridView_EEpromData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+
+            // 또는
+            // 셀 내용 줄바꿈
+            dataGridView_EEpromData.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+
+            // 헤더 폰트 설정
+            dataGridView_EEpromData.ColumnHeadersDefaultCellStyle.Font = new Font("나눔고딕", 9F, FontStyle.Bold);
+
+            // 헤더 배경색 설정
+            dataGridView_EEpromData.ColumnHeadersDefaultCellStyle.BackColor = Color.GhostWhite;// Color.FromArgb(94, 129, 244); //Color.LightBlue;
+            // 헤더 폰트 색
+            dataGridView_EEpromData.ColumnHeadersDefaultCellStyle.ForeColor = Color.Gray;
+
+            dataGridView_EEpromData.RowsDefaultCellStyle.BackColor = Color.GhostWhite;
+            dataGridView_EEpromData.RowsDefaultCellStyle.ForeColor = Color.Gray;
+
+            // Set the selection background color for all the cells.
+            //dataGridView_EEpromData.DefaultCellStyle.SelectionBackColor = Color.White;
+            // dataGridView_EEpromData.DefaultCellStyle.SelectionForeColor = Color.Black;
+            // dataGridView_EEpromData.ColumnHeadersDefaultCellStyle.SelectionForeColor = Color.Empty;
+            // dataGridView_EEpromData.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.Empty;
+
+            //dataGridView_EEpromData.DefaultCellStyle.SelectionForeColor = Color.Empty;
+
+            //dataGridView_EEpromData.DefaultCellStyle.SelectionBackColor = Color.Empty;
+            // Set RowHeadersDefaultCellStyle.SelectionBackColor so that its default
+            // value won't override DataGridView.DefaultCellStyle.SelectionBackColor.
+            // dataGridView_EEpromData.RowHeadersDefaultCellStyle.SelectionBackColor = Color.Empty;
+            // dataGridView_EEpromData.RowHeadersDefaultCellStyle.SelectionForeColor = Color.Empty;
+
+            dataGridView_EEpromData.EnableHeadersVisualStyles = false;
+            // 열 헤더 가운데 정렬
+            dataGridView_EEpromData.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            //운영 체제의 기본 시각적 스타일을 무시
+            dataGridView_EEpromData.AllowUserToResizeRows = false;
+
+            dataGridView_EEpromData.ReadOnly = true;
+            DataGridViewCellStyle cellStyle = new DataGridViewCellStyle();
+
+            cellStyle.Font = new Font("나눔고딕", 10, FontStyle.Regular); // Change font and size
+            cellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; // Center align text
+            cellStyle.SelectionBackColor = Color.LightBlue;
+            //cellStyle.SelectionForeColor = Color.Empty;
+
+            dataGridView_EEpromData.DefaultCellStyle = cellStyle;
+
+            DataGridViewTextBoxColumn[] textColumns = new DataGridViewTextBoxColumn[4];
+
+            for (i = 0; i < 4; i++)
+            {
+                textColumns[i] = new DataGridViewTextBoxColumn();
+            }
+
+            //DataGridView
+            textColumns[0].HeaderText = "No";
+            textColumns[1].HeaderText = "Addr";
+            textColumns[2].HeaderText = "Hex";
+            textColumns[3].HeaderText = "ASCII";
+
+            textColumns[0].Name = "No";
+            textColumns[1].Name = "Addr";
+            textColumns[2].Name = "Hex";
+            textColumns[3].Name = "ASCII";
+
+
+
+
+            dataGridView_EEpromData.Columns.Add(textColumns[0]);
+            dataGridView_EEpromData.Columns.Add(textColumns[1]);
+            dataGridView_EEpromData.Columns.Add(textColumns[2]);
+            dataGridView_EEpromData.Columns.Add(textColumns[3]);
+
+            for (i = 0; i < dataGridView_EEpromData.ColumnCount; i++)
+            {
+                dataGridView_EEpromData.Columns[i].Resizable = DataGridViewTriState.False;
+            }
+
+            dataGridView_EEpromData.Width = GridColWidth[0] + GridColWidth[1] + GridColWidth[2] + GridColWidth[3];
+
+            int gridWidth = dataGridView_EEpromData.Width;
+
+            dataGridView_EEpromData.Columns[0].Width = GridColWidth[0];
+            dataGridView_EEpromData.Columns[1].Width = GridColWidth[1];
+            dataGridView_EEpromData.Columns[2].Width = GridColWidth[2];
+            dataGridView_EEpromData.Columns[3].Width = GridColWidth[3];
+
+
+
+            // 행 높이 조정
+            dataGridView_EEpromData.RowTemplate.Height = GridRowHeight; // 자동 추가되는 행 높이 설정
+            dataGridView_EEpromData.ColumnHeadersHeight = GridHeaderHeight;
+
+            //dataGridView_EEpromData.ColumnHeadersDefaultCellStyle.ForeColor = Color.Blue;
+
+            for (i = 0; i < EEpromGridRowViewCount; i++)
+            {
+                string text = $"예시 텍스트 {i}"; // 예시 텍스트 생성
+                //bool isChecked = (i % 2 == 0); // 짝수인 경우 체크박스가 체크됨
+                dataGridView_EEpromData.Rows.Add(""); // 행 추가
+                dataGridView_EEpromData.Rows[i].Height = GridRowHeight;
+
+                for (j = 0; j < dataGridView_EEpromData.ColumnCount; j++)
+                {
+                    //dataGridView.Columns[i].Resizable = DataGridViewTriState.False;
+                    //dataGridView_EEpromData.Columns[j].Width = GridColWidth[j];
+                    dataGridView_EEpromData.Columns[j].Resizable = DataGridViewTriState.False;
+                    dataGridView_EEpromData.Rows[i].Cells[j].Value = "";
+                }
+            }
+            dataGridView_EEpromData.Height = EEpromGridRowViewCount * GridRowHeight + GridRowHeight + 2;
+            if (dataGridView_EEpromData.AllowUserToAddRows == true)
+            {
+                //dataGridView_Model.Rows[GridRowCount].Height = GridRowHeight;
+            }
+
+
+            dataGridView_EEpromData.MultiSelect = false; // 여러 개 선택 불가능
+            dataGridView_EEpromData.AllowUserToAddRows = false; // 빈 행 추가 방지
+            dataGridView_EEpromData.ScrollBars = ScrollBars.Vertical;      //가로 스크롤 안보이게 설정
+
+            //dataGridView_EEpromData.CellContentClick += ModelGridView_CellContentClick;     //삭제 버튼 클릭시 사용
+            // 버튼 클릭 이벤트 등록
+            dataGridView_EEpromData.CellClick += new DataGridViewCellEventHandler(GridView_CellClick); //textbox 한번 클릭으로 바로 수정되게 추가
+            //dataGridView_EEpromData.SelectionChanged += dataGridView1_SelectionChanged;
+            // 이벤트 핸들러 추가
+            //CardGrid.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(CardGrid_EditingControlShowing);
+            //dataGridView_EEpromData.CellFormatting += dataGridView_Model_CellFormatting;
+
+            GridInitWidth = dataGridView_EEpromData.Width;     //<---스크롤 생겼을때 사이즈 조절위해 초기 Grid 넓이 저장
+
+            // 각 컬럼의 헤더 텍스트 정렬 설정
+            foreach (DataGridViewColumn column in dataGridView_EEpromData.Columns)
+            {
+                column.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+
+
+            //dataGridView_EEpromData.Columns[0].ReadOnly = true; // 읽기 전용
+
+
+            dataGridView_EEpromData.Columns[0].DefaultCellStyle.BackColor = Color.LightGray; // 배경색 설정
+            dataGridView_EEpromData.Columns[0].DefaultCellStyle.ForeColor = Color.Yellow; // 배경색 설정
+            dataGridView_EEpromData.Columns[0].DefaultCellStyle.Font = new Font("나눔고딕", 10F, FontStyle.Bold); // 굵은 글씨
+            dataGridView_EEpromData.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; // 가운데 정렬
+
+            dataGridView_EEpromData.ClearSelection();
+        }
+
+        private void GridView_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //Console.WriteLine($"DataGridView_CellClick");
+            SelectedCellCol = e.ColumnIndex;
+            SelectedCellRow = e.RowIndex;           //세로
+        }
+        
         private void Form_Paint(object sender, PaintEventArgs e)
         {
             int lineStartY = ManualTitleLabel.Location.Y + 60;
@@ -504,8 +685,63 @@ namespace ApsMotionControl.Dlg
         {
             bool kk = CLaonGrabberClass.SensorIdRead_Head_Fn();
         }
+        public void ShowEEpromGrid(int dataLenght = 0)
+        {
+            Console.WriteLine("dataLenght: " + dataLenght.ToString());
 
-        public static unsafe bool testEEpromRead()
+
+            int i = 0;  //옆
+
+            int nCol = dataGridView_EEpromData.ColumnCount;         //7 옆으로 행
+            int nRow = dataGridView_EEpromData.RowCount;        //0 아래로 열 빈칸 -1
+
+            int dataCount = dataLenght;
+            if(dataCount < 1)
+            {
+                return;
+            }
+            //Globalo.mCCdPanel.CcdEEpromReadData.AddRange(EEpromReadData);
+
+
+            dataGridView_EEpromData.Rows.Clear();
+
+            int gridViewCount = dataCount;
+
+            if (gridViewCount < EEpromGridRowViewCount)
+            {
+                gridViewCount = EEpromGridRowViewCount;
+            }
+
+            for (i = 0; i < gridViewCount; i++)
+            {
+                if(i < dataCount)
+                {
+                    dataGridView_EEpromData.Rows.Add((i + 1).ToString(), "addr", "0x"+Globalo.mCCdPanel.CcdEEpromReadData[i].ToString("X2"), (char)Globalo.mCCdPanel.CcdEEpromReadData[i]);
+                }
+                else
+                {
+                    dataGridView_EEpromData.Rows.Add("", "", "", ""); // 행 추가
+                    
+                }
+                dataGridView_EEpromData.Rows[i].Cells[1].Style.BackColor = Color.White; // 1번 열
+                dataGridView_EEpromData.Rows[i].Cells[1].Style.ForeColor = Color.Black; // 1번 열
+                dataGridView_EEpromData.Rows[i].Cells[2].Style.BackColor = Color.White; // 1번 열
+                dataGridView_EEpromData.Rows[i].Cells[2].Style.ForeColor = Color.Black; // 1번 열
+                dataGridView_EEpromData.Rows[i].Cells[3].Style.BackColor = Color.White; // 1번 열
+                dataGridView_EEpromData.Rows[i].Cells[3].Style.ForeColor = Color.Black; // 1번 열
+                dataGridView_EEpromData.Rows[i].Cells[1].Style.Font = new Font(dataGridView_EEpromData.DefaultCellStyle.Font, FontStyle.Regular);
+                dataGridView_EEpromData.Rows[i].Cells[2].Style.Font = new Font(dataGridView_EEpromData.DefaultCellStyle.Font, FontStyle.Regular);
+                dataGridView_EEpromData.Rows[i].Cells[3].Style.Font = new Font(dataGridView_EEpromData.DefaultCellStyle.Font, FontStyle.Regular);
+            }
+
+
+            if (gridViewCount > EEpromGridRowViewCount)
+            {
+                dataGridView_EEpromData.Width = GridInitWidth + 20; //스크롤 추가시 grid Width 조정
+            }
+            dataGridView_EEpromData.ClearSelection();
+        }
+        public static unsafe bool testEEpromRead(string slave , string addr , string length)
         {
             int i = 0;
             int maxLength = CLaonGrabberClass.MAX_READ_WRITE_LENGTH;
@@ -522,15 +758,29 @@ namespace ApsMotionControl.Dlg
             ushort checkAddr = 0x3C06;
 
             byte[] EEpromReadData = new byte[endAddress + 5]; // EEPROM 데이터 읽기
-
+            if(Globalo.mLaonGrabberClass.EEpromReadData == null)
+            {
+                Globalo.mLaonGrabberClass.EEpromReadData = new byte[endAddress + 5];
+            }
+            else
+            {
+                if (Globalo.mLaonGrabberClass.EEpromReadData == null || Globalo.mLaonGrabberClass.EEpromReadData.Length != (endAddress + 5))
+                {
+                    Array.Resize(ref Globalo.mLaonGrabberClass.EEpromReadData, endAddress + 5);
+                }
+            }
+            
             byte[] pReadData = new byte[260]; // MAX_PATH 대신 일반적인 크기(예: 260) 사용
 
-            Array.Clear(EEpromReadData, 0, EEpromReadData.Length);
+            Array.Clear(Globalo.mLaonGrabberClass.EEpromReadData, 0, Globalo.mLaonGrabberClass.EEpromReadData.Length);
             Array.Clear(pReadData, 0, pReadData.Length);
 
 
             ushort readDataLength = 30;
 
+            Globalo.mCCdPanel.CcdEEpromReadData.Clear();
+
+            
             for (i = 0; i < endAddress; i+= readDataLength)     // 0;  i < 129;  i += 30; 
             {
                 fixed (byte* pData = EEpromReadData)
@@ -554,6 +804,10 @@ namespace ApsMotionControl.Dlg
                     }
                 }
             }
+            Globalo.mCCdPanel.CcdEEpromReadData.AddRange(EEpromReadData);
+
+            Globalo.mCCdPanel.ShowEEpromGrid(Globalo.mCCdPanel.CcdEEpromReadData.Count);
+
             string asciiString = "";
             for (i = 209; i < 225; i ++)
             {
@@ -564,7 +818,11 @@ namespace ApsMotionControl.Dlg
         }
         private void BTN_CCD_EEPROM_READ_Click(object sender, EventArgs e)
         {
-            testEEpromRead();
+            string slaveAddr = textBox_SlaveAddr.Text;
+            string readAddr = textBox_ReadAddr.Text;
+            string readDataLength = textBox_ReadDataLeng.Text;
+
+            testEEpromRead(slaveAddr, readAddr, readDataLength);
 
             //EEPROM_TotalRead_Type2(0x0000, 0x513, CompareEEpromData, 512);//최대 32씩만	0x512	0x46D
         }
@@ -573,7 +831,9 @@ namespace ApsMotionControl.Dlg
         {
             if (this.Visible)
             {
+                ShowEEpromGrid();
                 //Chart roi on
+
                 SetSfrRoi();
                 DrawRectSfr(999);
             }
