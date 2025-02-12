@@ -30,8 +30,11 @@
         {
             this.ManualTitleLabel = new System.Windows.Forms.Label();
             this.ManualPanel = new System.Windows.Forms.Panel();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.BTN_CCD_ROI_SAVE = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.BTN_CCD_EEPROM_READ = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -49,6 +52,7 @@
             this.BTN_MANUAL_PCB = new System.Windows.Forms.Button();
             this.BTN_MANUAL_LENS = new System.Windows.Forms.Button();
             this.ManualPanel.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -66,6 +70,7 @@
             // 
             // ManualPanel
             // 
+            this.ManualPanel.Controls.Add(this.groupBox4);
             this.ManualPanel.Controls.Add(this.groupBox3);
             this.ManualPanel.Controls.Add(this.groupBox1);
             this.ManualPanel.Controls.Add(this.groupBox2);
@@ -73,43 +78,81 @@
             this.ManualPanel.Name = "ManualPanel";
             this.ManualPanel.Size = new System.Drawing.Size(934, 737);
             this.ManualPanel.TabIndex = 4;
+            this.ManualPanel.VisibleChanged += new System.EventHandler(this.ManualPanel_VisibleChanged);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.BackColor = System.Drawing.Color.White;
+            this.groupBox4.Controls.Add(this.label4);
+            this.groupBox4.Controls.Add(this.BTN_CCD_ROI_SAVE);
+            this.groupBox4.Location = new System.Drawing.Point(373, 375);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(197, 311);
+            this.groupBox4.TabIndex = 47;
+            this.groupBox4.TabStop = false;
+            // 
+            // label4
+            // 
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.Font = new System.Drawing.Font("굴림", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label4.ForeColor = System.Drawing.Color.DimGray;
+            this.label4.Location = new System.Drawing.Point(23, 17);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(145, 23);
+            this.label4.TabIndex = 26;
+            this.label4.Text = "CHART";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // BTN_CCD_ROI_SAVE
+            // 
+            this.BTN_CCD_ROI_SAVE.BackColor = System.Drawing.Color.Tan;
+            this.BTN_CCD_ROI_SAVE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BTN_CCD_ROI_SAVE.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BTN_CCD_ROI_SAVE.ForeColor = System.Drawing.Color.White;
+            this.BTN_CCD_ROI_SAVE.Location = new System.Drawing.Point(26, 58);
+            this.BTN_CCD_ROI_SAVE.Name = "BTN_CCD_ROI_SAVE";
+            this.BTN_CCD_ROI_SAVE.Size = new System.Drawing.Size(142, 50);
+            this.BTN_CCD_ROI_SAVE.TabIndex = 27;
+            this.BTN_CCD_ROI_SAVE.Text = "ROI SAVE";
+            this.BTN_CCD_ROI_SAVE.UseVisualStyleBackColor = false;
+            this.BTN_CCD_ROI_SAVE.Click += new System.EventHandler(this.BTN_CCD_ROI_SAVE_Click);
             // 
             // groupBox3
             // 
             this.groupBox3.BackColor = System.Drawing.Color.White;
-            this.groupBox3.Controls.Add(this.button1);
+            this.groupBox3.Controls.Add(this.BTN_CCD_EEPROM_READ);
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.button4);
-            this.groupBox3.Location = new System.Drawing.Point(639, 375);
+            this.groupBox3.Location = new System.Drawing.Point(35, 17);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(197, 311);
+            this.groupBox3.Size = new System.Drawing.Size(535, 311);
             this.groupBox3.TabIndex = 46;
             this.groupBox3.TabStop = false;
             // 
-            // button1
+            // BTN_CCD_EEPROM_READ
             // 
-            this.button1.BackColor = System.Drawing.Color.Tan;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(27, 106);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(142, 46);
-            this.button1.TabIndex = 28;
-            this.button1.Text = "EEprom Read";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.BTN_CCD_EEPROM_READ.BackColor = System.Drawing.Color.Tan;
+            this.BTN_CCD_EEPROM_READ.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BTN_CCD_EEPROM_READ.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BTN_CCD_EEPROM_READ.ForeColor = System.Drawing.Color.White;
+            this.BTN_CCD_EEPROM_READ.Location = new System.Drawing.Point(338, 62);
+            this.BTN_CCD_EEPROM_READ.Name = "BTN_CCD_EEPROM_READ";
+            this.BTN_CCD_EEPROM_READ.Size = new System.Drawing.Size(142, 46);
+            this.BTN_CCD_EEPROM_READ.TabIndex = 28;
+            this.BTN_CCD_EEPROM_READ.Text = "EEprom Read";
+            this.BTN_CCD_EEPROM_READ.UseVisualStyleBackColor = false;
+            this.BTN_CCD_EEPROM_READ.Click += new System.EventHandler(this.BTN_CCD_EEPROM_READ_Click);
             // 
             // label2
             // 
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("굴림", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label2.ForeColor = System.Drawing.Color.DimGray;
-            this.label2.Location = new System.Drawing.Point(23, 17);
+            this.label2.Location = new System.Drawing.Point(214, 17);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(145, 23);
             this.label2.TabIndex = 26;
-            this.label2.Text = "TEST";
+            this.label2.Text = "EEPROM";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // button4
@@ -118,7 +161,7 @@
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button4.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button4.ForeColor = System.Drawing.Color.White;
-            this.button4.Location = new System.Drawing.Point(26, 54);
+            this.button4.Location = new System.Drawing.Point(364, 232);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(142, 46);
             this.button4.TabIndex = 27;
@@ -134,7 +177,7 @@
             this.groupBox1.Controls.Add(this.BTN_CCD_BMP_SAVE);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.BTN_CCD_BMP_LOAD);
-            this.groupBox1.Location = new System.Drawing.Point(373, 17);
+            this.groupBox1.Location = new System.Drawing.Point(665, 358);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(197, 311);
             this.groupBox1.TabIndex = 46;
@@ -216,7 +259,7 @@
             this.groupBox2.Controls.Add(this.BTN_CCD_GABBER_START);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.BTN_CCD_GABBER_OPEN);
-            this.groupBox2.Location = new System.Drawing.Point(639, 17);
+            this.groupBox2.Location = new System.Drawing.Point(665, 17);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(197, 311);
             this.groupBox2.TabIndex = 45;
@@ -331,6 +374,7 @@
             this.Name = "CCdControl";
             this.Size = new System.Drawing.Size(955, 938);
             this.ManualPanel.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
@@ -359,6 +403,9 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button BTN_CCD_EEPROM_READ;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button BTN_CCD_ROI_SAVE;
     }
 }

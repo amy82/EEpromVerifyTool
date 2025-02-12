@@ -26,6 +26,7 @@ namespace ApsMotionControl.Data
 
 
         public AlarmData alarmData {get; set;}
+        public ImageData imageData { get; set; }
 
         public YamlManager()
         {
@@ -259,6 +260,44 @@ namespace ApsMotionControl.Data
                 //{
                 //    Console.WriteLine($"- {model}");
                 //}
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading YAML: {ex.Message}");
+                return false;
+            }
+        }
+        public bool imageDataSave()
+        {
+            string filePath = Path.Combine(CPath.BASE_DATA_PATH, CPath.yamlFilePathImage);
+            try
+            {
+                if (!File.Exists(filePath))
+                    return false;
+
+                SaveYaml(filePath, imageData);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error Save YAML: {ex.Message}");
+                return false;
+            }
+        }
+        public bool imageDataLoad()
+        {
+            string filePath = Path.Combine(CPath.BASE_DATA_PATH, CPath.yamlFilePathImage);
+            try
+            {
+                if (!File.Exists(filePath))
+                    return false;
+
+                imageData = LoadYaml<ImageData>(filePath);
+                if (imageData == null)
+                {
+                    return false;
+                }
                 return true;
             }
             catch (Exception ex)

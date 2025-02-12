@@ -47,11 +47,6 @@ namespace ApsMotionControl.Dlg
 
             setInterface();
 
-            //manualPcb.Visible = false;
-            //manualLens.Visible = false;
-            //ManualPanel.Controls.Add(manualPcb);
-            //ManualPanel.Controls.Add(manualLens);
-            //ManualBtnChange(eManualBtn.pcbTab);
         }
         private void Form_Paint(object sender, PaintEventArgs e)
         {
@@ -97,35 +92,8 @@ namespace ApsMotionControl.Dlg
 
             m_rcRoiBox = new Rectangle[4];
 
-            //BTN_MANUAL_PCB.FlatAppearance.BorderColor = ColorTranslator.FromHtml("#BBBBBB");
-            //BTN_MANUAL_LENS.FlatAppearance.BorderColor = ColorTranslator.FromHtml("#BBBBBB");
-            //ManualTitleLabel.Text = "MANUAL";
-            //ManualTitleLabel.ForeColor = Color.Khaki;     
-            //ManualTitleLabel.BackColor = Color.Maroon;
-            //ManualTitleLabel.Font = new Font("Microsoft Sans Serif", 15, FontStyle.Regular);
-            //ManualTitleLabel.Width = this.Width;
-            //ManualTitleLabel.Height = 45;
-            //ManualTitleLabel.Location = new Point(0, 0);
 
 
-
-            //ManualPanel.Location = new Point(BTN_MANUAL_PCB.Location.X, BTN_MANUAL_PCB.Location.Y + panelYGap);
-
-
-
-        }
-        public void OnShowWindow(bool bShow)
-        {
-            if (bShow)
-            {
-                //Chart roi on
-                SetSfrRoi();
-                DrawRectSfr(999);
-            }
-            else
-            {
-
-            }
         }
         public void DrawRectSfr(int mSelectIndex)
         {
@@ -187,20 +155,51 @@ namespace ApsMotionControl.Dlg
             int nCount = 0;
             int i = 0;
 
-            nCount = Globalo.CHART_ROI_COUNT;
-
+            nCount = Globalo.yamlManager.imageData.chartData.SfrPosX.Count;
             for (i = 0; i < nCount; i++)
             {
-                m_iOffsetX_SFR[i] = Globalo.dataManage.workData.m_clSfrInfo.m_clPtOffset[i].X;
-                m_iOffsetY_SFR[i] = Globalo.dataManage.workData.m_clSfrInfo.m_clPtOffset[i].Y;
-                m_iSizeX_SFR[i] = Globalo.dataManage.workData.m_clSfrInfo.m_nSizeX[i];
-                m_iSizeY_SFR[i] = Globalo.dataManage.workData.m_clSfrInfo.m_nSizeY[i];
+                m_iOffsetX_SFR[i] = Globalo.yamlManager.imageData.chartData.SfrPosX[i];
+            }
+
+            nCount = Globalo.yamlManager.imageData.chartData.SfrPosY.Count;
+            for (i = 0; i < nCount; i++)
+            {
+                m_iOffsetY_SFR[i] = Globalo.yamlManager.imageData.chartData.SfrPosY[i];
+            }
+
+            nCount = Globalo.yamlManager.imageData.chartData.SfrSizeX.Count;
+            for (i = 0; i < nCount; i++)
+            {
+                m_iSizeX_SFR[i] = Globalo.yamlManager.imageData.chartData.SfrSizeX[i];
+            }
+
+            nCount = Globalo.yamlManager.imageData.chartData.SfrSizeY.Count;
+            for (i = 0; i < nCount; i++)
+            {
+                m_iSizeY_SFR[i] = Globalo.yamlManager.imageData.chartData.SfrSizeY[i];
             }
 
             for (i = 0; i < 4; i++)
             {
-                m_rcRoiBox[i] = Globalo.dataManage.workData.m_CircleP[i];
+                m_rcRoiBox[i].X = Globalo.yamlManager.imageData.chartData.CirClePosX[i];
+                m_rcRoiBox[i].Y = Globalo.yamlManager.imageData.chartData.CirClePosY[i];
+                m_rcRoiBox[i].Width = Globalo.yamlManager.imageData.chartData.CirCleSizeX[i];
+                m_rcRoiBox[i].Height = Globalo.yamlManager.imageData.chartData.CirCleSizeY[i];
             }
+
+            //nCount = Globalo.CHART_ROI_COUNT;
+            //for (i = 0; i < nCount; i++)
+            //{
+            //    m_iOffsetX_SFR[i] = Globalo.dataManage.workData.m_clSfrInfo.m_clPtOffset[i].X;
+            //    m_iOffsetY_SFR[i] = Globalo.dataManage.workData.m_clSfrInfo.m_clPtOffset[i].Y;
+            //    m_iSizeX_SFR[i] = Globalo.dataManage.workData.m_clSfrInfo.m_nSizeX[i];
+            //    m_iSizeY_SFR[i] = Globalo.dataManage.workData.m_clSfrInfo.m_nSizeY[i];
+            //}
+
+            //for (i = 0; i < 4; i++)
+            //{
+            //    m_rcRoiBox[i] = Globalo.dataManage.workData.m_CircleP[i];
+            //}
         }
         public int checkNoSFR(System.Drawing.Point point)
         {
@@ -506,10 +505,126 @@ namespace ApsMotionControl.Dlg
             bool kk = CLaonGrabberClass.SensorIdRead_Head_Fn();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        public static unsafe bool testEEpromRead()
         {
+            int i = 0;
             int maxLength = CLaonGrabberClass.MAX_READ_WRITE_LENGTH;
-            maxLength += 1;
+            
+
+            int errorCode = 0;
+            
+
+            int endAddress = 0xE0;  //       241
+            //0x513;     //1299
+            ushort SlaveAddr = 0x50;
+            ushort StartAddr = 0x00;
+
+            ushort checkAddr = 0x3C06;
+
+            byte[] EEpromReadData = new byte[endAddress + 5]; // EEPROM 데이터 읽기
+
+            byte[] pReadData = new byte[260]; // MAX_PATH 대신 일반적인 크기(예: 260) 사용
+
+            Array.Clear(EEpromReadData, 0, EEpromReadData.Length);
+            Array.Clear(pReadData, 0, pReadData.Length);
+
+
+            ushort readDataLength = 30;
+
+            for (i = 0; i < endAddress; i+= readDataLength)     // 0;  i < 129;  i += 30; 
+            {
+                fixed (byte* pData = EEpromReadData)
+                {
+                    if((i + readDataLength) > endAddress)   
+                    {
+                        //if( ( 0 + 30 ) > 129
+                        //if( ( 30 + 30 ) > 129
+                        //if( ( 60 + 30 ) > 129
+                        //if( ( 90 + 30 ) > 129
+                        //if( ( 120 + 30 ) > 129
+                        //150
+
+                        readDataLength = (ushort)((endAddress - i) + 1);    //120 ~ 129 는 10개라서 + 1
+                    }
+                    errorCode = Globalo.GrabberDll.mReadI2CBurst(SlaveAddr, (ushort)(StartAddr + i), 2, pData + i, readDataLength);
+                    if (errorCode != 0)
+                    {
+                        Console.WriteLine("mReadI2CBurst errorCode");
+                        break;
+                    }
+                }
+            }
+            string asciiString = "";
+            for (i = 209; i < 225; i ++)
+            {
+                asciiString += (char)EEpromReadData[i]; // ASCII 문자로 변환 후 문자열 추가
+            }
+            int leng = asciiString.Length;
+            return true;
+        }
+        private void BTN_CCD_EEPROM_READ_Click(object sender, EventArgs e)
+        {
+            testEEpromRead();
+
+            //EEPROM_TotalRead_Type2(0x0000, 0x513, CompareEEpromData, 512);//최대 32씩만	0x512	0x46D
+        }
+
+        private void ManualPanel_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.Visible)
+            {
+                //Chart roi on
+                SetSfrRoi();
+                DrawRectSfr(999);
+            }
+
+        }
+        public void GetSfrRoi()
+        {
+            int nCount;
+            int i;
+
+            nCount = 9;// oGlobal.CHART_ROI_COUNT;
+
+            nCount = Globalo.yamlManager.imageData.chartData.SfrPosX.Count;
+            for (i = 0; i < nCount; i++)
+            {
+                Globalo.yamlManager.imageData.chartData.SfrPosX[i] = m_iOffsetX_SFR[i];
+            }
+            nCount = Globalo.yamlManager.imageData.chartData.SfrPosY.Count;
+            for (i = 0; i < nCount; i++)
+            {
+                Globalo.yamlManager.imageData.chartData.SfrPosY[i] = m_iOffsetY_SFR[i];
+            }
+
+            nCount = Globalo.yamlManager.imageData.chartData.SfrSizeX.Count;
+            for (i = 0; i < nCount; i++)
+            {
+                Globalo.yamlManager.imageData.chartData.SfrSizeX[i] = m_iSizeX_SFR[i];
+            }
+
+            nCount = Globalo.yamlManager.imageData.chartData.SfrSizeY.Count;
+            for (i = 0; i < nCount; i++)
+            {
+                Globalo.yamlManager.imageData.chartData.SfrSizeY[i] = m_iSizeY_SFR[i];
+            }
+
+
+            for (i = 0; i < 4; i++)
+            {
+                Globalo.yamlManager.imageData.chartData.CirClePosX[i] = m_rcRoiBox[i].X;
+                Globalo.yamlManager.imageData.chartData.CirClePosY[i] = m_rcRoiBox[i].Y;
+                Globalo.yamlManager.imageData.chartData.CirCleSizeX[i] = m_rcRoiBox[i].Width;
+                Globalo.yamlManager.imageData.chartData.CirCleSizeY[i] = m_rcRoiBox[i].Height;
+            }
+
+
+        }
+        private void BTN_CCD_ROI_SAVE_Click(object sender, EventArgs e)
+        {
+            GetSfrRoi();
+
+            Globalo.yamlManager.imageDataSave();
         }
     }
 }
