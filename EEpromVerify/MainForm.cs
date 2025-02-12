@@ -61,6 +61,11 @@ namespace ApsMotionControl
             Globalo.threadControl = new ThreadControl();    //<--log Thread 생성후 로그 출력 가능
             //Globalo.LogPrint("ManualControl", "gggggggggggg");
             //
+            int dLeftTopPanelW = LeftPanel.Width;
+            int dLeftTopPanelH = CamHeight;
+
+            Globalo.camControl = new Dlg.CamControl(dLeftTopPanelW, dLeftTopPanelH);
+
 
             Globalo.dataManage.teachingData.eLogSender += eLogPrint;
             Globalo.motorControl.eLogSender += eLogPrint;
@@ -73,8 +78,9 @@ namespace ApsMotionControl
             //
 
             Globalo.threadControl.autoRunthread.eLogSender += eLogPrint;
-            
-            
+            Globalo.threadControl.ccdColorThread.eLogSender += eLogPrint;
+
+
             Globalo.mLaonGrabberClass.eLogSender += eLogPrint;
             Globalo.threadControl.AllThreadStart();
             ///Data Load
@@ -115,20 +121,18 @@ namespace ApsMotionControl
                 Globalo.mLaonGrabberClass.SelectSensor();
                 Globalo.mLaonGrabberClass.AllocImageBuff();
                 //
-               // Globalo.mCcdColorThread.Start();
-                //Globalo.mCcdThread.Start();
-
-
+                Globalo.threadControl.ccdColorThread.Start();
+                Globalo.threadControl.ccdGrabThread.Start();
             }
-
+            if (ProgramState.ON_LINE_MIL)
+            {
+                InitMilLib();
+            }
             this.Size = new System.Drawing.Size(PG_WIDTH, PG_HEIGHT);
             this.Padding = new Padding(0); // 부모 컨트롤의 여백 제거
             this.Location = new System.Drawing.Point(0, 0);
 
-            int dLeftTopPanelW = LeftPanel.Width;
-            int dLeftTopPanelH = CamHeight;
-
-            Globalo.camControl = new Dlg.CamControl(dLeftTopPanelW, dLeftTopPanelH);
+            
 
 
             int dRightPanelW = RightPanel.Width;
@@ -169,6 +173,23 @@ namespace ApsMotionControl
             eLogPrint("Main", "PG START");
             //eLogPrint("Main", "자동운전 중 진행할 수 없습니다.", Globalo.eMessageName.M_INFO);
         }
+        public void InitMilLib()
+        {
+            Globalo.vision.UISet(Globalo.camControl.CcdPanel.Width, Globalo.camControl.CcdPanel.Height);
+            //
+            Globalo.vision.AllocMilApplication();
+            Globalo.vision.AllocMilCamBuffer();
+            Globalo.vision.AllocMilCCdBuffer(0, Globalo.mLaonGrabberClass.m_nWidth, Globalo.mLaonGrabberClass.m_nHeight);
+
+            Globalo.vision.AllocMilCcdDisplay(Globalo.camControl.CcdPanel.Handle);
+            Globalo.vision.AllocMilCamDisplay(Globalo.camControl.CamPanel.Handle);
+
+            Globalo.vision.EnableCamOverlay();
+            Globalo.vision.EnableCcdOverlay();
+            Globalo.vision.DrawOverlay();
+            Globalo.vision.GrabRun();
+        }
+
         private void SerialConnect()
         {
             // 바코드 리더기 Serial Port 설정

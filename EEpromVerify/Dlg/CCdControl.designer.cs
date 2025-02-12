@@ -31,6 +31,7 @@
             this.ManualTitleLabel = new System.Windows.Forms.Label();
             this.ManualPanel = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -47,7 +48,6 @@
             this.BTN_CCD_GABBER_OPEN = new System.Windows.Forms.Button();
             this.BTN_MANUAL_PCB = new System.Windows.Forms.Button();
             this.BTN_MANUAL_LENS = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.ManualPanel.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -85,6 +85,20 @@
             this.groupBox3.Size = new System.Drawing.Size(197, 311);
             this.groupBox3.TabIndex = 46;
             this.groupBox3.TabStop = false;
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.Tan;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.White;
+            this.button1.Location = new System.Drawing.Point(27, 106);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(142, 46);
+            this.button1.TabIndex = 28;
+            this.button1.Text = "EEprom Read";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label2
             // 
@@ -305,19 +319,6 @@
             this.BTN_MANUAL_LENS.UseVisualStyleBackColor = false;
             this.BTN_MANUAL_LENS.Visible = false;
             this.BTN_MANUAL_LENS.Click += new System.EventHandler(this.BTN_MANUAL_LENS_Click);
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.Tan;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(27, 106);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(142, 46);
-            this.button1.TabIndex = 28;
-            this.button1.Text = "EEprom Read";
-            this.button1.UseVisualStyleBackColor = false;
             // 
             // CCdControl
             // 

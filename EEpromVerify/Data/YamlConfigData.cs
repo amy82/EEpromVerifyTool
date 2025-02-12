@@ -11,8 +11,13 @@ namespace ApsMotionControl.Data
         public string Bcr { get; set; }
     }
 
+    public class _DrivingSettings
+    {
+        public bool IdleReportPass { get; set; }
+    }
     public class ConfigData
     {
         public _SerialPort SerialPort { get; set; }
+        public _DrivingSettings DrivingSettings { get; set; }
     }
 }

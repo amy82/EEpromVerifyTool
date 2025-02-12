@@ -92,12 +92,9 @@
         }
 
         #endregion
-        //private System.Windows.Forms.DataVisualization.Charting.Chart FirstChart;
-        //private System.Windows.Forms.DataVisualization.Charting.Chart SecondChart;
-        //private System.Windows.Forms.DataVisualization.Charting.Chart BarChart;
-        private System.Windows.Forms.Panel CamPanel;
         private System.Windows.Forms.Button BTN_CAM_VIEW_CCD;
         private System.Windows.Forms.Button BTN_CAM_VIEW_CAM;
-        private System.Windows.Forms.Panel CcdPanel;
+        public System.Windows.Forms.Panel CamPanel;
+        public System.Windows.Forms.Panel CcdPanel;
     }
 }
