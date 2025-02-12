@@ -37,10 +37,15 @@ namespace ApsMotionControl.Data
 
 
         public const string yamlFilePathModel = "SecGemData.yaml";
+        public const string yamlFilePathConfig = "equip_config.yaml";
+        public const string yamlFilePathImage = "imageData.yaml";
         public const string yamlFilePathUgc = "ugcFilePath.yaml";
         public const string yamlFilePathRecipe = "Recipe.yaml";
         public const string yamlFilePathProduct = "products.yaml";
         public const string yamlFilePathUser = "users.yaml";
         public const string yamlFilePathAlarm = "Alarm.yaml";   //ex) Alarm_20250204  하루씩
+
+
+        //
     }
 }

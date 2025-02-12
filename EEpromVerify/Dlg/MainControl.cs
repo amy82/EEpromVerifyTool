@@ -69,31 +69,31 @@ namespace ApsMotionControl.Dlg
         public void setControlState(int communicationState , int controlState)
         {
             string stateStr = "";
-            BTN_MAIN_OFFLINE_REQ.BackColor = ColorTranslator.FromHtml("#C3A279"); //C3A279
-            BTN_MAIN_ONLINE_REMOTE_REQ.BackColor = ColorTranslator.FromHtml("#C3A279"); //C3A279
+            BTN_MAIN_OFFLINE_REQ.BackColor = ColorTranslator.FromHtml(ButtonColor.BTN_OFF); //C3A279
+            BTN_MAIN_ONLINE_REMOTE_REQ.BackColor = ColorTranslator.FromHtml(ButtonColor.BTN_OFF); //C3A279
             if(communicationState == (int)CommunicationState.Communicating)
             {
                 switch (controlState)
                 {
                     case 1:
                         stateStr = "Connected / EquipmentOffline";
-                        BTN_MAIN_OFFLINE_REQ.BackColor = ColorTranslator.FromHtml("#FFB230");
+                        BTN_MAIN_OFFLINE_REQ.BackColor = ColorTranslator.FromHtml(ButtonColor.BTN_ON);
                         break;
                     case 2:
                         stateStr = "Connected / AttemptOnline";
-                        BTN_MAIN_OFFLINE_REQ.BackColor = ColorTranslator.FromHtml("#FFB230");
+                        BTN_MAIN_OFFLINE_REQ.BackColor = ColorTranslator.FromHtml(ButtonColor.BTN_ON);
                         break;
                     case 3:
                         stateStr = "Disconnected / AttemptOnline";
-                        BTN_MAIN_OFFLINE_REQ.BackColor = ColorTranslator.FromHtml("#FFB230");
+                        BTN_MAIN_OFFLINE_REQ.BackColor = ColorTranslator.FromHtml(ButtonColor.BTN_ON);
                         break;
                     case 4:
                         stateStr = "Connected / OnlineLocal";
-                        BTN_MAIN_ONLINE_REMOTE_REQ.BackColor = ColorTranslator.FromHtml("#FFB230");
+                        BTN_MAIN_ONLINE_REMOTE_REQ.BackColor = ColorTranslator.FromHtml(ButtonColor.BTN_ON);
                         break;
                     case 5:
                         stateStr = "Connected / OnlineRemote";
-                        BTN_MAIN_ONLINE_REMOTE_REQ.BackColor = ColorTranslator.FromHtml("#FFB230");
+                        BTN_MAIN_ONLINE_REMOTE_REQ.BackColor = ColorTranslator.FromHtml(ButtonColor.BTN_ON);
                         break;
                     default:
                         stateStr = "Disconnected / EquipmentOffline";
@@ -103,6 +103,7 @@ namespace ApsMotionControl.Dlg
             else
             {
                 stateStr = "Disconnected / EquipmentOffline";
+                BTN_MAIN_OFFLINE_REQ.BackColor = ColorTranslator.FromHtml(ButtonColor.BTN_ON);
             }
             if (textBox_ControlStateVal.InvokeRequired)
             {
@@ -892,8 +893,8 @@ namespace ApsMotionControl.Dlg
             BTN_MANUAL_PCB.FlatAppearance.BorderColor = ColorTranslator.FromHtml("#BBBBBB");
             BTN_MANUAL_LENS.FlatAppearance.BorderColor = ColorTranslator.FromHtml("#BBBBBB");
 
-            BTN_MAIN_OFFLINE_REQ.BackColor = ColorTranslator.FromHtml("#FFB230");
-            BTN_MAIN_ONLINE_REMOTE_REQ.BackColor = ColorTranslator.FromHtml("#FFB230"); //C3A279
+            BTN_MAIN_OFFLINE_REQ.BackColor = ColorTranslator.FromHtml(ButtonColor.BTN_ON);
+            BTN_MAIN_ONLINE_REMOTE_REQ.BackColor = ColorTranslator.FromHtml(ButtonColor.BTN_ON); //C3A279
 
 
             //ManualTitleLabel.Text = "MANUAL";

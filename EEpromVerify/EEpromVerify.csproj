@@ -71,7 +71,10 @@
       <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.3.0.0\lib\netstandard2.0\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
     </Reference>
     <Reference Include="OpenCvSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
-      <HintPath>..\packages\OpenCvSharp4.4.10.0.20241108\lib\netstandard2.0\OpenCvSharp.dll</HintPath>
+      <HintPath>..\packages\OpenCvSharp4.4.5.2.20210404\lib\net461\OpenCvSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenCvSharp.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenCvSharp4.4.5.2.20210404\lib\net461\OpenCvSharp.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
@@ -84,6 +87,9 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing.Common, Version=4.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.5.0.2\lib\net461\System.Drawing.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
     </Reference>
@@ -95,6 +101,9 @@
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Security" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -128,6 +137,8 @@
     <Compile Include="Data\TeachingData.cs" />
     <Compile Include="Data\WorkData.cs" />
     <Compile Include="Data\YamlAlarmData.cs" />
+    <Compile Include="Data\YamlConfigData.cs" />
+    <Compile Include="Data\YamlImageData.cs" />
     <Compile Include="Data\YamlManager.cs" />
     <Compile Include="Data\YamlRecipe.cs" />
     <Compile Include="Data\YamlModelData.cs" />
@@ -214,8 +225,9 @@
     <Compile Include="Ezterm\AXL.cs" />
     <Compile Include="Ezterm\AXM.cs" />
     <Compile Include="FThread\AutoRunthread.cs" />
+    <Compile Include="FThread\CcdColorThread.cs" />
+    <Compile Include="FThread\CcdGrabThread.cs" />
     <Compile Include="FThread\DIoThread.cs" />
-    <Compile Include="FThread\ReadyThread.cs" />
     <Compile Include="FThread\TaskAutoRun.cs" />
     <Compile Include="KeyBoardForm.cs">
       <SubType>Form</SubType>
@@ -250,6 +262,7 @@
       <DependentUpon>NumPadForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Process\PcbProcess.cs" />
+    <Compile Include="Process\ReadyProcess.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgramState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -258,6 +271,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Serial\SerialCommunicator.cs" />
+    <Compile Include="Serial\SerialPortManager.cs" />
     <Compile Include="ThreadControl.cs" />
     <Compile Include="FThread\LogThread.cs" />
     <Compile Include="Ubisam\Constants.cs" />

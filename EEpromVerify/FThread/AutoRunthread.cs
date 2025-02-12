@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ApsMotionControl.FThread
 {
@@ -11,37 +12,35 @@ namespace ApsMotionControl.FThread
     {
         public event delLogSender eLogSender;       //외부에서 호출할때 사용
         private Thread thread;
-        private bool threadRun = false;
         private bool m_bPause = false;
+        private CancellationTokenSource cts;
         private Process.PcbProcess RunProcess = new Process.PcbProcess();
+        private Process.ReadyProcess readyProcess = new Process.ReadyProcess();
         public AutoRunthread()
         {
-            //thread = new Thread(Run);
+            thread = null;
         }
         public bool GetThreadRun()
         {
             if(thread != null)
             {
-                if (thread.IsAlive || threadRun)
-                {
-                    return true;
-                }
+                ////return thread?.IsAlive ?? false;
+                return thread.IsAlive;    //thread 동작 중
             }
-            
+
             return false;
         }
+
+        
         public bool GetThreadPause()
         {
-            if (m_bPause)
-            {
-                return true;
-            }
-            return false;
+            return m_bPause;
         }
-        public void Run()
+        public void ProcessRun(CancellationToken token)
         {
-            while (threadRun)
+            while (!token.IsCancellationRequested)
             {
+                //Console.WriteLine("Worker thread running...");
                 if (m_bPause)
                 {
                     continue;
@@ -54,9 +53,19 @@ namespace ApsMotionControl.FThread
                         Globalo.MainForm.StopAutoProcess();
                         return;
                     }
+                    //// 원점 복귀
+                    //if (Globalo.taskWork.m_nCurrentStep >= 10000 && Globalo.taskWork.m_nCurrentStep < 20000)
+                    //{
+                    //    Globalo.taskWork.m_nCurrentStep = readyProcess.HomeProcess(Globalo.taskWork.m_nCurrentStep);
+                    //}
+
                     if (Globalo.taskWork.m_nCurrentStep >= 20000 && Globalo.taskWork.m_nCurrentStep < 30000)
                     {
-                        Globalo.taskWork.m_nCurrentStep = RunProcess.AutoReady(Globalo.taskWork.m_nCurrentStep);
+                        Globalo.taskWork.m_nCurrentStep = readyProcess.AutoReady(Globalo.taskWork.m_nCurrentStep);
+                    }
+                    else if (Globalo.taskWork.m_nCurrentStep >= 30000 && Globalo.taskWork.m_nCurrentStep < 40000)
+                    {
+                        Globalo.taskWork.m_nCurrentStep = RunProcess.Auto_Loading(Globalo.taskWork.m_nCurrentStep);
                     }
 
                 }
@@ -74,20 +83,26 @@ namespace ApsMotionControl.FThread
                 }
                 Thread.Sleep(10);
             }
+
+            Console.WriteLine("Worker thread stopped safely.");
+        }
+        public void Pause()
+        {
+            m_bPause = true;
         }
         public bool Start()
         {
-            if (thread != null && thread.IsAlive)
-            {
-                eLogSender("AutoRunthread", $"[ERR] 자동 운전 중입니다.");
-                return false;
-            }
-            m_bPause = false;
             try
             {
-                thread = new Thread(Run);
-                threadRun = true;
-                thread.Start();
+                if(m_bPause == false)   //정지 상태일때만
+                {
+                    cts = new CancellationTokenSource();
+                    thread = new Thread(() => ProcessRun(cts.Token));
+                    thread.Start();
+                }
+                m_bPause = false;
+
+                Console.WriteLine("Worker thread start.");
             }
             catch (ThreadStateException ex)
             {
@@ -98,15 +113,30 @@ namespace ApsMotionControl.FThread
 
             return true;
         }
+        public bool StopCheck()
+        {
+            if (thread == null)
+            {
+                return true;
+            }
+            bool brtn = thread.Join(3000);
+            if(brtn)
+            {
+                thread = null;
+            }
+            return brtn;
+        }
         public void Stop()
         {
-            threadRun = false;
-            if (thread != null)
+            if (thread != null && cts != null)
             {
-                if (thread.IsAlive)
-                {
-                    thread.Abort();
-                }
+                Console.WriteLine("Worker thread stop 1");
+                cts.Cancel();
+               //// thread.Join();
+                //thread = null;
+                cts = null;
+                m_bPause = false;
+                Console.WriteLine("Worker thread stop 2");
             }
         }
     }
