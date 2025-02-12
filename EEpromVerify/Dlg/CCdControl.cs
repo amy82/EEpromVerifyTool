@@ -12,6 +12,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using OpenCvSharp;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace ApsMotionControl.Dlg
 {
@@ -685,7 +686,7 @@ namespace ApsMotionControl.Dlg
         {
             bool kk = CLaonGrabberClass.SensorIdRead_Head_Fn();
         }
-        public void ShowEEpromGrid(int dataLenght = 0)
+        public void ShowEEpromGrid(ushort startAddr = 0, int dataLenght = 0)
         {
             Console.WriteLine("dataLenght: " + dataLenght.ToString());
 
@@ -716,7 +717,14 @@ namespace ApsMotionControl.Dlg
             {
                 if(i < dataCount)
                 {
-                    dataGridView_EEpromData.Rows.Add((i + 1).ToString(), "addr", "0x"+Globalo.mCCdPanel.CcdEEpromReadData[i].ToString("X2"), (char)Globalo.mCCdPanel.CcdEEpromReadData[i]);
+                    char displayChar = (char)Globalo.mCCdPanel.CcdEEpromReadData[i];
+                    if (displayChar == '\0') // null 문자 처리
+                    {
+                        displayChar = ' '; // 공백으로 대체
+                    }
+                    dataGridView_EEpromData.Rows.Add((i + 1).ToString(), "0x" + (startAddr + i).ToString("X2"), "0x" + Globalo.mCCdPanel.CcdEEpromReadData[i].ToString("X2"), displayChar);// (char)Globalo.mCCdPanel.CcdEEpromReadData[i]);
+
+                    //Globalo.mLaonGrabberClass.eepromDicData
                 }
                 else
                 {
@@ -741,51 +749,69 @@ namespace ApsMotionControl.Dlg
             }
             dataGridView_EEpromData.ClearSelection();
         }
-        public static unsafe bool testEEpromRead(string slave , string addr , string length)
+        public static unsafe bool testEEpromRead()
         {
             int i = 0;
-            int maxLength = CLaonGrabberClass.MAX_READ_WRITE_LENGTH;
-            
 
+
+
+            string slaveAddr = Regex.Replace(Globalo.mCCdPanel.textBox_SlaveAddr.Text, @"\D", "");
+
+            string readAddr = Regex.Replace(Globalo.mCCdPanel.textBox_ReadAddr.Text, @"\D", "");
+            //string numericPart = Regex.Replace(input, @"\D", "");  // 숫자가 아닌 부분(\D)을 제거
+            ushort readDataLength = Convert.ToUInt16(Globalo.mCCdPanel.textBox_ReadDataLeng.Text);  //읽어야될 길이
+
+            if(readDataLength < 1)
+            {
+                return false;
+            }
+
+            ushort maxReadLength = 90;// CLaonGrabberClass.MAX_READ_WRITE_LENGTH;
+            if (maxReadLength > readDataLength)
+            {
+                maxReadLength = readDataLength;
+            }
+
+            
+            //Int32.Parse(input);
             int errorCode = 0;
-            
 
-            int endAddress = 0xE0;  //       241
+
+            int endAddress = readDataLength;//// 0xE0;  //       241
             //0x513;     //1299
-            ushort SlaveAddr = 0x50;
-            ushort StartAddr = 0x00;
+            ushort SlaveAddr = Convert.ToUInt16(slaveAddr, 16); // 0x50;
+            ushort StartAddr = Convert.ToUInt16(readAddr, 16); //0x00;
 
             ushort checkAddr = 0x3C06;
 
-            byte[] EEpromReadData = new byte[endAddress + 5]; // EEPROM 데이터 읽기
-            if(Globalo.mLaonGrabberClass.EEpromReadData == null)
-            {
-                Globalo.mLaonGrabberClass.EEpromReadData = new byte[endAddress + 5];
-            }
-            else
-            {
-                if (Globalo.mLaonGrabberClass.EEpromReadData == null || Globalo.mLaonGrabberClass.EEpromReadData.Length != (endAddress + 5))
-                {
-                    Array.Resize(ref Globalo.mLaonGrabberClass.EEpromReadData, endAddress + 5);
-                }
-            }
+            byte[] EEpromReadData = new byte[endAddress]; // EEPROM 데이터 읽기
+            //if(Globalo.mLaonGrabberClass.EEpromReadData == null)
+            //{
+            //    Globalo.mLaonGrabberClass.EEpromReadData = new byte[endAddress + 0];
+            //}
+            //else
+            //{
+            //    if (Globalo.mLaonGrabberClass.EEpromReadData == null || Globalo.mLaonGrabberClass.EEpromReadData.Length != (endAddress + 0))
+            //    {
+            //        Array.Resize(ref Globalo.mLaonGrabberClass.EEpromReadData, endAddress + 0);
+            //    }
+            //}
             
-            byte[] pReadData = new byte[260]; // MAX_PATH 대신 일반적인 크기(예: 260) 사용
+            //byte[] pReadData = new byte[260]; // MAX_PATH 대신 일반적인 크기(예: 260) 사용
 
-            Array.Clear(Globalo.mLaonGrabberClass.EEpromReadData, 0, Globalo.mLaonGrabberClass.EEpromReadData.Length);
-            Array.Clear(pReadData, 0, pReadData.Length);
+            //Array.Clear(Globalo.mLaonGrabberClass.EEpromReadData, 0, Globalo.mLaonGrabberClass.EEpromReadData.Length);
+            //Array.Clear(pReadData, 0, pReadData.Length);
 
 
-            ushort readDataLength = 30;
 
             Globalo.mCCdPanel.CcdEEpromReadData.Clear();
-
             
-            for (i = 0; i < endAddress; i+= readDataLength)     // 0;  i < 129;  i += 30; 
+
+            for (i = 0; i < endAddress; i+= maxReadLength)     // 0;  i < 129;  i += 30; 
             {
                 fixed (byte* pData = EEpromReadData)
                 {
-                    if((i + readDataLength) > endAddress)   
+                    if((i + maxReadLength) > endAddress)
                     {
                         //if( ( 0 + 30 ) > 129
                         //if( ( 30 + 30 ) > 129
@@ -794,9 +820,9 @@ namespace ApsMotionControl.Dlg
                         //if( ( 120 + 30 ) > 129
                         //150
 
-                        readDataLength = (ushort)((endAddress - i) + 1);    //120 ~ 129 는 10개라서 + 1
+                        maxReadLength = (ushort)((endAddress - i) + 0);    //120 ~ 129 는 10개라서 + 1
                     }
-                    errorCode = Globalo.GrabberDll.mReadI2CBurst(SlaveAddr, (ushort)(StartAddr + i), 2, pData + i, readDataLength);
+                    errorCode = Globalo.GrabberDll.mReadI2CBurst(SlaveAddr, (ushort)(StartAddr + i), 2, pData + i, (ushort)maxReadLength);
                     if (errorCode != 0)
                     {
                         Console.WriteLine("mReadI2CBurst errorCode");
@@ -804,25 +830,29 @@ namespace ApsMotionControl.Dlg
                     }
                 }
             }
+
+            Globalo.mLaonGrabberClass.eepromDicData.Clear();
+            for (i = 0; i < endAddress; i++)
+            {
+                Globalo.mLaonGrabberClass.eepromDicData.Add((ushort)i, EEpromReadData[i]);
+            }
             Globalo.mCCdPanel.CcdEEpromReadData.AddRange(EEpromReadData);
 
-            Globalo.mCCdPanel.ShowEEpromGrid(Globalo.mCCdPanel.CcdEEpromReadData.Count);
+            Globalo.mCCdPanel.ShowEEpromGrid(StartAddr, Globalo.mCCdPanel.CcdEEpromReadData.Count);
 
-            string asciiString = "";
-            for (i = 209; i < 225; i ++)
-            {
-                asciiString += (char)EEpromReadData[i]; // ASCII 문자로 변환 후 문자열 추가
-            }
-            int leng = asciiString.Length;
+            //string asciiString = "";
+            //for (i = 209; i < 225; i ++)
+            //{
+            //    asciiString += (char)EEpromReadData[i]; // ASCII 문자로 변환 후 문자열 추가
+            //}
+            //int leng = asciiString.Length;
             return true;
         }
         private void BTN_CCD_EEPROM_READ_Click(object sender, EventArgs e)
         {
-            string slaveAddr = textBox_SlaveAddr.Text;
-            string readAddr = textBox_ReadAddr.Text;
-            string readDataLength = textBox_ReadDataLeng.Text;
+            
 
-            testEEpromRead(slaveAddr, readAddr, readDataLength);
+            testEEpromRead();
 
             //EEPROM_TotalRead_Type2(0x0000, 0x513, CompareEEpromData, 512);//최대 32씩만	0x512	0x46D
         }

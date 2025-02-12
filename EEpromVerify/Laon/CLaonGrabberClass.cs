@@ -24,13 +24,13 @@ namespace ApsMotionControl
         //
         //
         public byte[] EEpromReadData; // EEPROM 데이터 읽기
-        Dictionary<ushort, byte> eepromDicData = new Dictionary<ushort, byte>();
+        public Dictionary<ushort, byte> eepromDicData = new Dictionary<ushort, byte>();
         //eepromDicData[0x0001] = 0xA5;
         //eepromDicData.Clear();  //초기화 방법
         //eepromDicData = new Dictionary<ushort, byte>(); //다시 할당
         //eepromDicData.Add(i, byteArray[i]);
 
-        List<Tuple<ushort, byte>> eepromListData = new List<Tuple<ushort, byte>>();
+        public List<Tuple<ushort, byte>> eepromListData = new List<Tuple<ushort, byte>>();
         //eepromListData.Add(Tuple.Create((ushort)0x0001, (byte)0xA5));
         //eepromListData.Clear(); //초기화 방법
         //eepromListData = new List<Tuple<ushort, byte>>(); //다시 할당

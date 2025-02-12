@@ -179,7 +179,7 @@
             this.textBox_SlaveAddr.Name = "textBox_SlaveAddr";
             this.textBox_SlaveAddr.Size = new System.Drawing.Size(123, 21);
             this.textBox_SlaveAddr.TabIndex = 33;
-            this.textBox_SlaveAddr.Text = "0x00";
+            this.textBox_SlaveAddr.Text = "0x50";
             this.textBox_SlaveAddr.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label8
