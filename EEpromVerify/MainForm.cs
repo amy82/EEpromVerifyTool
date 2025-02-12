@@ -200,8 +200,14 @@ namespace ApsMotionControl
             string logData = "";
 
 
-
-            portData = Globalo.yamlManager.configData.SerialPort.Bcr;
+            if(Globalo.yamlManager.configData != null)
+            {
+                portData = Globalo.yamlManager.configData.SerialPort.Bcr;
+            }
+            else
+            {
+                portData = "COM1";
+            }
 
             Globalo.serialPortManager.Barcode = new Serial.SerialCommunicator(portData);
             Globalo.serialPortManager.Barcode.myName = "Bcr";
@@ -222,7 +228,7 @@ namespace ApsMotionControl
                 return;  // 이미 타이머가 실행 중이면 실행하지 않음
             }
             isTimerRunning = true;  // 타이머 시작 시 실행 중으로 설정
-
+            ReadyBtnOn = false;
             _timerRunButton = new System.Windows.Forms.Timer();
             _timerRunButton.Interval = interval;
             _timerRunButton.Tick += (s, e) => RunButtonUITimerFn(Mode); // 실행할 함수 지정
@@ -648,7 +654,7 @@ namespace ApsMotionControl
             {
                 if (Math.Abs(Globalo.taskWork.m_nCurrentStep) < 30000 || Math.Abs(Globalo.taskWork.m_nCurrentStep) >= 90000)
                 {
-                    eLogPrint("MainForm", "[INFO] 자동 운전만 가능합니다.", Globalo.eMessageName.M_WARNING);
+                    eLogPrint("MainForm", "[INFO] 운전 준비 상태가 아닙니다.", Globalo.eMessageName.M_WARNING);
                     return;
                 }
                 logStr = "자동운전 재개 하시겠습니까 ?";
@@ -750,7 +756,7 @@ namespace ApsMotionControl
             {
                 if(Math.Abs(Globalo.taskWork.m_nCurrentStep) < 20000 || Math.Abs(Globalo.taskWork.m_nCurrentStep) >= 30000)
                 {
-                    eLogPrint("MainForm", "[INFO] 운전 준비만 가능합니다.", Globalo.eMessageName.M_WARNING);
+                    eLogPrint("MainForm", "[INFO] 설비 정지 상태가 아닙니다.", Globalo.eMessageName.M_WARNING);
                     return;
                 }
                 logStr = "운전준비 재개 하시겠습니까 ?";    //이때 스텝이 20000보다 작아야된다.
@@ -792,9 +798,14 @@ namespace ApsMotionControl
                 eLogPrint("ManualCMainFormontrol", "[INFO] 일시 정지 상태입니다.", Globalo.eMessageName.M_WARNING);
                 return;
             }
-
-
+            if (ProgramState.CurrentState == OperationState.PreparationComplete)
+            {
+                eLogPrint("ManualCMainFormontrol", "[INFO] 자동 운전 중이 아닙니다..", Globalo.eMessageName.M_WARNING);
+                return;
+            }
             
+
+
             PauseAutoProcess();
         }
 
@@ -886,13 +897,6 @@ namespace ApsMotionControl
             }
             else
             {
-                bool isCompleted = Globalo.threadControl.autoRunthread.StopCheck();
-                if (isCompleted)
-                {
-                    //일시 정지가 아니라면 강제 종료해야된다.
-                    Console.WriteLine($"autoThread Stop ok");
-                }
-
                 Globalo.taskWork.m_nCurrentStep = 20000;
 
                 if (Globalo.threadControl.autoRunthread.GetThreadRun() == true)
@@ -972,16 +976,7 @@ namespace ApsMotionControl
             }
             else
             {
-                bool isCompleted = Globalo.threadControl.autoRunthread.StopCheck();
-
-                if (isCompleted)
-                {
-                    //일시 정지가 아니라면 강제 종료해야된다.
-                    Console.WriteLine($"autoThread Stop ok");
-                }
-
                 Globalo.taskWork.m_nCurrentStep = 30000;
-                Globalo.LogPrint("MainForm", "[AUTO] AUTO RUN START");
             }
             //
             //

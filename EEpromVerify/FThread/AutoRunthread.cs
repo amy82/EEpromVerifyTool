@@ -8,35 +8,19 @@ using System.Windows.Forms;
 
 namespace ApsMotionControl.FThread
 {
-    public class AutoRunthread
+    public class AutoRunthread : BaseThread
     {
         public event delLogSender eLogSender;       //외부에서 호출할때 사용
-        private Thread thread;
-        private bool m_bPause = false;
-        private CancellationTokenSource cts;
         private Process.PcbProcess RunProcess = new Process.PcbProcess();
         private Process.ReadyProcess readyProcess = new Process.ReadyProcess();
         public AutoRunthread()
         {
             thread = null;
         }
-        public bool GetThreadRun()
-        {
-            if(thread != null)
-            {
-                ////return thread?.IsAlive ?? false;
-                return thread.IsAlive;    //thread 동작 중
-            }
 
-            return false;
-        }
 
-        
-        public bool GetThreadPause()
-        {
-            return m_bPause;
-        }
-        public void ProcessRun(CancellationToken token)
+        //public void ProcessRun(CancellationToken token)
+        protected override void ProcessRun(CancellationToken token)
         {
             while (!token.IsCancellationRequested)
             {
@@ -71,7 +55,8 @@ namespace ApsMotionControl.FThread
                 }
                 else if (Globalo.taskWork.m_nCurrentStep == -1)
                 {
-                    Globalo.MainForm.StopAutoProcess();
+                    //Globalo.MainForm.StopAutoProcess();
+                    cts.Cancel();
                 }
                 else if (Globalo.taskWork.m_nCurrentStep < 0)
                 {
@@ -79,65 +64,12 @@ namespace ApsMotionControl.FThread
                 }
                 else
                 {
-                    Stop();
+                    cts.Cancel();
                 }
                 Thread.Sleep(10);
             }
-
+            cts = null;
             Console.WriteLine("Worker thread stopped safely.");
-        }
-        public void Pause()
-        {
-            m_bPause = true;
-        }
-        public bool Start()
-        {
-            try
-            {
-                if(m_bPause == false)   //정지 상태일때만
-                {
-                    cts = new CancellationTokenSource();
-                    thread = new Thread(() => ProcessRun(cts.Token));
-                    thread.Start();
-                }
-                m_bPause = false;
-
-                Console.WriteLine("Worker thread start.");
-            }
-            catch (ThreadStateException ex)
-            {
-                // Console.WriteLine($"ThreadStateException: {ex.Message}");
-                eLogSender("AutoRunthread", $"[ERR] ThreadStateException: {ex.Message}");
-                return false;
-            }
-
-            return true;
-        }
-        public bool StopCheck()
-        {
-            if (thread == null)
-            {
-                return true;
-            }
-            bool brtn = thread.Join(3000);
-            if(brtn)
-            {
-                thread = null;
-            }
-            return brtn;
-        }
-        public void Stop()
-        {
-            if (thread != null && cts != null)
-            {
-                Console.WriteLine("Worker thread stop 1");
-                cts.Cancel();
-               //// thread.Join();
-                //thread = null;
-                cts = null;
-                m_bPause = false;
-                Console.WriteLine("Worker thread stop 2");
-            }
         }
     }
 }

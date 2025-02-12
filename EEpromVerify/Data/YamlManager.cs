@@ -251,6 +251,7 @@ namespace ApsMotionControl.Data
                 configData = LoadYaml<ConfigData>(filePath);
                 if (configData == null)
                 {
+                    configData = new ConfigData();
                     return false;
                 }
                 ///configData.ugcFilePath = Path.Combine(CPath.BASE_UBISAM_PATH, configData.ugcFilePath);

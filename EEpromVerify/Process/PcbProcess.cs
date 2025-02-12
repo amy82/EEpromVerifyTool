@@ -69,6 +69,7 @@ namespace ApsMotionControl.Process
                     szLog = $"[AUTO] 자동운전 TEST 1 [STEP : {nStep}]";
                     Globalo.LogPrint("AutoPrecess", szLog);
                     nRetStep = 30050;
+                    Thread.Sleep(500);
                     break;
                 case 30050:
                     if(autoPause)
@@ -99,14 +100,17 @@ namespace ApsMotionControl.Process
                     break;
                 case 30150:
                     nRetStep = 30200;
+                    Thread.Sleep(500);
                     break;
                 case 30200:
                     nRetStep = 30250;
+                    Thread.Sleep(500);
                     break;
                 case 30250:
                     szLog = $"[AUTO] 자동운전 TEST 2 [STEP : {nStep}]";
                     Globalo.LogPrint("AutoPrecess", szLog);
                     nRetStep = 39000;
+                    Thread.Sleep(500);
                     break;
                 case 39000:
                     szLog = $"[AUTO] 자동운전 TEST End [STEP : {nStep}]";
