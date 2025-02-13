@@ -9,14 +9,47 @@ namespace ApsMotionControl.FThread
 {
     public class ManualThread : BaseThread
     {
-        private readonly Action _runAction;
-        protected override void ManulRun(Action runAction)
+        private int nType = -1;
+        public void runfn(int _nType = -1)
         {
-            while (!cts.Token.IsCancellationRequested)
-            {
-                Console.WriteLine("ManualThread ProcessRun Run.");
+            nType = _nType;
+            base.Start();
+        }
+        protected override void ThreadInit()
+        {
 
-                _runAction?.Invoke();
+        }
+        protected override void ThreadRun()
+        {
+            Console.WriteLine("추가 작업 실행 중...");
+            if (nType == -1)
+            {
+                Console.WriteLine("ManualThread ProcessRun out.");
+                cts.Cancel();
+            }
+            Console.WriteLine("ManualThread ProcessRun Run.");
+            if (nType == 1)
+            {
+                Globalo.mCCdPanel.EEpromRead();
+                cts.Cancel();
+            }
+            Console.WriteLine("ManualThread stopped safely.");
+        }
+        //protected override void ProcessRun()
+        //{
+           // while (!cts.Token.IsCancellationRequested)
+            //{
+                //if(nType == -1)
+                //{
+                //    Console.WriteLine("ManualThread ProcessRun out.");
+                //    cts.Cancel();
+                //    break;
+                //}
+                //Console.WriteLine("ManualThread ProcessRun Run.");
+                //if(nType == 1)
+                //{
+                //    Globalo.mCCdPanel.EEpromRead();
+                //}
 
                 //for (int i = 0; i < 50; i++)  // 긴 반복문
                 //{
@@ -31,12 +64,12 @@ namespace ApsMotionControl.FThread
                 //}
 
 
-                cts.Cancel();
+                //cts.Cancel();
 
-            }
+            //}
 
-            cts = null;
-            Console.WriteLine("ManualThread stopped safely.");
-        }
+            //nType = -1;
+            //Console.WriteLine("ManualThread stopped safely.");
+        //}
     }
 }

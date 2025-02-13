@@ -12,13 +12,21 @@ namespace ApsMotionControl.FThread
         public DIoThread()
         {
         }
-        protected override void ProcessRun()
+        //protected override void ProcessRun()
+        protected override void ThreadInit()
         {
-            while (!cts.Token.IsCancellationRequested)
-            {
-                Globalo.dIoControl.ReadDWordIn(0);
-                Thread.Sleep(10);
-            }
+
+        }
+        protected override void ThreadRun()
+        {
+            Globalo.dIoControl.ReadDWordIn(0);
+
+            //BASE_THREAD_INTERVAL
+            //while (!cts.Token.IsCancellationRequested)
+            //{
+            //    Globalo.dIoControl.ReadDWordIn(0);
+            //    Thread.Sleep(10);
+            //}
         }
     }
 }

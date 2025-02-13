@@ -1004,7 +1004,7 @@ namespace ApsMotionControl.Process
                 case 20050:
                     
                     
-                    if (stopwatch.ElapsedMilliseconds > 2000) // 1초 경과 확인
+                    if (stopwatch.ElapsedMilliseconds > 500) // 1초 경과 확인
                     {
                         szLog = $"[READY] 운전준비 TEST 2 [STEP : {nStep}]";
                         Globalo.LogPrint("PcbPrecess", szLog);
@@ -1023,7 +1023,7 @@ namespace ApsMotionControl.Process
 
                     }
                     
-                    if (stopwatch.ElapsedMilliseconds > 2000) // 1초 경과 확인
+                    if (stopwatch.ElapsedMilliseconds > 500) // 1초 경과 확인
                     {
                         szLog = $"[READY] 운전준비 TEST 3 [STEP : {nStep}]";
                         Globalo.LogPrint("PcbPrecess", szLog);
@@ -1033,7 +1033,7 @@ namespace ApsMotionControl.Process
                     break;
                 case 20150:
                     
-                    if (stopwatch.ElapsedMilliseconds > 1000) // 1초 경과 확인
+                    if (stopwatch.ElapsedMilliseconds > 500) // 1초 경과 확인
                     {
                         szLog = $"[READY] 운전준비 TEST 4 [STEP : {nStep}]";
                         Globalo.LogPrint("PcbPrecess", szLog);
@@ -1045,7 +1045,7 @@ namespace ApsMotionControl.Process
                 case 20200:
                     
 
-                    if (stopwatch.ElapsedMilliseconds > 1000) // 1초 경과 확인
+                    if (stopwatch.ElapsedMilliseconds > 500) // 1초 경과 확인
                     {
                         szLog = $"[READY] 운전준비 TEST 5 [STEP : {nStep}]";
                         Globalo.LogPrint("PcbPrecess", szLog);
@@ -1062,7 +1062,7 @@ namespace ApsMotionControl.Process
                         }
                            
                         Console.WriteLine($"운전준비 Processing {i}");
-                        Thread.Sleep(300); // 작업 시간 가정
+                        //Thread.Sleep(300); // 작업 시간 가정
                     }
                     ProgramState.CurrentState = OperationState.PreparationComplete;
                     szLog = $"[READY] 운전준비 완료 [STEP : {nStep}]";

@@ -14,24 +14,38 @@ namespace ApsMotionControl.FThread
     {
         //public event delLogSender eLogSender;       //외부에서 호출할때 사용
 
-        protected override unsafe void ProcessRun()
+        private IntPtr RawPtr;
+        private IntPtr BmpPtr;
+
+        private int mWidth;
+        private int mHeight;
+
+        private Mat imageItp;
+        protected override void ThreadInit()
+        {
+            RawPtr = Marshal.UnsafeAddrOfPinnedArrayElement(Globalo.mLaonGrabberClass.m_pFrameRawBuffer, 0);
+            BmpPtr = Marshal.UnsafeAddrOfPinnedArrayElement(Globalo.mLaonGrabberClass.m_pFrameBMPBuffer, 0);
+
+            mWidth = Globalo.GrabberDll.mGetWidth();
+            mHeight = Globalo.GrabberDll.mGetHeight();
+            imageItp = new Mat(mHeight, mWidth, MatType.CV_8UC3);//MatType.CV_8UC3);
+
+            //double dZoomX = 0.0;
+            //double dZoomY = 0.0;
+            //dZoomX = ((double)Globalo.camControl.CcdPanel.Width / (double)mWidth);
+            //dZoomY = ((double)Globalo.camControl.CcdPanel.Height / (double)mHeight);
+        }
+        //protected override unsafe void ProcessRun()
+        protected override unsafe void ThreadRun()
         {
             if (Globalo.mLaonGrabberClass.M_GrabDllLoadComplete == false)
             {
                 return;
             }
 
-            IntPtr RawPtr = Marshal.UnsafeAddrOfPinnedArrayElement(Globalo.mLaonGrabberClass.m_pFrameRawBuffer, 0);
-            IntPtr BmpPtr = Marshal.UnsafeAddrOfPinnedArrayElement(Globalo.mLaonGrabberClass.m_pFrameBMPBuffer, 0);
+            
 
-            int mWidth = Globalo.GrabberDll.mGetWidth();
-            int mHeight = Globalo.GrabberDll.mGetHeight();
-            Mat imageItp = new Mat(mHeight, mWidth, MatType.CV_8UC3);//MatType.CV_8UC3);
-
-            double dZoomX = 0.0;
-            double dZoomY = 0.0;
-            dZoomX = ((double)Globalo.camControl.CcdPanel.Width / (double)mWidth);
-            dZoomY = ((double)Globalo.camControl.CcdPanel.Height / (double)mHeight);
+            
             try
             {
                 //mCcdThreadRun = true;
