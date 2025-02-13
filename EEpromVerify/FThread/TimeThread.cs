@@ -13,35 +13,33 @@ namespace ApsMotionControl.FThread
         private Label timeLabel;
         //private Thread thread;
         public bool threadTimeRun = false;
-
+        private DateTime dTime;
+        private string sTime = "";
         public TimeThread()
         {
             this.timeLabel = Globalo.MainForm.TimeLabel;
            // thread = new Thread(Run);
         }
-        protected override void ProcessRun()
+        //protected override void ProcessRun()
+
+        protected override void ThreadInit()
         {
 
-            DateTime dTime;
-            string sTime = "";
-            threadTimeRun = true;
-            //while (threadTimeRun)
-            while (!cts.Token.IsCancellationRequested)
+        }
+        protected override void ThreadRun()
+        {
+            dTime = DateTime.Now;
+            sTime = $"{dTime:hh : mm : ss}";
+            if (this.timeLabel.InvokeRequired)
             {
-                dTime = DateTime.Now;
-                //sTime = $"{dTime:hh:mm:ss.fff}";
-                sTime = $"{dTime:hh : mm : ss}";
-                if (this.timeLabel.InvokeRequired)
-                {
-                    //timeLabel.Invoke(new TimeTextCallback(setTimeLabel), sTime);        //<--사용가능 #1
-                    this.timeLabel.Invoke(new MethodInvoker(delegate { setTimeLabel(sTime); }));
-                    //TimeLabel.Invoke(new MethodInvoker(delegate { TimeLabel.Text = sTime; }));//<--사용가능 #2
+                //timeLabel.Invoke(new TimeTextCallback(setTimeLabel), sTime);        //<--사용가능 #1
+                this.timeLabel.Invoke(new MethodInvoker(delegate { setTimeLabel(sTime); }));
+                //TimeLabel.Invoke(new MethodInvoker(delegate { TimeLabel.Text = sTime; }));//<--사용가능 #2
 
-                }
-
-                Thread.Sleep(100);
             }
-            
+
+            Thread.Sleep(100);
+
         }
         public void setTimeLabel(string sTime)
         {

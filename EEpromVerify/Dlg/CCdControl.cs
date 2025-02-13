@@ -749,11 +749,12 @@ namespace ApsMotionControl.Dlg
             }
             dataGridView_EEpromData.ClearSelection();
         }
+         
         public static unsafe bool testEEpromRead()
         {
             int i = 0;
 
-
+            Console.WriteLine("testEEpromRead run");
 
             string slaveAddr = Regex.Replace(Globalo.mCCdPanel.textBox_SlaveAddr.Text, @"\D", "");
 
@@ -852,13 +853,17 @@ namespace ApsMotionControl.Dlg
         {
             if(Globalo.threadControl.manualThread.GetThreadRun() == false)
             {
-                //Globalo.threadControl.manualThread.Start();
+                Globalo.threadControl.manualThread.runfn(1);
             }
             
 
-            testEEpromRead();
+            
 
             //EEPROM_TotalRead_Type2(0x0000, 0x513, CompareEEpromData, 512);//최대 32씩만	0x512	0x46D
+        }
+        public void EEpromRead()
+        {
+            testEEpromRead();
         }
         private void CCdControl_VisibleChanged(object sender, EventArgs e)
         {

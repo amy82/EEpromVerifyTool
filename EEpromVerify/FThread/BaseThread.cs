@@ -20,17 +20,23 @@ namespace ApsMotionControl.FThread
             thread = null;
             cts = null;
         }
-        protected virtual void ProcessRun()//CancellationToken token)
+
+        protected virtual void ThreadInit() { }
+        protected virtual void ThreadRun(){ }
+
+        private void ProcessRun()
         {
             try
             {
+                ThreadInit();
                 while (!cts.Token.IsCancellationRequested)
                 {
                     if (m_bPause) continue;
 
-
-                    Thread.Sleep(10);
+                    ThreadRun();
+                    Thread.Sleep(Globalo.BASE_THREAD_INTERVAL);
                 }
+                cts = null;
             }
             catch (ThreadAbortException e)
             {

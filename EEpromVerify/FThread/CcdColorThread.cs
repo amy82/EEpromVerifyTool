@@ -19,27 +19,38 @@ namespace ApsMotionControl.FThread
         //private Thread thread = null;
         //private bool m_bPause = false;
         //private CancellationTokenSource cts;
+        private byte[] bytes2;
 
-        protected override void ProcessRun()
+        private double dZoomX;
+        private double dZoomY;
+        protected override void ThreadInit()
+        {
+            //IntPtr RawPtr = Marshal.UnsafeAddrOfPinnedArrayElement(Globalo.mLaonGrabberClass.m_pFrameRawBuffer, 0);
+            //IntPtr BmpPtr = Marshal.UnsafeAddrOfPinnedArrayElement(Globalo.mLaonGrabberClass.m_pFrameBMPBuffer, 0);
+
+            int mWidth = Globalo.GrabberDll.mGetWidth();
+            int mHeight = Globalo.GrabberDll.mGetHeight();
+
+
+            dZoomX = ((double)Globalo.camControl.CcdPanel.Width / (double)mWidth);
+            dZoomY = ((double)Globalo.camControl.CcdPanel.Height / (double)mHeight);
+            bytes2 = new byte[mWidth * mHeight];
+        }
+        //protected override void ProcessRun()
+        protected override void ThreadRun()
         {
             if (Globalo.mLaonGrabberClass.M_GrabDllLoadComplete == false)
             {
                 return;
             }
 
-            IntPtr RawPtr = Marshal.UnsafeAddrOfPinnedArrayElement(Globalo.mLaonGrabberClass.m_pFrameRawBuffer, 0);
-            IntPtr BmpPtr = Marshal.UnsafeAddrOfPinnedArrayElement(Globalo.mLaonGrabberClass.m_pFrameBMPBuffer, 0);
+            
 
 
-            int mWidth = Globalo.GrabberDll.mGetWidth();
-            int mHeight = Globalo.GrabberDll.mGetHeight();
+            
             //Mat imageItp = new Mat(mHeight, mWidth, MatType.CV_8UC3);//MatType.CV_8UC3);
 
-            double dZoomX = 0.0;
-            double dZoomY = 0.0;
-            dZoomX = ((double)Globalo.camControl.CcdPanel.Width / (double)mWidth);
-            dZoomY = ((double)Globalo.camControl.CcdPanel.Height / (double)mHeight);
-            byte[] bytes2 = new byte[mWidth * mHeight];
+            
 
             //mCcdColorThreadRun = true;
             //while (mCcdColorThreadRun)

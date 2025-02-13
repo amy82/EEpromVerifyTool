@@ -46,6 +46,8 @@ namespace ApsMotionControl
         public const int CHART_ROI_COUNT = 9;
         public const int MTF_ROI_COUNT = 20;
 
+        public const int BASE_THREAD_INTERVAL = 10;
+
         public static void MessageShowPopup(string LogDesc, Globalo.eMessageName bPopUpView = Globalo.eMessageName.M_NULL)
         {
             if (Globalo.MainForm.InvokeRequired)
