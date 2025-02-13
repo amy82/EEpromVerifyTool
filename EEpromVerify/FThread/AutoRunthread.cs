@@ -15,7 +15,7 @@ namespace ApsMotionControl.FThread
         private Process.ReadyProcess readyProcess = new Process.ReadyProcess();
         public AutoRunthread()
         {
-            thread = null;
+            //thread = null;
         }
 
 
@@ -45,7 +45,7 @@ namespace ApsMotionControl.FThread
 
                     if (Globalo.taskWork.m_nCurrentStep >= 20000 && Globalo.taskWork.m_nCurrentStep < 30000)
                     {
-                        Globalo.taskWork.m_nCurrentStep = readyProcess.AutoReady(Globalo.taskWork.m_nCurrentStep);
+                        Globalo.taskWork.m_nCurrentStep = readyProcess.AutoReady(Globalo.taskWork.m_nCurrentStep, token);
                     }
                     else if (Globalo.taskWork.m_nCurrentStep >= 30000 && Globalo.taskWork.m_nCurrentStep < 40000)
                     {

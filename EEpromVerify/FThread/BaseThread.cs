@@ -59,10 +59,9 @@ namespace ApsMotionControl.FThread
             {
                 if (thread == null)
                 {
-                    if (cts == null)
-                    {
-                        cts = new CancellationTokenSource();
-                    }
+
+                    cts = null;
+                    cts = new CancellationTokenSource();
                     Console.WriteLine("Thread Start #1.");
                     threadCount++;
                     thread = new Thread(() => ProcessRun(cts.Token));
@@ -84,14 +83,8 @@ namespace ApsMotionControl.FThread
                             bool Rtn = thread.Join(100);  // 쓰레드가 종료될 때까지 기다림
                             if (Rtn)
                             {
-                                if (cts == null)
-                                {
-                                    cts = new CancellationTokenSource();
-                                }
-                                else
-                                {
-                                    cts.Cancel();
-                                }
+                                cts = null;
+                                cts = new CancellationTokenSource();
                                 thread = null;  // 종료 후 thread를 null로 설정
                                 thread = new Thread(() => ProcessRun(cts.Token));
                                 thread.Start();
@@ -146,13 +139,24 @@ namespace ApsMotionControl.FThread
             if (thread != null && cts != null)
             {
                 Console.WriteLine("Thread Stop() #1");
-                cts.Cancel();
-
-                bool bRtn = thread.Join(300);  // 🔹 1초 동안 스레드 종료 대기
-
-                if(bRtn == false)
+                if(cts != null)
                 {
-                    Abort();
+                    Console.WriteLine("Thread Stop() cts.Cancel #1");
+                    cts.Cancel();
+                    Console.WriteLine("Thread Stop() cts.Cancel #2");
+                }
+
+                Console.WriteLine("Thread Stop() Join #1");
+                bool bRtn = thread.Join(100);  // 🔹 1초 동안 스레드 종료 대기 200ms 뒤에 빠져나와서 추가해도 괜찮음
+                Console.WriteLine("Thread Stop() Join #2");
+                if (bRtn == false)
+                {
+                    bRtn = thread.Join(50);
+                    if (bRtn == false)
+                    {
+                        Abort();
+                    }
+                        
                 }
 
                 if (!thread.IsAlive) // 🔹 스레드가 종료되었는지 확인

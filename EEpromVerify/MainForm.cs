@@ -197,7 +197,7 @@ namespace ApsMotionControl
             // 바코드 리더기 Serial Port 설정
             string portData = "";
             bool connectRtn = false;
-            string logData = "";
+            
 
 
             if(Globalo.yamlManager.configData != null)
@@ -215,7 +215,7 @@ namespace ApsMotionControl
             //{
             //    Console.WriteLine("Barcode Reader Data: " + data);
             //};
-            Globalo.serialPortManager.Barcode.Open();
+            connectRtn = Globalo.serialPortManager.Barcode.Open();
 
 
 
@@ -1021,6 +1021,7 @@ namespace ApsMotionControl
         public void StopAutoProcess()
         {
             AutoRunTimerStop();
+
             ProgramState.CurrentState = OperationState.Stopped;
 
             labelGuide.Text = "설비 정지 상태입니다.";
@@ -1029,11 +1030,10 @@ namespace ApsMotionControl
             {
                 Globalo.threadControl.autoRunthread.Stop();
             }
-            
-
-            Globalo.motorControl.StopAxisAll(0);
-
-
+            if (ProgramState.ON_LINE_MOTOR)
+            {
+                Globalo.motorControl.StopAxisAll(0);
+            }
             AutoButtonSet(ProgramState.CurrentState);
         }
         private void MenuButtonSet(int index)

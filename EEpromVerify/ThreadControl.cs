@@ -22,7 +22,7 @@ namespace ApsMotionControl
         //public FThread.ReadyThread readyThread;
 
 
-        public FThread.TaskAutoRun taskAutoRun;
+        //public FThread.TaskAutoRun taskAutoRun;
 
         public ThreadControl()
         {
@@ -37,7 +37,7 @@ namespace ApsMotionControl
             {
                 dIoThread = new FThread.DIoThread();
             }
-            taskAutoRun = new FThread.TaskAutoRun();
+            //taskAutoRun = new FThread.TaskAutoRun();
         }
         public void AllThreadStart()
         {
@@ -51,6 +51,7 @@ namespace ApsMotionControl
         public void AllClose()
         {
             logThread.Stop();
+
             timeThread.Stop();
             autoRunthread.Stop();
             ccdColorThread.Stop();
@@ -62,7 +63,7 @@ namespace ApsMotionControl
                 dIoThread.Stop();
             }
 
-            taskAutoRun.Stop();
+            //taskAutoRun.Stop();
         }
     }
 }
