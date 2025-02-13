@@ -7,55 +7,17 @@ using System.Threading.Tasks;
 
 namespace ApsMotionControl.FThread
 {
-    public class DIoThread
+    public class DIoThread : BaseThread
     {
-        private Thread thread;
-        public bool threadDIoRun = false;
         public DIoThread()
         {
-            thread = new Thread(Run);
         }
-        public void Start()
+        protected override void ProcessRun()
         {
-            if (thread != null)
+            while (!cts.Token.IsCancellationRequested)
             {
-                thread.Start();
-            }
-        }
-        public void Stop()
-        {
-            threadDIoRun = false;
-            if (thread != null)
-            {
-                if (thread.IsAlive)
-                {
-                    thread.Abort();
-                }
-            }
-        }
-        public void Close()
-        {
-            Stop();
-        }
-        public void Run()
-        {
-            try
-            {
-                threadDIoRun = true;
-                while (threadDIoRun)
-                {
-                    Globalo.dIoControl.ReadDWordIn(0);
-                    Thread.Sleep(10);
-                }
-            }
-            catch (ThreadInterruptedException err)
-            {
-                // Debug.WriteLine(err);
-                Globalo.LogPrint("DIoThread", err.ToString());
-            }
-            finally
-            {
-                //Debug.WriteLine("time 리소스 지우기");
+                Globalo.dIoControl.ReadDWordIn(0);
+                Thread.Sleep(10);
             }
         }
     }

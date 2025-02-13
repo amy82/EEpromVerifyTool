@@ -20,11 +20,11 @@ namespace ApsMotionControl.FThread
             thread = null;
             cts = null;
         }
-        protected virtual void ProcessRun(CancellationToken token)
+        protected virtual void ProcessRun()//CancellationToken token)
         {
             try
             {
-                while (!token.IsCancellationRequested)
+                while (!cts.Token.IsCancellationRequested)
                 {
                     if (m_bPause) continue;
 
@@ -45,7 +45,32 @@ namespace ApsMotionControl.FThread
 
             Console.WriteLine("Thread 종료됨.");
         }
-        
+        protected virtual void ManulRun(Action runAction)
+        {
+            try
+            {
+                while (!cts.Token.IsCancellationRequested)
+                {
+                    if (m_bPause) continue;
+
+
+                    Thread.Sleep(10);
+                }
+            }
+            catch (ThreadAbortException e)
+            {
+                Console.WriteLine("Thread - caught ThreadAbortException - resetting.");
+                Console.WriteLine("Exception message: {0}", e.Message);
+            }
+            finally
+            {
+                Console.WriteLine("ProcessRun mesfinallysage");
+            }
+
+
+            Console.WriteLine("Thread 종료됨.");
+        }
+
 
         public void Pause()
         {
@@ -64,7 +89,7 @@ namespace ApsMotionControl.FThread
                     cts = new CancellationTokenSource();
                     Console.WriteLine("Thread Start #1.");
                     threadCount++;
-                    thread = new Thread(() => ProcessRun(cts.Token));
+                    thread = new Thread(() => ProcessRun());//cts.Token));
                     thread.Start();
                     Console.WriteLine("Thread Start #2.");
                 }
@@ -86,7 +111,7 @@ namespace ApsMotionControl.FThread
                                 cts = null;
                                 cts = new CancellationTokenSource();
                                 thread = null;  // 종료 후 thread를 null로 설정
-                                thread = new Thread(() => ProcessRun(cts.Token));
+                                thread = new Thread(() => ProcessRun());// cts.Token));
                                 thread.Start();
                             }
                             else
@@ -173,6 +198,8 @@ namespace ApsMotionControl.FThread
         {
             if (thread != null)
             {
+                Console.WriteLine($"GetThreadRun() : {thread.IsAlive}");
+
                 return thread.IsAlive;    //thread 동작 중
             }
             return false;

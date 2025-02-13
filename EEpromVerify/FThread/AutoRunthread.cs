@@ -10,7 +10,8 @@ namespace ApsMotionControl.FThread
 {
     public class AutoRunthread : BaseThread
     {
-        public event delLogSender eLogSender;       //외부에서 호출할때 사용
+        //public event delLogSender eLogSender;       //외부에서 호출할때 사용
+
         private Process.PcbProcess RunProcess = new Process.PcbProcess();
         private Process.ReadyProcess readyProcess = new Process.ReadyProcess();
         public AutoRunthread()
@@ -20,9 +21,9 @@ namespace ApsMotionControl.FThread
 
 
         //public void ProcessRun(CancellationToken token)
-        protected override void ProcessRun(CancellationToken token)
+        protected override void ProcessRun()
         {
-            while (!token.IsCancellationRequested)
+            while (!cts.Token.IsCancellationRequested)
             {
                 //Console.WriteLine("Worker thread running...");
                 if (m_bPause)
@@ -45,7 +46,7 @@ namespace ApsMotionControl.FThread
 
                     if (Globalo.taskWork.m_nCurrentStep >= 20000 && Globalo.taskWork.m_nCurrentStep < 30000)
                     {
-                        Globalo.taskWork.m_nCurrentStep = readyProcess.AutoReady(Globalo.taskWork.m_nCurrentStep, token);
+                        Globalo.taskWork.m_nCurrentStep = readyProcess.AutoReady(Globalo.taskWork.m_nCurrentStep, cts.Token);
                     }
                     else if (Globalo.taskWork.m_nCurrentStep >= 30000 && Globalo.taskWork.m_nCurrentStep < 40000)
                     {
