@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -13,6 +14,8 @@ namespace ApsMotionControl.Process
         public int[] SensorSet = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         public int[] OrgOnGoing = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         private bool pauseTest = true;
+
+        Stopwatch stopwatch;// = Stopwatch.StartNew(); // 스톱워치 시작
         public ReadyProcess()
         {
         }
@@ -984,7 +987,7 @@ namespace ApsMotionControl.Process
             }
             return nRetStep + UniqueNum;
         }
-        public int AutoReady(int nStep)					//  운전준비(20000 ~ 30000)
+        public int AutoReady(int nStep, CancellationToken token)					//  운전준비(20000 ~ 30000)
         {
             string szLog = "";
             const int UniqueNum = 20000;
@@ -996,13 +999,18 @@ namespace ApsMotionControl.Process
                     szLog = $"[READY] 운전준비 TEST 1 [STEP : {nStep}]";
                     Globalo.LogPrint("ReadyPrecess", szLog);
                     nRetStep = 20050;
-                    Thread.Sleep(300);
+                    stopwatch = Stopwatch.StartNew();
                     break;
                 case 20050:
-                    szLog = $"[READY] 운전준비 TEST 2 [STEP : {nStep}]";
-                    Globalo.LogPrint("PcbPrecess", szLog);
-                    nRetStep = 20100;
-                    Thread.Sleep(300);
+                    
+                    
+                    if (stopwatch.ElapsedMilliseconds > 2000) // 1초 경과 확인
+                    {
+                        szLog = $"[READY] 운전준비 TEST 2 [STEP : {nStep}]";
+                        Globalo.LogPrint("PcbPrecess", szLog);
+                        nRetStep = 20100;
+                        stopwatch = Stopwatch.StartNew();
+                    }
                     break;
                 case 20100:
                     if (pauseTest)
@@ -1014,24 +1022,48 @@ namespace ApsMotionControl.Process
                         break;
 
                     }
-                    szLog = $"[READY] 운전준비 TEST 3 [STEP : {nStep}]";
-                    Globalo.LogPrint("PcbPrecess", szLog);
-                    nRetStep = 20150;
-                    Thread.Sleep(300);
+                    
+                    if (stopwatch.ElapsedMilliseconds > 2000) // 1초 경과 확인
+                    {
+                        szLog = $"[READY] 운전준비 TEST 3 [STEP : {nStep}]";
+                        Globalo.LogPrint("PcbPrecess", szLog);
+                        nRetStep = 20150;
+                        stopwatch = Stopwatch.StartNew();
+                    }
                     break;
                 case 20150:
-                    szLog = $"[READY] 운전준비 TEST 4 [STEP : {nStep}]";
-                    Globalo.LogPrint("PcbPrecess", szLog);
-                    nRetStep = 20200;
-                    Thread.Sleep(300);
+                    
+                    if (stopwatch.ElapsedMilliseconds > 1000) // 1초 경과 확인
+                    {
+                        szLog = $"[READY] 운전준비 TEST 4 [STEP : {nStep}]";
+                        Globalo.LogPrint("PcbPrecess", szLog);
+                        nRetStep = 20200;
+                        stopwatch = Stopwatch.StartNew();
+                    }
+                    
                     break;
                 case 20200:
-                    szLog = $"[READY] 운전준비 TEST 5 [STEP : {nStep}]";
-                    Globalo.LogPrint("PcbPrecess", szLog);
-                    nRetStep = 29100;
-                    Thread.Sleep(300);
+                    
+
+                    if (stopwatch.ElapsedMilliseconds > 1000) // 1초 경과 확인
+                    {
+                        szLog = $"[READY] 운전준비 TEST 5 [STEP : {nStep}]";
+                        Globalo.LogPrint("PcbPrecess", szLog);
+                        nRetStep = 29100;
+                    }
                     break;
                 case 29100:
+                    for (int i = 0; i < 50; i++)  // 긴 반복문
+                    {
+                        if (token.IsCancellationRequested)  // 중간에 취소 요청 확인
+                        {
+                            Console.WriteLine($"운전준비 token.IsCancellationRequested");
+                            break;
+                        }
+                           
+                        Console.WriteLine($"운전준비 Processing {i}");
+                        Thread.Sleep(300); // 작업 시간 가정
+                    }
                     ProgramState.CurrentState = OperationState.PreparationComplete;
                     szLog = $"[READY] 운전준비 완료 [STEP : {nStep}]";
                     Globalo.LogPrint("PcbPrecess", szLog);

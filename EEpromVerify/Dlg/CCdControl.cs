@@ -782,7 +782,7 @@ namespace ApsMotionControl.Dlg
             ushort SlaveAddr = Convert.ToUInt16(slaveAddr, 16); // 0x50;
             ushort StartAddr = Convert.ToUInt16(readAddr, 16); //0x00;
 
-            ushort checkAddr = 0x3C06;
+            //ushort checkAddr = 0x3C06;
 
             byte[] EEpromReadData = new byte[endAddress]; // EEPROM 데이터 읽기
             //if(Globalo.mLaonGrabberClass.EEpromReadData == null)
@@ -865,7 +865,11 @@ namespace ApsMotionControl.Dlg
                 //Chart roi on
 
                 SetSfrRoi();
-                DrawRectSfr(999);
+                if (ProgramState.ON_LINE_MIL)
+                {
+                    DrawRectSfr(999);
+                }
+                    
             }
 
         }
