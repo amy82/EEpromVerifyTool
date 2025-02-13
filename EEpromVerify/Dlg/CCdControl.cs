@@ -850,14 +850,17 @@ namespace ApsMotionControl.Dlg
         }
         private void BTN_CCD_EEPROM_READ_Click(object sender, EventArgs e)
         {
+            if(Globalo.threadControl.manualThread.GetThreadRun() == false)
+            {
+                //Globalo.threadControl.manualThread.Start();
+            }
             
 
             testEEpromRead();
 
             //EEPROM_TotalRead_Type2(0x0000, 0x513, CompareEEpromData, 512);//최대 32씩만	0x512	0x46D
         }
-
-        private void ManualPanel_VisibleChanged(object sender, EventArgs e)
+        private void CCdControl_VisibleChanged(object sender, EventArgs e)
         {
             if (this.Visible)
             {
@@ -869,10 +872,17 @@ namespace ApsMotionControl.Dlg
                 {
                     DrawRectSfr(999);
                 }
-                    
-            }
 
+            }
+            else
+            {
+                if (Globalo.threadControl.manualThread.GetThreadRun())
+                {
+                    Globalo.threadControl.manualThread.Stop();
+                }
+            }
         }
+
         public void GetSfrRoi()
         {
             int nCount;
@@ -920,5 +930,7 @@ namespace ApsMotionControl.Dlg
 
             Globalo.yamlManager.imageDataSave();
         }
+
+        
     }
 }

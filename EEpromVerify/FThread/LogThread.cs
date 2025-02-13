@@ -9,11 +9,11 @@ using System.IO;
 
 namespace ApsMotionControl.FThread
 {
-    public class LogThread
+    public class LogThread : BaseThread
     {
         private ListBox logListBox;
-        private Thread thread;
-        public bool threadLogRun = false;
+        //private Thread thread;
+        //public bool threadLogRun = false;
 
         public DirectoryInfo dif = new DirectoryInfo(@"C:\logg"); // 디렉토리 경로
         public string Fpath = @"LOG.txt"; // 파일 경로 
@@ -26,33 +26,12 @@ namespace ApsMotionControl.FThread
         public LogThread()
         {
             this.logListBox = Globalo.MainForm.listBox_Log;
-            thread = new Thread(Run);
         }
-        public void Start()
+
+
+        protected override void ProcessRun()
         {
-            if (thread != null)
-            {
-                thread.Start();
-            }
-        }
-        public void Stop()
-        {
-            threadLogRun = false;
-            if (thread != null)
-            {
-                if (thread.IsAlive)
-                {
-                    thread.Abort();
-                }
-            }
-        }
-        public void Close()
-        {
-            Stop();
-        }
-        public void Run()
-        {
-            threadLogRun = true;
+            //threadLogRun = true;
             if (!dif.Exists) // 디렉토리 체크
             {
                 dif.Create();
@@ -68,7 +47,8 @@ namespace ApsMotionControl.FThread
             }
             lock (writeLock)
             {
-                while (threadLogRun)
+                //while (threadLogRun)
+                while (!cts.Token.IsCancellationRequested)
                 {
                     if (logQueue.Count > 0)
                     {

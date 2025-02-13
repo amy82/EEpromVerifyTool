@@ -10,34 +10,35 @@ namespace ApsMotionControl
     {
         public FThread.LogThread logThread;
         public FThread.TimeThread timeThread;
-        public FThread.DIoThread dIoThread;
+        
         public FThread.AutoRunthread autoRunthread;
 
         //CCD thread
         public FThread.CcdColorThread ccdColorThread;
         public FThread.CcdGrabThread ccdGrabThread;
 
-        //public FThread.AutoReadyThread readyRunthread;
+        //ON_LINE_MOTOR
+        public FThread.DIoThread dIoThread;
 
-        //public FThread.ReadyThread readyThread;
-
-
-        //public FThread.TaskAutoRun taskAutoRun;
+        public FThread.ManualThread manualThread;
 
         public ThreadControl()
         {
             logThread = new FThread.LogThread();
             timeThread = new FThread.TimeThread();
             autoRunthread = new FThread.AutoRunthread();
-            ccdColorThread = new FThread.CcdColorThread();
-            ccdGrabThread = new FThread.CcdGrabThread();
 
-            //readyThread = new FThread.ReadyThread();
+            if (ProgramState.ON_LINE_MIL)
+            {
+                ccdColorThread = new FThread.CcdColorThread();
+                ccdGrabThread = new FThread.CcdGrabThread();
+            }
             if (ProgramState.ON_LINE_MOTOR)
             {
                 dIoThread = new FThread.DIoThread();
             }
-            //taskAutoRun = new FThread.TaskAutoRun();
+
+            manualThread = new FThread.ManualThread();
         }
         public void AllThreadStart()
         {
@@ -47,23 +48,24 @@ namespace ApsMotionControl
             {
                 dIoThread.Start();
             }
+            
         }
         public void AllClose()
         {
             logThread.Stop();
-
             timeThread.Stop();
             autoRunthread.Stop();
-            ccdColorThread.Stop();
-            ccdGrabThread.Stop();
-
-            //readyThread.Stop();
+            if (ProgramState.ON_LINE_MIL)
+            {
+                ccdColorThread.Stop();
+                ccdGrabThread.Stop();
+            }
+           
             if (ProgramState.ON_LINE_MOTOR)
             {
                 dIoThread.Stop();
             }
-
-            //taskAutoRun.Stop();
+            manualThread.Stop();
         }
     }
 }

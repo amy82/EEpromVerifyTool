@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.ManualTitleLabel = new System.Windows.Forms.Label();
-            this.ManualPanel = new System.Windows.Forms.Panel();
+            this.CcdPanel = new System.Windows.Forms.Panel();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.BTN_CCD_ROI_SAVE = new System.Windows.Forms.Button();
@@ -59,7 +59,7 @@
             this.BTN_CCD_GABBER_OPEN = new System.Windows.Forms.Button();
             this.BTN_MANUAL_PCB = new System.Windows.Forms.Button();
             this.BTN_MANUAL_LENS = new System.Windows.Forms.Button();
-            this.ManualPanel.SuspendLayout();
+            this.CcdPanel.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_EEpromData)).BeginInit();
@@ -77,17 +77,16 @@
             this.ManualTitleLabel.Text = "| CCD";
             this.ManualTitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // ManualPanel
+            // CcdPanel
             // 
-            this.ManualPanel.Controls.Add(this.groupBox4);
-            this.ManualPanel.Controls.Add(this.groupBox3);
-            this.ManualPanel.Controls.Add(this.groupBox1);
-            this.ManualPanel.Controls.Add(this.groupBox2);
-            this.ManualPanel.Location = new System.Drawing.Point(21, 97);
-            this.ManualPanel.Name = "ManualPanel";
-            this.ManualPanel.Size = new System.Drawing.Size(934, 737);
-            this.ManualPanel.TabIndex = 4;
-            this.ManualPanel.VisibleChanged += new System.EventHandler(this.ManualPanel_VisibleChanged);
+            this.CcdPanel.Controls.Add(this.groupBox4);
+            this.CcdPanel.Controls.Add(this.groupBox3);
+            this.CcdPanel.Controls.Add(this.groupBox1);
+            this.CcdPanel.Controls.Add(this.groupBox2);
+            this.CcdPanel.Location = new System.Drawing.Point(21, 97);
+            this.CcdPanel.Name = "CcdPanel";
+            this.CcdPanel.Size = new System.Drawing.Size(934, 737);
+            this.CcdPanel.TabIndex = 4;
             // 
             // groupBox4
             // 
@@ -462,11 +461,12 @@
             this.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.Controls.Add(this.BTN_MANUAL_LENS);
             this.Controls.Add(this.BTN_MANUAL_PCB);
-            this.Controls.Add(this.ManualPanel);
+            this.Controls.Add(this.CcdPanel);
             this.Controls.Add(this.ManualTitleLabel);
             this.Name = "CCdControl";
             this.Size = new System.Drawing.Size(955, 938);
-            this.ManualPanel.ResumeLayout(false);
+            this.VisibleChanged += new System.EventHandler(this.CCdControl_VisibleChanged);
+            this.CcdPanel.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -480,7 +480,7 @@
         #endregion
 
         private System.Windows.Forms.Label ManualTitleLabel;
-        private System.Windows.Forms.Panel ManualPanel;
+        private System.Windows.Forms.Panel CcdPanel;
         private System.Windows.Forms.Button BTN_MANUAL_PCB;
         private System.Windows.Forms.Button BTN_MANUAL_LENS;
         private System.Windows.Forms.GroupBox groupBox2;

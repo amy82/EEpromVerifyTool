@@ -77,8 +77,8 @@ namespace ApsMotionControl
             // Thread Main
             //
 
-            Globalo.threadControl.autoRunthread.eLogSender += eLogPrint;
-            Globalo.threadControl.ccdColorThread.eLogSender += eLogPrint;
+            //Globalo.threadControl.autoRunthread.eLogSender += eLogPrint;
+            //Globalo.threadControl.ccdColorThread.eLogSender += eLogPrint;
 
 
             Globalo.mLaonGrabberClass.eLogSender += eLogPrint;
@@ -122,8 +122,12 @@ namespace ApsMotionControl
                 Globalo.mLaonGrabberClass.SelectSensor();
                 Globalo.mLaonGrabberClass.AllocImageBuff();
                 //
-                Globalo.threadControl.ccdColorThread.Start();
-                Globalo.threadControl.ccdGrabThread.Start();
+                if (ProgramState.ON_LINE_MIL)
+                {
+                    Globalo.threadControl.ccdColorThread.Start();
+                    Globalo.threadControl.ccdGrabThread.Start();
+                }
+                    
             }
 
             if (ProgramState.ON_LINE_MIL)
@@ -519,7 +523,7 @@ namespace ApsMotionControl
             // Thread Main
             //
 
-            Globalo.threadControl.autoRunthread.eLogSender -= eLogPrint;
+            //Globalo.threadControl.autoRunthread.eLogSender -= eLogPrint;
             Globalo.mLaonGrabberClass.eLogSender -= eLogPrint;
             Globalo.mLaonGrabberClass.Dispose();
             foreach (var thread in System.Diagnostics.Process.GetCurrentProcess().Threads)
@@ -1107,6 +1111,9 @@ namespace ApsMotionControl
             Button btn = sender as Button;
 
             eLogPrint("ConfigBtn", $"{btn.Text} 버튼 Click");
+
+            //Console.WriteLine($"부모 컨트롤 Visible 상태: {Globalo.mCCdPanel.Parent?.Visible}");
+            //Console.WriteLine($"mCCdPanel 컨트롤 Visible 상태: {Globalo.mCCdPanel?.Visible}");
             Globalo.mConfigPanel.Visible = true;
             Globalo.mCCdPanel.Visible = false;
             Globalo.mMainPanel.Visible = false;

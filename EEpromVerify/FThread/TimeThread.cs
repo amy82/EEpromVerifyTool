@@ -19,14 +19,14 @@ namespace ApsMotionControl.FThread
             this.timeLabel = Globalo.MainForm.TimeLabel;
            // thread = new Thread(Run);
         }
-        protected override void ProcessRun(CancellationToken token)
+        protected override void ProcessRun()
         {
 
             DateTime dTime;
             string sTime = "";
             threadTimeRun = true;
             //while (threadTimeRun)
-            while (!token.IsCancellationRequested)
+            while (!cts.Token.IsCancellationRequested)
             {
                 dTime = DateTime.Now;
                 //sTime = $"{dTime:hh:mm:ss.fff}";

@@ -229,6 +229,7 @@
     <Compile Include="FThread\CcdColorThread.cs" />
     <Compile Include="FThread\CcdGrabThread.cs" />
     <Compile Include="FThread\DIoThread.cs" />
+    <Compile Include="FThread\ManualThread.cs" />
     <Compile Include="KeyBoardForm.cs">
       <SubType>Form</SubType>
     </Compile>

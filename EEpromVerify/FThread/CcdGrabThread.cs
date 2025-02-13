@@ -10,15 +10,11 @@ using System.Diagnostics;
 
 namespace ApsMotionControl.FThread
 {
-    public class CcdGrabThread
+    public class CcdGrabThread : BaseThread
     {
-        public event delLogSender eLogSender;       //외부에서 호출할때 사용
-        public bool mCcdThreadRun = false;
-        private Thread thread = null;
-        private bool m_bPause = false;
-        private CancellationTokenSource cts;
+        //public event delLogSender eLogSender;       //외부에서 호출할때 사용
 
-        unsafe public void FuncGrabRun(CancellationToken token)
+        protected override unsafe void ProcessRun()
         {
             if (Globalo.mLaonGrabberClass.M_GrabDllLoadComplete == false)
             {
@@ -38,9 +34,9 @@ namespace ApsMotionControl.FThread
             dZoomY = ((double)Globalo.camControl.CcdPanel.Height / (double)mHeight);
             try
             {
-                mCcdThreadRun = true;
+                //mCcdThreadRun = true;
                 //while (mCcdThreadRun)
-                while (!token.IsCancellationRequested)
+                while (!cts.Token.IsCancellationRequested)
                 {
                     if (Globalo.mLaonGrabberClass.M_bOpen == false) continue;
 
@@ -79,66 +75,5 @@ namespace ApsMotionControl.FThread
 
         }
 
-        public bool GetThreadRun()
-        {
-            if (thread != null)
-            {
-                ////return thread?.IsAlive ?? false;
-                return thread.IsAlive;    //thread 동작 중
-            }
-
-            return false;
-        }
-        public void Stop()
-        {
-            if (thread != null && cts != null)
-            {
-                Console.WriteLine("CcdGrab thread stop 1");
-                cts.Cancel();
-                cts = null;
-                m_bPause = false;
-                Console.WriteLine("CcdGrab thread stop 2");
-            }
-        }
-        public bool StopCheck()
-        {
-            if (thread == null)
-            {
-                return true;
-            }
-            bool brtn = thread.Join(3000);
-            if (brtn)
-            {
-                thread = null;
-            }
-            return brtn;
-        }
-        public void Pause()
-        {
-            m_bPause = true;
-        }
-        public bool Start()
-        {
-            try
-            {
-                if (m_bPause == false)   //정지 상태일때만
-                {
-                    cts = new CancellationTokenSource();
-                    thread = new Thread(() => FuncGrabRun(cts.Token));
-                    thread.Start();
-                }
-                m_bPause = false;
-
-                Console.WriteLine("CcdGrab thread start.");
-            }
-            catch (ThreadStateException ex)
-            {
-                // Console.WriteLine($"ThreadStateException: {ex.Message}");
-                eLogSender("AutoRunthread", $"[ERR] ThreadStateException: {ex.Message}");
-                return false;
-            }
-
-            return true;
-        }
     }
 }
