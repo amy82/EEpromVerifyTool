@@ -18,6 +18,17 @@ namespace ApsMotionControl.Data
 {
     public class CEEpromData
     {
+
+        public static readonly string DF_HEX = "HEX";
+        public static readonly string DF_ASCII = "ASCII";
+        public static readonly string DF_DEC = "DEC";
+        public static readonly string DF_FLOAT = "FLOAT";
+        public static readonly string DF_DOUBLE = "DOUBLE";
+        public static readonly string DF_UNIX_TIME = "UNIX_TIME";
+        public static readonly string DF_CRC_CRC8_SAE_J1850_ZERO = "CRC_CRC8_SAE_J1850_ZERO";
+        public static readonly string DF_EMPTY = "EMPTY";
+
+
         public DataTable dataTable = new DataTable();
 
 
