@@ -93,7 +93,7 @@ namespace ApsMotionControl
             // 
             // BTN_TOP_MES
             // 
-            this.BTN_TOP_MES.BackColor = System.Drawing.Color.Olive;
+            this.BTN_TOP_MES.BackColor = System.Drawing.Color.IndianRed;
             this.BTN_TOP_MES.FlatAppearance.BorderColor = System.Drawing.Color.Gainsboro;
             this.BTN_TOP_MES.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_TOP_MES.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));

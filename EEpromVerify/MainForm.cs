@@ -427,7 +427,8 @@ namespace ApsMotionControl
                 //Log(enLogLevel.Info, $"{LogListBox.Text} LogListBox Set");
                 eLogPrint("test", $"LogListBox Set" + (i + 1).ToString());
             }
-
+            
+            
             //-----------------------------------------------
             //우측 버튼 
             //-----------------------------------------------
