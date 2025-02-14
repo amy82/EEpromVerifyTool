@@ -33,7 +33,6 @@ namespace ApsMotionControl.Data
 
 
         public List<EEpromCsvData> dataList;
-        // = ReadCsvToList(filePath);
         public CEEpromData()
         {
             checksumTest();
@@ -41,7 +40,7 @@ namespace ApsMotionControl.Data
         public void LoadExcelData()
         {
             string filePath = string.Format(@"{0}\30.csv", Application.StartupPath); //file path
-            dataList = ReadCsvToList(filePath);
+            ReadCsvToList(filePath);
         }
         public void SaveExcelData()
         {
@@ -64,7 +63,8 @@ namespace ApsMotionControl.Data
                 csv.WriteRecords(dataList); //  데이터 작성
             }
         }
-        private List<EEpromCsvData> ReadCsvToList(string filePath)
+        //private List<EEpromCsvData> ReadCsvToList(string filePath)
+        private bool ReadCsvToList(string filePath)
         {
             //(x) 1.SHOPID	        
             //(x) 2.PRODID
@@ -86,7 +86,15 @@ namespace ApsMotionControl.Data
 
             try
             {
-                File.Copy(filePath, tempPath, true); // 원본 CSV를 임시 폴더로 복사
+                if (File.Exists(filePath))
+                {
+                    File.Copy(filePath, tempPath, true); // 원본 CSV를 임시 폴더로 복사
+                }
+                else
+                {
+                    return false;
+                }
+                    
 
                 using (var reader = new StreamReader(tempPath))
                 using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
@@ -97,14 +105,21 @@ namespace ApsMotionControl.Data
                     IgnoreBlankLines = true // 빈 줄 무시
                 }))
                 {
-                    return new List<EEpromCsvData>(csv.GetRecords<EEpromCsvData>());
+                    dataList = new List<EEpromCsvData>(csv.GetRecords<EEpromCsvData>());
+                    
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error ReadCsvToList: {ex.Message}");
+                return false;
             }
             finally
             {
                 if (File.Exists(tempPath))
                     File.Delete(tempPath); // 읽기 완료 후 임시 파일 삭제
             }
+            return true;
             //using (var reader = new StreamReader(filePath))
             //using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
             //{

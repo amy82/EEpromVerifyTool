@@ -17,12 +17,14 @@ namespace ApsMotionControl
     {
         public const int PG_WIDTH = 1920;
         public const int PG_HEIGHT = 1080;
+        public const int RunGuideWidth = 330;//164;
         public const int RunButtonWidth = 130;//164;
         public const int RunButtonHeight = 60;
 
         public const int CamHeight = 400;
         public Button[] BtnArr = new Button[6];
-        public Button[] RunBtnArr = new Button[4];
+        public Button[] RunBtnArr = new Button[3];
+        public int[] RunBtnSizeArr = { 120, 120, 220 };
 
         private System.Windows.Forms.Timer _timerRunButton;
 
@@ -50,10 +52,11 @@ namespace ApsMotionControl
             //RunBtnArr[0] = BTN_MAIN_ORIGIN1;
             //RunBtnArr[1] = BTN_MAIN_READY1;
             //RunBtnArr[2] = BTN_MAIN_PAUSE1;
-            RunBtnArr[0] = BTN_MAIN_READY1;
-            RunBtnArr[1] = BTN_MAIN_PAUSE1;
-            RunBtnArr[2] = BTN_MAIN_STOP1;
-            RunBtnArr[3] = BTN_MAIN_START1;
+            //RunBtnArr[0] = BTN_MAIN_READY1;
+            RunBtnArr[0] = BTN_MAIN_PAUSE1;
+            RunBtnArr[1] = BTN_MAIN_STOP1;
+            RunBtnArr[2] = BTN_MAIN_START1;
+            BTN_MAIN_READY1.Visible = false;
             BTN_MAIN_ORIGIN1.Visible = false;
             //this.TopLevel = true;
 
@@ -356,24 +359,43 @@ namespace ApsMotionControl
             int MainBtnWGap = 2;
             int MainBtnHGap = 2;
             //int MainBtnStartX = 1;
-           
-            for (i = 0; i < RunBtnArr.Length; i++)
+            int BtnPosX = 0;
+
+            //labelGuide.Width = LeftPanel.Width - (RunBtnArr.Length * RunBtnSizeArr[RunBtnArr.Length -1]) - (RunBtnArr.Length * MainBtnWGap) - MainBtnWGap;
+
+
+            for (i = RunBtnArr.Length - 1; i > -1; i--)
             {
                 RunBtnArr[i].BackColor = Color.ForestGreen;
-                RunBtnArr[i].Width = RunButtonWidth;
+                RunBtnArr[i].Width = RunBtnSizeArr[i];
                 RunBtnArr[i].Height = RunButtonHeight;
 
-                //RunBtnArr[i].Location = new System.Drawing.Point((MainBtnWGap + RunBtnArr[i].Width) * i, listBox_Log.Location.Y - RunBtnArr[i].Height - MainBtnHGap);
-                RunBtnArr[i].Location = new System.Drawing.Point((MainBtnWGap + RunBtnArr[i].Width) * i, CamHeight + MainBtnHGap);
+                BtnPosX += RunBtnArr[i].Width + MainBtnWGap;
 
-                //
-                //RunBtnArr[i].ForeColor = Color.Purple;
-                // RunBtnArr[i].Font = new Font("HY수평선M", 15, FontStyle.Regular);
-                //RunBtnArr[i].FlatStyle = FlatStyle.Popup;
+                RunBtnArr[i].Location = new System.Drawing.Point((LeftPanel.Width - BtnPosX), CamHeight + MainBtnHGap);
+
             }
-            labelGuide.Width = LeftPanel.Width - (RunBtnArr.Length * RunButtonWidth) - (RunBtnArr.Length * MainBtnWGap) - MainBtnWGap;
+
+            //for (i = 0; i < RunBtnArr.Length; i++)
+            //{
+            //    RunBtnArr[i].BackColor = Color.ForestGreen;
+            //    RunBtnArr[i].Width = RunBtnSizeArr[i];// RunButtonWidth;
+            //    RunBtnArr[i].Height = RunButtonHeight;
+
+            //    //RunBtnArr[i].Location = new System.Drawing.Point((MainBtnWGap + RunBtnArr[i].Width) * i, listBox_Log.Location.Y - RunBtnArr[i].Height - MainBtnHGap);
+            //    RunBtnArr[i].Location = new System.Drawing.Point((MainBtnWGap + BtnPosX + RunGuideWidth), CamHeight + MainBtnHGap);
+
+            //    BtnPosX += RunBtnArr[i].Width + MainBtnWGap;
+            //    //
+            //    //RunBtnArr[i].ForeColor = Color.Purple;
+            //    // RunBtnArr[i].Font = new Font("HY수평선M", 15, FontStyle.Regular);
+            //    //RunBtnArr[i].FlatStyle = FlatStyle.Popup;
+            //}
+
+            labelGuide.Width = LeftPanel.Width - (BtnPosX) - MainBtnWGap;// - (RunBtnArr.Length * MainBtnWGap) + MainBtnWGap;
             labelGuide.Height = RunButtonHeight;
-            labelGuide.Location = new System.Drawing.Point((MainBtnWGap + RunButtonWidth) * i, CamHeight + MainBtnHGap);
+            //labelGuide.Location = new System.Drawing.Point((MainBtnWGap + RunBtnSizeArr[RunBtnArr.Length - 1]) * i, CamHeight + MainBtnHGap);
+            labelGuide.Location = new System.Drawing.Point(0, CamHeight + MainBtnHGap);
 
             //-----------------------------------------------
             //로그창

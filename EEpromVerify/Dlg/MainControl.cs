@@ -18,12 +18,12 @@ namespace ApsMotionControl.Dlg
         //private ManualPcb manualPcb = new ManualPcb();
         //private ManualLens manualLens = new ManualLens();
 
-        private const int ModelGridRowViewCount = 10;
+        private const int ModelGridRowViewCount = 5;
         private const int RecipeGridRowViewCount = 5;
         private int[] GridColWidth = { 40, 160, 210, 70, 270, 50, 50, 1 };
         private int RecipeGridWidth = 0;
-        private int GridRowHeight = 30;
-        private int GridHeaderHeight = 30;
+        private int GridRowHeight = 28;
+        private int GridHeaderHeight = 28;
         private int GridInitWidth = 0;
         private int SelectedCellRow = 0;
         private int SelectedCellCol = 0;

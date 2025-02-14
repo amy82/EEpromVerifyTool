@@ -810,35 +810,8 @@ namespace ApsMotionControl.Ubisam
                                 {
                                     tempData.PAD_POSITION = subitem.Value;
                                 }
-
-
-
-
-
                             }
                             Globalo.dataManage.mesData.VMesEEpromData.Add(tempData);
-
-                            //Globalo.dataManage.mesData.VMesEEpromData.Add("",);
-                            /*
-                             * VMesEEpromData.Add(new EEpromCsvData
-                            {
-                                SHOPID = "aaaa0",
-                                PRODID = "aaaa1",
-                                PROCID = "aaaa2",
-                                EEP_ITEM = "aaaa3",
-                                ADDRESS = 44,
-                                DATA_SIZE = 55,
-                                DATA_FORMAT = "aaaa6",
-                                BYTE_ORDER = "aaaa7",
-                                FIX_YN = "aaaa8",
-                                ITEM_CODE = "aaaa9",
-                                ITEM_VALUE = "aaaa10",
-                                CRC_START = "aaaa11",
-                                CRC_END = "aaaa12",
-                                PAD_VALUE = "aaaa13",
-                                PAD_POSITION = "aaaa14"
-                            });
-                                             */
 
                         }
 
@@ -1135,6 +1108,15 @@ namespace ApsMotionControl.Ubisam
                     Globalo.ShowMaterialMessageDialog(LogInfo);
                 }
                 
+            }
+            if (remoteCommandInfo.RemoteCommand == SecsGemData.LGIT_EEPROM_DATA)
+            {
+                Globalo.dataManage.TaskWork.bRecv_S2F49_LG_EEprom_Data = 1;
+                
+            }
+            if (remoteCommandInfo.RemoteCommand == SecsGemData.LGIT_EEPROM_FAIL)
+            {
+                Globalo.dataManage.TaskWork.bRecv_S2F49_LG_EEprom_Fail = 1;
             }
 
         }//end

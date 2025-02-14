@@ -30,6 +30,8 @@ namespace ApsMotionControl
         private void InitializeComponent()
         {
             this.TopPanel = new System.Windows.Forms.Panel();
+            this.textBox_TopLot = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.BTN_TOP_MES = new System.Windows.Forms.Button();
             this.MainTitlepictureBox = new System.Windows.Forms.PictureBox();
             this.MainTitleLabel = new System.Windows.Forms.Label();
@@ -68,6 +70,8 @@ namespace ApsMotionControl
             // 
             this.TopPanel.BackColor = System.Drawing.Color.WhiteSmoke;
             this.tableLayoutPanel1.SetColumnSpan(this.TopPanel, 2);
+            this.TopPanel.Controls.Add(this.textBox_TopLot);
+            this.TopPanel.Controls.Add(this.label1);
             this.TopPanel.Controls.Add(this.BTN_TOP_MES);
             this.TopPanel.Controls.Add(this.MainTitlepictureBox);
             this.TopPanel.Controls.Add(this.MainTitleLabel);
@@ -77,6 +81,23 @@ namespace ApsMotionControl
             this.TopPanel.Name = "TopPanel";
             this.TopPanel.Size = new System.Drawing.Size(1331, 60);
             this.TopPanel.TabIndex = 0;
+            // 
+            // textBox_TopLot
+            // 
+            this.textBox_TopLot.Font = new System.Drawing.Font("나눔고딕", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.textBox_TopLot.Location = new System.Drawing.Point(578, 26);
+            this.textBox_TopLot.Name = "textBox_TopLot";
+            this.textBox_TopLot.Size = new System.Drawing.Size(252, 34);
+            this.textBox_TopLot.TabIndex = 13;
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(578, 1);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(252, 23);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "Barcode";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // BTN_TOP_MES
             // 
@@ -154,7 +175,7 @@ namespace ApsMotionControl
             this.labelGuide.Name = "labelGuide";
             this.labelGuide.Size = new System.Drawing.Size(253, 57);
             this.labelGuide.TabIndex = 6;
-            this.labelGuide.Text = "운전준비 후 진행해주세요.";
+            this.labelGuide.Text = "설비 정지 상태입니다.";
             this.labelGuide.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // BTN_MAIN_START1
@@ -168,7 +189,7 @@ namespace ApsMotionControl
             this.BTN_MAIN_START1.Name = "BTN_MAIN_START1";
             this.BTN_MAIN_START1.Size = new System.Drawing.Size(126, 57);
             this.BTN_MAIN_START1.TabIndex = 5;
-            this.BTN_MAIN_START1.Text = "START";
+            this.BTN_MAIN_START1.Text = "EEPROM START";
             this.BTN_MAIN_START1.UseVisualStyleBackColor = false;
             this.BTN_MAIN_START1.Click += new System.EventHandler(this.BTN_MAIN_START1_Click);
             // 
@@ -551,6 +572,8 @@ namespace ApsMotionControl
         private System.Windows.Forms.Label label_version;
         private System.Windows.Forms.Label label_build;
         private System.Windows.Forms.Button BTN_TOP_MES;
+        private System.Windows.Forms.TextBox textBox_TopLot;
+        private System.Windows.Forms.Label label1;
     }
 }
 
