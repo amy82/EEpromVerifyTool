@@ -103,7 +103,9 @@ namespace ApsMotionControl
 
 
             string fileName = string.Format(@"{0}\iomap.xlsx", Application.StartupPath); //file path
+
             //Globalo.dataManage.ioData.ReadExcelData(fileName);
+
             Globalo.dataManage.ioData.ReadEpplusData(fileName);
 
 

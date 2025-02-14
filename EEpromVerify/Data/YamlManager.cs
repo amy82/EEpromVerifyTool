@@ -22,9 +22,8 @@ namespace ApsMotionControl.Data
         public RootRecipe vPPRecipeSpec__Host { get; set; }
         public UgcSetFile ugcSetFile { get; private set; }
         public ConfigData configData { get; private set; }
+
         public List<string> recipeYamlFiles = new List<string>();
-
-
         public AlarmData alarmData {get; set;}
         public ImageData imageData { get; set; }
 

@@ -25,9 +25,6 @@ namespace ApsMotionControl.Data
         // = ReadCsvToList(filePath);
         public CEEpromData()
         {
-
-            
-
             
         }
         public void LoadExcelData()
@@ -38,9 +35,11 @@ namespace ApsMotionControl.Data
         public void SaveExcelData()
         {
 
-
+            string filePath = string.Format(@"{0}\30.csv", Application.StartupPath); //file path
+            WriteCsvFromList(filePath, dataList);
         }
-        public void WriteCsvFromList(string filePath, List<EEpromCsvData> dataList)
+
+        private void WriteCsvFromList(string filePath, List<EEpromCsvData> dataList)
         {
             using (var writer = new StreamWriter(filePath))
             using (var csv = new CsvWriter(writer, new CsvConfiguration(CultureInfo.InvariantCulture)

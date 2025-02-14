@@ -8,23 +8,23 @@ using System.Threading.Tasks;
 
 namespace ApsMotionControl.Data
 {
-    public class EEpromCsvData
+    public class EEpromCsvData      //15개
     {
-        public string SHOPID { get; set; }
-        public string PRODID { get; set; }
-        public string PROCID { get; set; }
-        public string EEP_ITEM { get; set; }
-        public int ADDRESS { get; set; }
-        public int DATA_SIZE { get; set; }
-        public string DATA_FORMAT { get; set; }
-        public string BYTE_ORDER { get; set; }
-        public string FIX_YN { get; set; }
-        public string ITEM_CODE { get; set; }
-        public string ITEM_VALUE { get; set; }
-        public string CRC_START { get; set; }
-        public string CRC_END { get; set; }
-        public string PAD_VALUE { get; set; }
-        public string PAD_POSITION { get; set; }
+        public string SHOPID { get; set; }  //0
+        public string PRODID { get; set; }  //1
+        public string PROCID { get; set; }  //2
+        public string EEP_ITEM { get; set; }  //3
+        public int ADDRESS { get; set; }  //4
+        public int DATA_SIZE { get; set; }  //5
+        public string DATA_FORMAT { get; set; }  //6
+        public string BYTE_ORDER { get; set; }  //7
+        public string FIX_YN { get; set; }  //8
+        public string ITEM_CODE { get; set; }  //9
+        public string ITEM_VALUE { get; set; }  //10
+        public string CRC_START { get; set; }  //11
+        public string CRC_END { get; set; }  //12
+        public string PAD_VALUE { get; set; }  //13
+        public string PAD_POSITION { get; set; }  //14
 
     }
 }
