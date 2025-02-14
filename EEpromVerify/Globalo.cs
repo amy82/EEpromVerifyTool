@@ -168,24 +168,6 @@ namespace ApsMotionControl
         public static readonly string LGIT_MATERIAL_ID_CONFIRM = "LGIT_MATERIAL_ID_CONFIRM";
         public static readonly string LGIT_MATERIAL_ID_FAIL = "LGIT_MATERIAL_ID_FAIL";
         public static readonly string LGIT_PAUSE = "LGIT_PAUSE";
-
-
-        //public static readonly string[] RCMD_LIST_NAME =
-        //{
-        //    "LGIT_CTRLSTATE_CHG_REQ",
-        //    "LGIT_OP_CALL",
-        //    "LGIT_SETCODE_OFFLINE_REASON",
-        //    "LGIT_SETCODE_IDLE_REASON",
-        //    "LGIT_SETCODE_MATERIAL_EXCHANGE",
-        //    "LGIT_SETCODE_MODEL_LIST",
-        //    "LGIT_PP_SELECT",
-        //    "LGIT_LOT_ID_FAIL",
-        //    "LGIT_PP_UPLOAD_CONFIRM",
-        //    "LGIT_PP_UPLOAD_FAIL",
-        //    "LGIT_LOT_START",
-        //    "LGIT_MATERIAL_ID_CONFIRM",
-        //    "LGIT_MATERIAL_ID_FAIL",
-        //    "LGIT_PAUSE"
-        //};
+        
     }
 }

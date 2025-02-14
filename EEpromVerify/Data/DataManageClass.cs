@@ -14,7 +14,9 @@ namespace ApsMotionControl.Data
         public TaskWork TaskWork = new TaskWork();
 
         public CMesData mesData = new CMesData();
-        
+
+
+        public CEEpromData eepromData = new CEEpromData();
         //public RootModel MesData { get; private set; }
     }
     public class CPath

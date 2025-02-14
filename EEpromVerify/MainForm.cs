@@ -86,6 +86,11 @@ namespace ApsMotionControl
             ///Data Load
             //
 
+            //string excelPath = string.Format(@"{0}\30.csv", Application.StartupPath); //file path
+            //Globalo.dataManage.eepromData.ReadExcelData(excelPath);
+            Globalo.dataManage.eepromData.LoadExcelData();
+
+
             Globalo.yamlManager.configDataLoad();
             Globalo.yamlManager.imageDataLoad();
             Globalo.dataManage.teachingData.DataLoad();
