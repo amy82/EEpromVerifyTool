@@ -17,14 +17,17 @@ namespace ApsMotionControl
     {
         public const int PG_WIDTH = 1920;
         public const int PG_HEIGHT = 1080;
+
         public const int RunGuideWidth = 330;//164;
         public const int RunButtonWidth = 130;//164;
         public const int RunButtonHeight = 60;
 
         public const int CamHeight = 400;
+        public const int ProductionHeight = 100;
+        public const int LogViewHeight = 300;
         public Button[] BtnArr = new Button[6];
         public Button[] RunBtnArr = new Button[3];
-        public int[] RunBtnSizeArr = { 120, 120, 220 };
+        public int[] RunBtnSizeArr = { 120, 120, 200 };
 
         private System.Windows.Forms.Timer _timerRunButton;
 
@@ -314,7 +317,10 @@ namespace ApsMotionControl
             int i = 0;
 
 
-            
+            int MainBtnWGap = 2;
+            int MainBtnHGap = 2;
+            //int MainBtnStartX = 1;
+            int BtnPosX = 0;
 
 
             //-----------------------------------------------
@@ -327,7 +333,7 @@ namespace ApsMotionControl
 
             //-----------------------------------------------
             int MidPanelHeight = LeftPanel.Height;          //Left Middle 패널 높이
-            int LogBoxHeight = LeftPanel.Height - CamHeight - RunButtonHeight;// 460;// 328;// 250;   CamHeight        //로그창 높이
+            int ViewPanelHeight =  LeftPanel.Height - CamHeight - MainBtnHGap - RunButtonHeight - MainBtnHGap;// - ProductionHeight;      // 전체 높이에서 -카메라높이 - 버튼 높이 - 생상정보       //로그창 높이
             int nBottomPanelY = BottomPanel.Location.Y;     //Bottom 패널 Position Y
 
 
@@ -356,10 +362,7 @@ namespace ApsMotionControl
             //운전 버튼
             //-----------------------------------------------
 
-            int MainBtnWGap = 2;
-            int MainBtnHGap = 2;
-            //int MainBtnStartX = 1;
-            int BtnPosX = 0;
+            
 
             //labelGuide.Width = LeftPanel.Width - (RunBtnArr.Length * RunBtnSizeArr[RunBtnArr.Length -1]) - (RunBtnArr.Length * MainBtnWGap) - MainBtnWGap;
 
@@ -397,17 +400,28 @@ namespace ApsMotionControl
             //labelGuide.Location = new System.Drawing.Point((MainBtnWGap + RunBtnSizeArr[RunBtnArr.Length - 1]) * i, CamHeight + MainBtnHGap);
             labelGuide.Location = new System.Drawing.Point(0, CamHeight + MainBtnHGap);
 
+
+            //-----------------------------------------------
+            //생상 정보
+            //-----------------------------------------------
+            panel_ProductionInfo.Width = LeftPanel.Width - 1;
+            panel_ProductionInfo.Height = ViewPanelHeight;
+            panel_ProductionInfo.Location = new System.Drawing.Point(0, CamHeight + MainBtnHGap + RunButtonHeight  + MainBtnHGap);
             //-----------------------------------------------
             //로그창
             //-----------------------------------------------
             listBox_Log.Width = LeftPanel.Width;
-            listBox_Log.Height = LogBoxHeight;
+            listBox_Log.Height = LogViewHeight;
+            
             listBox_Log.Margin = new Padding(0);
-
+            listBox_Log.Location = new System.Drawing.Point(0, ViewPanelHeight - LogViewHeight+10);
             int parentHeight = listBox_Log.Parent.Height; // 실제 부모 컨트롤의 높이 사용
             int clientHeight = listBox_Log.Parent.ClientRectangle.Height;
-            listBox_Log.Location = new System.Drawing.Point(0, CamHeight + RunButtonHeight + MainBtnHGap + 0);// 2);// + 9);
+            //listBox_Log.Location = new System.Drawing.Point(0, CamHeight+ MainBtnHGap + RunButtonHeight + MainBtnHGap + ProductionHeight +  MainBtnHGap);// 2);// + 9);
 
+            label_LogTitle.Location = new System.Drawing.Point(0, listBox_Log.Location.Y - label_LogTitle.Height - 5);
+
+            //
             for (i = 0; i < 1; i++)
             {
                 //Log(enLogLevel.Info, $"{LogListBox.Text} LogListBox Set");

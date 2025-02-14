@@ -20,10 +20,10 @@ namespace ApsMotionControl.Dlg
 
         private const int ModelGridRowViewCount = 5;
         private const int RecipeGridRowViewCount = 5;
-        private int[] GridColWidth = { 40, 160, 210, 70, 270, 50, 50, 1 };
+        private int[] GridColWidth = { 30, 160, 210, 70, 270, 50, 50, 1 };
         private int RecipeGridWidth = 0;
-        private int GridRowHeight = 28;
-        private int GridHeaderHeight = 28;
+        private int GridRowHeight = 25;
+        private int GridHeaderHeight = 25;
         private int GridInitWidth = 0;
         private int SelectedCellRow = 0;
         private int SelectedCellCol = 0;

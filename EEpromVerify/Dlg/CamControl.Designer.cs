@@ -47,7 +47,7 @@
             // 
             // BTN_CAM_VIEW_CCD
             // 
-            this.BTN_CAM_VIEW_CCD.Location = new System.Drawing.Point(720, 3);
+            this.BTN_CAM_VIEW_CCD.Location = new System.Drawing.Point(642, 3);
             this.BTN_CAM_VIEW_CCD.Name = "BTN_CAM_VIEW_CCD";
             this.BTN_CAM_VIEW_CCD.Size = new System.Drawing.Size(56, 38);
             this.BTN_CAM_VIEW_CCD.TabIndex = 8;
@@ -57,7 +57,7 @@
             // 
             // BTN_CAM_VIEW_CAM
             // 
-            this.BTN_CAM_VIEW_CAM.Location = new System.Drawing.Point(720, 47);
+            this.BTN_CAM_VIEW_CAM.Location = new System.Drawing.Point(642, 47);
             this.BTN_CAM_VIEW_CAM.Name = "BTN_CAM_VIEW_CAM";
             this.BTN_CAM_VIEW_CAM.Size = new System.Drawing.Size(56, 38);
             this.BTN_CAM_VIEW_CAM.TabIndex = 9;
@@ -70,7 +70,7 @@
             this.CcdPanel.BackColor = System.Drawing.Color.Red;
             this.CcdPanel.Location = new System.Drawing.Point(0, 0);
             this.CcdPanel.Name = "CcdPanel";
-            this.CcdPanel.Size = new System.Drawing.Size(699, 372);
+            this.CcdPanel.Size = new System.Drawing.Size(539, 372);
             this.CcdPanel.TabIndex = 8;
             this.CcdPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.CcdPanel_MouseDown);
             this.CcdPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.CcdPanel_MouseMove);
@@ -86,7 +86,7 @@
             this.Controls.Add(this.CamPanel);
             this.Controls.Add(this.CcdPanel);
             this.Name = "CamControl";
-            this.Size = new System.Drawing.Size(779, 415);
+            this.Size = new System.Drawing.Size(700, 415);
             this.ResumeLayout(false);
 
         }
