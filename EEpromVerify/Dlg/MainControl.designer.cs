@@ -37,6 +37,7 @@
             this.ManualTitleLabel = new System.Windows.Forms.Label();
             this.ManualPanel = new System.Windows.Forms.Panel();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.BTN_MAIN_RECIPE_VIEW = new System.Windows.Forms.Button();
             this.BTN_MAIN_RECIPE_CHANGE = new System.Windows.Forms.Button();
             this.BTN_MAIN_RECIPE_CREATE = new System.Windows.Forms.Button();
             this.BTN_MAIN_RECIPE_DEL = new System.Windows.Forms.Button();
@@ -68,7 +69,6 @@
             this.BTN_MAIN_OFFLINE_REQ = new System.Windows.Forms.Button();
             this.BTN_MANUAL_PCB = new System.Windows.Forms.Button();
             this.BTN_MANUAL_LENS = new System.Windows.Forms.Button();
-            this.BTN_MAIN_RECIPE_VIEW = new System.Windows.Forms.Button();
             this.ManualPanel.SuspendLayout();
             this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Recipe)).BeginInit();
@@ -112,11 +112,25 @@
             this.groupBox6.Controls.Add(this.BTN_MAIN_RECIPE_DEL);
             this.groupBox6.Controls.Add(this.dataGridView_Recipe);
             this.groupBox6.Controls.Add(this.label6);
-            this.groupBox6.Location = new System.Drawing.Point(502, 130);
+            this.groupBox6.Location = new System.Drawing.Point(512, 348);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(379, 308);
+            this.groupBox6.Size = new System.Drawing.Size(379, 277);
             this.groupBox6.TabIndex = 49;
             this.groupBox6.TabStop = false;
+            // 
+            // BTN_MAIN_RECIPE_VIEW
+            // 
+            this.BTN_MAIN_RECIPE_VIEW.BackColor = System.Drawing.Color.Tan;
+            this.BTN_MAIN_RECIPE_VIEW.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BTN_MAIN_RECIPE_VIEW.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BTN_MAIN_RECIPE_VIEW.ForeColor = System.Drawing.Color.White;
+            this.BTN_MAIN_RECIPE_VIEW.Location = new System.Drawing.Point(253, 17);
+            this.BTN_MAIN_RECIPE_VIEW.Name = "BTN_MAIN_RECIPE_VIEW";
+            this.BTN_MAIN_RECIPE_VIEW.Size = new System.Drawing.Size(97, 32);
+            this.BTN_MAIN_RECIPE_VIEW.TabIndex = 36;
+            this.BTN_MAIN_RECIPE_VIEW.Text = "VIEW";
+            this.BTN_MAIN_RECIPE_VIEW.UseVisualStyleBackColor = false;
+            this.BTN_MAIN_RECIPE_VIEW.Click += new System.EventHandler(this.BTN_MAIN_RECIPE_VIEW_Click);
             // 
             // BTN_MAIN_RECIPE_CHANGE
             // 
@@ -124,7 +138,7 @@
             this.BTN_MAIN_RECIPE_CHANGE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_MAIN_RECIPE_CHANGE.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_MAIN_RECIPE_CHANGE.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_RECIPE_CHANGE.Location = new System.Drawing.Point(247, 254);
+            this.BTN_MAIN_RECIPE_CHANGE.Location = new System.Drawing.Point(247, 230);
             this.BTN_MAIN_RECIPE_CHANGE.Name = "BTN_MAIN_RECIPE_CHANGE";
             this.BTN_MAIN_RECIPE_CHANGE.Size = new System.Drawing.Size(103, 39);
             this.BTN_MAIN_RECIPE_CHANGE.TabIndex = 35;
@@ -138,7 +152,7 @@
             this.BTN_MAIN_RECIPE_CREATE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_MAIN_RECIPE_CREATE.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_MAIN_RECIPE_CREATE.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_RECIPE_CREATE.Location = new System.Drawing.Point(135, 254);
+            this.BTN_MAIN_RECIPE_CREATE.Location = new System.Drawing.Point(135, 230);
             this.BTN_MAIN_RECIPE_CREATE.Name = "BTN_MAIN_RECIPE_CREATE";
             this.BTN_MAIN_RECIPE_CREATE.Size = new System.Drawing.Size(110, 39);
             this.BTN_MAIN_RECIPE_CREATE.TabIndex = 34;
@@ -152,7 +166,7 @@
             this.BTN_MAIN_RECIPE_DEL.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_MAIN_RECIPE_DEL.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_MAIN_RECIPE_DEL.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_RECIPE_DEL.Location = new System.Drawing.Point(30, 254);
+            this.BTN_MAIN_RECIPE_DEL.Location = new System.Drawing.Point(30, 230);
             this.BTN_MAIN_RECIPE_DEL.Name = "BTN_MAIN_RECIPE_DEL";
             this.BTN_MAIN_RECIPE_DEL.Size = new System.Drawing.Size(103, 39);
             this.BTN_MAIN_RECIPE_DEL.TabIndex = 33;
@@ -192,7 +206,7 @@
             dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView_Recipe.RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
             this.dataGridView_Recipe.RowTemplate.Height = 23;
-            this.dataGridView_Recipe.Size = new System.Drawing.Size(320, 181);
+            this.dataGridView_Recipe.Size = new System.Drawing.Size(320, 168);
             this.dataGridView_Recipe.TabIndex = 31;
             // 
             // label6
@@ -216,9 +230,9 @@
             this.groupBox5.Controls.Add(this.BTN_MAIN_MODEL_DEL);
             this.groupBox5.Controls.Add(this.label5);
             this.groupBox5.Controls.Add(this.BTN_MAIN_MODEL_ADD);
-            this.groupBox5.Location = new System.Drawing.Point(14, 172);
+            this.groupBox5.Location = new System.Drawing.Point(512, 107);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(397, 419);
+            this.groupBox5.Size = new System.Drawing.Size(379, 235);
             this.groupBox5.TabIndex = 48;
             this.groupBox5.TabStop = false;
             // 
@@ -243,7 +257,7 @@
             dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView_Model.DefaultCellStyle = dataGridViewCellStyle17;
             this.dataGridView_Model.GridColor = System.Drawing.SystemColors.ActiveCaption;
-            this.dataGridView_Model.Location = new System.Drawing.Point(23, 53);
+            this.dataGridView_Model.Location = new System.Drawing.Point(17, 46);
             this.dataGridView_Model.Name = "dataGridView_Model";
             dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control;
@@ -254,7 +268,7 @@
             dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView_Model.RowHeadersDefaultCellStyle = dataGridViewCellStyle18;
             this.dataGridView_Model.RowTemplate.Height = 23;
-            this.dataGridView_Model.Size = new System.Drawing.Size(240, 301);
+            this.dataGridView_Model.Size = new System.Drawing.Size(233, 176);
             this.dataGridView_Model.TabIndex = 31;
             // 
             // BTN_MAIN_MODEL_CHANGE
@@ -263,7 +277,7 @@
             this.BTN_MAIN_MODEL_CHANGE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_MAIN_MODEL_CHANGE.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_MAIN_MODEL_CHANGE.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_MODEL_CHANGE.Location = new System.Drawing.Point(277, 179);
+            this.BTN_MAIN_MODEL_CHANGE.Location = new System.Drawing.Point(270, 172);
             this.BTN_MAIN_MODEL_CHANGE.Name = "BTN_MAIN_MODEL_CHANGE";
             this.BTN_MAIN_MODEL_CHANGE.Size = new System.Drawing.Size(99, 39);
             this.BTN_MAIN_MODEL_CHANGE.TabIndex = 30;
@@ -277,7 +291,7 @@
             this.BTN_MAIN_MODEL_LOAD.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_MAIN_MODEL_LOAD.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_MAIN_MODEL_LOAD.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_MODEL_LOAD.Location = new System.Drawing.Point(277, 137);
+            this.BTN_MAIN_MODEL_LOAD.Location = new System.Drawing.Point(270, 130);
             this.BTN_MAIN_MODEL_LOAD.Name = "BTN_MAIN_MODEL_LOAD";
             this.BTN_MAIN_MODEL_LOAD.Size = new System.Drawing.Size(99, 39);
             this.BTN_MAIN_MODEL_LOAD.TabIndex = 29;
@@ -291,7 +305,7 @@
             this.BTN_MAIN_MODEL_DEL.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_MAIN_MODEL_DEL.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_MAIN_MODEL_DEL.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_MODEL_DEL.Location = new System.Drawing.Point(277, 95);
+            this.BTN_MAIN_MODEL_DEL.Location = new System.Drawing.Point(270, 88);
             this.BTN_MAIN_MODEL_DEL.Name = "BTN_MAIN_MODEL_DEL";
             this.BTN_MAIN_MODEL_DEL.Size = new System.Drawing.Size(99, 39);
             this.BTN_MAIN_MODEL_DEL.TabIndex = 28;
@@ -304,7 +318,7 @@
             this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.Font = new System.Drawing.Font("굴림", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label5.ForeColor = System.Drawing.Color.DimGray;
-            this.label5.Location = new System.Drawing.Point(20, 17);
+            this.label5.Location = new System.Drawing.Point(14, 17);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(145, 23);
             this.label5.TabIndex = 26;
@@ -317,7 +331,7 @@
             this.BTN_MAIN_MODEL_ADD.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_MAIN_MODEL_ADD.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_MAIN_MODEL_ADD.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_MODEL_ADD.Location = new System.Drawing.Point(277, 53);
+            this.BTN_MAIN_MODEL_ADD.Location = new System.Drawing.Point(270, 46);
             this.BTN_MAIN_MODEL_ADD.Name = "BTN_MAIN_MODEL_ADD";
             this.BTN_MAIN_MODEL_ADD.Size = new System.Drawing.Size(99, 39);
             this.BTN_MAIN_MODEL_ADD.TabIndex = 27;
@@ -331,9 +345,9 @@
             this.groupBox4.Controls.Add(this.textBox_MaterialId);
             this.groupBox4.Controls.Add(this.BTN_MAIN_MATERIAL_ID_REPORT);
             this.groupBox4.Controls.Add(this.label4);
-            this.groupBox4.Location = new System.Drawing.Point(14, 765);
+            this.groupBox4.Location = new System.Drawing.Point(512, 761);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(397, 124);
+            this.groupBox4.Size = new System.Drawing.Size(379, 124);
             this.groupBox4.TabIndex = 49;
             this.groupBox4.TabStop = false;
             // 
@@ -378,9 +392,9 @@
             this.groupBox3.Controls.Add(this.textBox_AbortedLot);
             this.groupBox3.Controls.Add(this.BTN_MAIN_ABORT_LOT);
             this.groupBox3.Controls.Add(this.label3);
-            this.groupBox3.Location = new System.Drawing.Point(14, 617);
+            this.groupBox3.Location = new System.Drawing.Point(512, 631);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(397, 124);
+            this.groupBox3.Size = new System.Drawing.Size(379, 124);
             this.groupBox3.TabIndex = 48;
             this.groupBox3.TabStop = false;
             // 
@@ -425,7 +439,7 @@
             this.groupBox2.Controls.Add(this.BTN_MAIN_OPID_SAVE);
             this.groupBox2.Controls.Add(this.textBox_OperatorId);
             this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Location = new System.Drawing.Point(502, 9);
+            this.groupBox2.Location = new System.Drawing.Point(512, 1);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(379, 100);
             this.groupBox2.TabIndex = 48;
@@ -437,7 +451,7 @@
             this.BTN_MAIN_OPID_SAVE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_MAIN_OPID_SAVE.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_MAIN_OPID_SAVE.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_OPID_SAVE.Location = new System.Drawing.Point(247, 20);
+            this.BTN_MAIN_OPID_SAVE.Location = new System.Drawing.Point(251, 20);
             this.BTN_MAIN_OPID_SAVE.Name = "BTN_MAIN_OPID_SAVE";
             this.BTN_MAIN_OPID_SAVE.Size = new System.Drawing.Size(99, 32);
             this.BTN_MAIN_OPID_SAVE.TabIndex = 32;
@@ -558,20 +572,6 @@
             this.BTN_MANUAL_LENS.UseVisualStyleBackColor = false;
             this.BTN_MANUAL_LENS.Visible = false;
             this.BTN_MANUAL_LENS.Click += new System.EventHandler(this.BTN_MANUAL_LENS_Click);
-            // 
-            // BTN_MAIN_RECIPE_VIEW
-            // 
-            this.BTN_MAIN_RECIPE_VIEW.BackColor = System.Drawing.Color.Tan;
-            this.BTN_MAIN_RECIPE_VIEW.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_MAIN_RECIPE_VIEW.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BTN_MAIN_RECIPE_VIEW.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_RECIPE_VIEW.Location = new System.Drawing.Point(253, 17);
-            this.BTN_MAIN_RECIPE_VIEW.Name = "BTN_MAIN_RECIPE_VIEW";
-            this.BTN_MAIN_RECIPE_VIEW.Size = new System.Drawing.Size(97, 32);
-            this.BTN_MAIN_RECIPE_VIEW.TabIndex = 36;
-            this.BTN_MAIN_RECIPE_VIEW.Text = "VIEW";
-            this.BTN_MAIN_RECIPE_VIEW.UseVisualStyleBackColor = false;
-            this.BTN_MAIN_RECIPE_VIEW.Click += new System.EventHandler(this.BTN_MAIN_RECIPE_VIEW_Click);
             // 
             // MainControl
             // 

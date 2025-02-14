@@ -32,6 +32,8 @@ namespace ApsMotionControl.Data
         public int bRecv_S2F49_LG_Lot_Start;	//Start or Id Fail
 
 
+        public int bRecv_S2F49_LG_EEprom_Data;
+        public int bRecv_S2F49_LG_EEprom_Fail;
         public TaskWork()
         {
             m_szChipID = "";
@@ -47,6 +49,8 @@ namespace ApsMotionControl.Data
             bRecv_S6F12_Lot_Apd = -1;
             bRecv_S6F12_Lot_Processing_Completed = -1;
             bRecv_S6F12_Lot_Processing_Completed_Ack = -1;
+            bRecv_S2F49_LG_EEprom_Data = -1;
+            bRecv_S2F49_LG_EEprom_Fail = -1;
 
             m_nCurrentStep = 0;
             m_nStartStep = 0;
