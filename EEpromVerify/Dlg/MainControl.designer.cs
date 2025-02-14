@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle43 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle44 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle45 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle46 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle47 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle48 = new System.Windows.Forms.DataGridViewCellStyle();
             this.ManualTitleLabel = new System.Windows.Forms.Label();
             this.ManualPanel = new System.Windows.Forms.Panel();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
@@ -50,7 +50,6 @@
             this.BTN_MAIN_MODEL_DEL = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.BTN_MAIN_MODEL_ADD = new System.Windows.Forms.Button();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.textBox_MaterialId = new System.Windows.Forms.TextBox();
             this.BTN_MAIN_MATERIAL_ID_REPORT = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -74,7 +73,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Recipe)).BeginInit();
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Model)).BeginInit();
-            this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -94,10 +92,9 @@
             // 
             this.ManualPanel.Controls.Add(this.groupBox6);
             this.ManualPanel.Controls.Add(this.groupBox5);
-            this.ManualPanel.Controls.Add(this.groupBox4);
             this.ManualPanel.Controls.Add(this.groupBox3);
-            this.ManualPanel.Controls.Add(this.groupBox2);
             this.ManualPanel.Controls.Add(this.groupBox1);
+            this.ManualPanel.Controls.Add(this.groupBox2);
             this.ManualPanel.Location = new System.Drawing.Point(21, 97);
             this.ManualPanel.Name = "ManualPanel";
             this.ManualPanel.Size = new System.Drawing.Size(934, 924);
@@ -177,34 +174,34 @@
             // dataGridView_Recipe
             // 
             this.dataGridView_Recipe.BackgroundColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.Color.GhostWhite;
-            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView_Recipe.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle43.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle43.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle43.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle43.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle43.SelectionBackColor = System.Drawing.Color.GhostWhite;
+            dataGridViewCellStyle43.SelectionForeColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle43.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView_Recipe.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle43;
             this.dataGridView_Recipe.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.ActiveBorder;
-            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView_Recipe.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle44.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle44.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle44.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle44.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle44.SelectionBackColor = System.Drawing.SystemColors.ActiveBorder;
+            dataGridViewCellStyle44.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle44.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView_Recipe.DefaultCellStyle = dataGridViewCellStyle44;
             this.dataGridView_Recipe.GridColor = System.Drawing.SystemColors.ActiveCaption;
             this.dataGridView_Recipe.Location = new System.Drawing.Point(30, 55);
             this.dataGridView_Recipe.Name = "dataGridView_Recipe";
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.Color.RosyBrown;
-            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView_Recipe.RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle45.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle45.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle45.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle45.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle45.SelectionBackColor = System.Drawing.Color.RosyBrown;
+            dataGridViewCellStyle45.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle45.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView_Recipe.RowHeadersDefaultCellStyle = dataGridViewCellStyle45;
             this.dataGridView_Recipe.RowTemplate.Height = 23;
             this.dataGridView_Recipe.Size = new System.Drawing.Size(320, 168);
             this.dataGridView_Recipe.TabIndex = 31;
@@ -239,34 +236,34 @@
             // dataGridView_Model
             // 
             this.dataGridView_Model.BackgroundColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView_Model.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle46.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle46.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle46.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle46.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle46.SelectionBackColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle46.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle46.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView_Model.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle46;
             this.dataGridView_Model.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle17.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.ActiveBorder;
-            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView_Model.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle47.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle47.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle47.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle47.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle47.SelectionBackColor = System.Drawing.SystemColors.ActiveBorder;
+            dataGridViewCellStyle47.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle47.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView_Model.DefaultCellStyle = dataGridViewCellStyle47;
             this.dataGridView_Model.GridColor = System.Drawing.SystemColors.ActiveCaption;
             this.dataGridView_Model.Location = new System.Drawing.Point(17, 46);
             this.dataGridView_Model.Name = "dataGridView_Model";
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle18.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.RosyBrown;
-            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView_Model.RowHeadersDefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle48.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle48.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle48.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle48.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle48.SelectionBackColor = System.Drawing.Color.RosyBrown;
+            dataGridViewCellStyle48.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle48.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView_Model.RowHeadersDefaultCellStyle = dataGridViewCellStyle48;
             this.dataGridView_Model.RowTemplate.Height = 23;
             this.dataGridView_Model.Size = new System.Drawing.Size(233, 176);
             this.dataGridView_Model.TabIndex = 31;
@@ -339,24 +336,12 @@
             this.BTN_MAIN_MODEL_ADD.UseVisualStyleBackColor = false;
             this.BTN_MAIN_MODEL_ADD.Click += new System.EventHandler(this.BTN_MAIN_MODEL_ADD_Click);
             // 
-            // groupBox4
-            // 
-            this.groupBox4.BackColor = System.Drawing.Color.White;
-            this.groupBox4.Controls.Add(this.textBox_MaterialId);
-            this.groupBox4.Controls.Add(this.BTN_MAIN_MATERIAL_ID_REPORT);
-            this.groupBox4.Controls.Add(this.label4);
-            this.groupBox4.Location = new System.Drawing.Point(512, 761);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(379, 124);
-            this.groupBox4.TabIndex = 49;
-            this.groupBox4.TabStop = false;
-            // 
             // textBox_MaterialId
             // 
             this.textBox_MaterialId.Font = new System.Drawing.Font("굴림", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.textBox_MaterialId.Location = new System.Drawing.Point(23, 43);
+            this.textBox_MaterialId.Location = new System.Drawing.Point(23, 109);
             this.textBox_MaterialId.Name = "textBox_MaterialId";
-            this.textBox_MaterialId.Size = new System.Drawing.Size(338, 27);
+            this.textBox_MaterialId.Size = new System.Drawing.Size(172, 27);
             this.textBox_MaterialId.TabIndex = 29;
             this.textBox_MaterialId.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -364,11 +349,11 @@
             // 
             this.BTN_MAIN_MATERIAL_ID_REPORT.BackColor = System.Drawing.Color.Tan;
             this.BTN_MAIN_MATERIAL_ID_REPORT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_MAIN_MATERIAL_ID_REPORT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BTN_MAIN_MATERIAL_ID_REPORT.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold);
             this.BTN_MAIN_MATERIAL_ID_REPORT.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_MATERIAL_ID_REPORT.Location = new System.Drawing.Point(164, 76);
+            this.BTN_MAIN_MATERIAL_ID_REPORT.Location = new System.Drawing.Point(202, 107);
             this.BTN_MAIN_MATERIAL_ID_REPORT.Name = "BTN_MAIN_MATERIAL_ID_REPORT";
-            this.BTN_MAIN_MATERIAL_ID_REPORT.Size = new System.Drawing.Size(197, 39);
+            this.BTN_MAIN_MATERIAL_ID_REPORT.Size = new System.Drawing.Size(160, 30);
             this.BTN_MAIN_MATERIAL_ID_REPORT.TabIndex = 28;
             this.BTN_MAIN_MATERIAL_ID_REPORT.Text = "MATERIAL ID REPORT";
             this.BTN_MAIN_MATERIAL_ID_REPORT.UseVisualStyleBackColor = false;
@@ -379,7 +364,7 @@
             this.label4.BackColor = System.Drawing.Color.Transparent;
             this.label4.Font = new System.Drawing.Font("굴림", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label4.ForeColor = System.Drawing.Color.DimGray;
-            this.label4.Location = new System.Drawing.Point(20, 16);
+            this.label4.Location = new System.Drawing.Point(20, 80);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(145, 23);
             this.label4.TabIndex = 26;
@@ -389,12 +374,15 @@
             // groupBox3
             // 
             this.groupBox3.BackColor = System.Drawing.Color.White;
+            this.groupBox3.Controls.Add(this.BTN_MAIN_MATERIAL_ID_REPORT);
+            this.groupBox3.Controls.Add(this.textBox_MaterialId);
             this.groupBox3.Controls.Add(this.textBox_AbortedLot);
             this.groupBox3.Controls.Add(this.BTN_MAIN_ABORT_LOT);
+            this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.label3);
-            this.groupBox3.Location = new System.Drawing.Point(512, 631);
+            this.groupBox3.Location = new System.Drawing.Point(512, 652);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(379, 124);
+            this.groupBox3.Size = new System.Drawing.Size(379, 158);
             this.groupBox3.TabIndex = 48;
             this.groupBox3.TabStop = false;
             // 
@@ -403,7 +391,7 @@
             this.textBox_AbortedLot.Font = new System.Drawing.Font("굴림", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.textBox_AbortedLot.Location = new System.Drawing.Point(23, 43);
             this.textBox_AbortedLot.Name = "textBox_AbortedLot";
-            this.textBox_AbortedLot.Size = new System.Drawing.Size(338, 27);
+            this.textBox_AbortedLot.Size = new System.Drawing.Size(172, 27);
             this.textBox_AbortedLot.TabIndex = 29;
             this.textBox_AbortedLot.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -411,11 +399,11 @@
             // 
             this.BTN_MAIN_ABORT_LOT.BackColor = System.Drawing.Color.Tan;
             this.BTN_MAIN_ABORT_LOT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_MAIN_ABORT_LOT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BTN_MAIN_ABORT_LOT.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold);
             this.BTN_MAIN_ABORT_LOT.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_ABORT_LOT.Location = new System.Drawing.Point(219, 76);
+            this.BTN_MAIN_ABORT_LOT.Location = new System.Drawing.Point(201, 41);
             this.BTN_MAIN_ABORT_LOT.Name = "BTN_MAIN_ABORT_LOT";
-            this.BTN_MAIN_ABORT_LOT.Size = new System.Drawing.Size(142, 39);
+            this.BTN_MAIN_ABORT_LOT.Size = new System.Drawing.Size(160, 30);
             this.BTN_MAIN_ABORT_LOT.TabIndex = 28;
             this.BTN_MAIN_ABORT_LOT.Text = "LOT CANCEL";
             this.BTN_MAIN_ABORT_LOT.UseVisualStyleBackColor = false;
@@ -487,9 +475,9 @@
             this.groupBox1.Controls.Add(this.BTN_MAIN_ONLINE_REMOTE_REQ);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.BTN_MAIN_OFFLINE_REQ);
-            this.groupBox1.Location = new System.Drawing.Point(14, 9);
+            this.groupBox1.Location = new System.Drawing.Point(3, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(397, 139);
+            this.groupBox1.Size = new System.Drawing.Size(319, 139);
             this.groupBox1.TabIndex = 47;
             this.groupBox1.TabStop = false;
             // 
@@ -498,7 +486,7 @@
             this.textBox_ControlStateVal.Font = new System.Drawing.Font("굴림", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.textBox_ControlStateVal.Location = new System.Drawing.Point(23, 45);
             this.textBox_ControlStateVal.Name = "textBox_ControlStateVal";
-            this.textBox_ControlStateVal.Size = new System.Drawing.Size(338, 27);
+            this.textBox_ControlStateVal.Size = new System.Drawing.Size(264, 27);
             this.textBox_ControlStateVal.TabIndex = 29;
             this.textBox_ControlStateVal.Text = "EquipmentOffline";
             this.textBox_ControlStateVal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -507,11 +495,11 @@
             // 
             this.BTN_MAIN_ONLINE_REMOTE_REQ.BackColor = System.Drawing.Color.Tan;
             this.BTN_MAIN_ONLINE_REMOTE_REQ.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_MAIN_ONLINE_REMOTE_REQ.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BTN_MAIN_ONLINE_REMOTE_REQ.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold);
             this.BTN_MAIN_ONLINE_REMOTE_REQ.ForeColor = System.Drawing.Color.White;
-            this.BTN_MAIN_ONLINE_REMOTE_REQ.Location = new System.Drawing.Point(196, 81);
+            this.BTN_MAIN_ONLINE_REMOTE_REQ.Location = new System.Drawing.Point(163, 81);
             this.BTN_MAIN_ONLINE_REMOTE_REQ.Name = "BTN_MAIN_ONLINE_REMOTE_REQ";
-            this.BTN_MAIN_ONLINE_REMOTE_REQ.Size = new System.Drawing.Size(165, 39);
+            this.BTN_MAIN_ONLINE_REMOTE_REQ.Size = new System.Drawing.Size(124, 39);
             this.BTN_MAIN_ONLINE_REMOTE_REQ.TabIndex = 28;
             this.BTN_MAIN_ONLINE_REMOTE_REQ.Text = "Online Change";
             this.BTN_MAIN_ONLINE_REMOTE_REQ.UseVisualStyleBackColor = false;
@@ -533,11 +521,11 @@
             // 
             this.BTN_MAIN_OFFLINE_REQ.BackColor = System.Drawing.Color.Tan;
             this.BTN_MAIN_OFFLINE_REQ.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_MAIN_OFFLINE_REQ.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BTN_MAIN_OFFLINE_REQ.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold);
             this.BTN_MAIN_OFFLINE_REQ.ForeColor = System.Drawing.Color.White;
             this.BTN_MAIN_OFFLINE_REQ.Location = new System.Drawing.Point(23, 81);
             this.BTN_MAIN_OFFLINE_REQ.Name = "BTN_MAIN_OFFLINE_REQ";
-            this.BTN_MAIN_OFFLINE_REQ.Size = new System.Drawing.Size(165, 39);
+            this.BTN_MAIN_OFFLINE_REQ.Size = new System.Drawing.Size(124, 39);
             this.BTN_MAIN_OFFLINE_REQ.TabIndex = 27;
             this.BTN_MAIN_OFFLINE_REQ.Text = "Offline Change";
             this.BTN_MAIN_OFFLINE_REQ.UseVisualStyleBackColor = false;
@@ -589,8 +577,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Recipe)).EndInit();
             this.groupBox5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Model)).EndInit();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -619,7 +605,6 @@
         private System.Windows.Forms.TextBox textBox_AbortedLot;
         private System.Windows.Forms.Button BTN_MAIN_ABORT_LOT;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.TextBox textBox_MaterialId;
         private System.Windows.Forms.Button BTN_MAIN_MATERIAL_ID_REPORT;
         private System.Windows.Forms.Label label4;
