@@ -25,10 +25,7 @@ namespace ApsMotionControl.Data
         // = ReadCsvToList(filePath);
         public CEEpromData()
         {
-
-            
-
-            
+            checksumTest();
         }
         public void LoadExcelData()
         {
@@ -38,9 +35,11 @@ namespace ApsMotionControl.Data
         public void SaveExcelData()
         {
 
-
+            string filePath = string.Format(@"{0}\30.csv", Application.StartupPath); //file path
+            WriteCsvFromList(filePath, dataList);
         }
-        public void WriteCsvFromList(string filePath, List<EEpromCsvData> dataList)
+
+        private void WriteCsvFromList(string filePath, List<EEpromCsvData> dataList)
         {
             using (var writer = new StreamWriter(filePath))
             using (var csv = new CsvWriter(writer, new CsvConfiguration(CultureInfo.InvariantCulture)
@@ -199,6 +198,85 @@ namespace ApsMotionControl.Data
             {
                 GC.Collect();
             }
+        }
+
+
+
+        public void checksumTest()
+        {
+            byte[] data = { 0x01, 0x02, 0x03, 0x04 };
+            byte crc8_default = ComputeCRC8(data, 0x07, 0x00, 0x00);  // CRC8_DEFAULT
+            byte crc8_sae_j1850 = ComputeCRC8(data, 0x1D, 0xFF, 0xFF); // CRC8_SAE_J1850
+            byte crc8_sae_j1850_zero = ComputeCRC8(data, 0x1D, 0x00, 0x00); // CRC8_SAE_J1850_ZERO
+
+            Console.WriteLine($"CRC8_DEFAULT: {crc8_default:X2}");
+            Console.WriteLine($"CRC8_SAE_J1850: {crc8_sae_j1850:X2}");
+            Console.WriteLine($"CRC8_SAE_J1850_ZERO: {crc8_sae_j1850_zero:X2}");
+
+            byte[] fordData = { 0x01, 0x00, 0x67, 0xAD, 0x57, 0xE9, 0xFF, 0xFF, 0xFF, 0xFF };
+            byte fordcrc8_sae_j1850_zero = ComputeCRC8(fordData, 0x1D, 0x00, 0x00); // CRC8_SAE_J1850_ZERO
+            Console.WriteLine($"FORD CRC8_SAE_J1850_ZERO: {fordcrc8_sae_j1850_zero:X2}");
+            //Ford 결과는 0xE2
+
+
+            byte[] data2 = { 0x01, 0x02, 0x03, 0x04 };
+            ushort crc16_ccitt_zero = ComputeCRC16(data2, 0x1021, 0x0000, 0x0000); // CRC16_CCIT_ZERO
+            ushort crc16_ccitt_false = ComputeCRC16(data2, 0x1021, 0xFFFF, 0x0000); // CRC16_CCIT_FALSE
+
+            Console.WriteLine($"CRC16_CCIT_ZERO: {crc16_ccitt_zero:X4}");
+            Console.WriteLine($"CRC16_CCIT_FALSE: {crc16_ccitt_false:X4}");
+
+
+
+            byte[] data3 = { 0x01, 0x02, 0x03, 0x04 };
+            ushort checksum16 = ComputeChecksum16(data3);
+            Console.WriteLine($"CHECKSUM16_RFC1071: {checksum16:X4}");
+
+        }
+        //CRC-8 계산
+        public static byte ComputeCRC8(byte[] data, byte polynomial, byte initialValue, byte xorOut)
+        {
+            byte crc = initialValue;
+            foreach (byte b in data)
+            {
+                crc ^= b;
+                for (int i = 0; i < 8; i++)
+                {
+                    crc = (byte)((crc & 0x80) != 0 ? (crc << 1) ^ polynomial : (crc << 1));
+                }
+            }
+            return (byte)(crc ^ xorOut);
+        }
+
+        //CRF-16 계산 (CCITT)
+        public static ushort ComputeCRC16(byte[] data, ushort polynomial, ushort initialValue, ushort xorOut)
+        {
+            ushort crc = initialValue;
+            foreach (byte b in data)
+            {
+                crc ^= (ushort)(b << 8);
+                for (int i = 0; i < 8; i++)
+                {
+                    crc = (ushort)((crc & 0x8000) != 0 ? (crc << 1) ^ polynomial : (crc << 1));
+                }
+            }
+            return (ushort)(crc ^ xorOut);
+        }
+
+        //CHECKSUM16 (RFC1071)
+        public static ushort ComputeChecksum16(byte[] data)
+        {
+            uint sum = 0;
+            for (int i = 0; i < data.Length; i += 2)
+            {
+                ushort word = (ushort)((data[i] << 8) + (i + 1 < data.Length ? data[i + 1] : 0));
+                sum += word;
+                while ((sum >> 16) > 0)  // Carry 발생 시 추가 처리
+                {
+                    sum = (sum & 0xFFFF) + (sum >> 16);
+                }
+            }
+            return (ushort)~sum; // 1의 보수 적용
         }
     }
 }

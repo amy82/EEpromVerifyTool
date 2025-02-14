@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ApsMotionControl.Data
 {
@@ -134,11 +130,42 @@ namespace ApsMotionControl.Data
         public List<RcmdParameter> vMaterialExchange { get; set; } = new List<RcmdParameter>();
 
 
+
+        //EEPROM_DATA = RcmdParameter 하고 비슷하다
+        //public List<RcmdParameter> vLotIdFail 
+
+        public List<EEpromCsvData> VMesEEpromData { get; set; } = new List<EEpromCsvData>();
+
+
         ///private CMesData() { } // 외부 생성 방지
         public CMesData()
         {
             m_dEqupControlState[0] = (int)Ubisam.eCURRENT_CONTROL_STATE.eEquipmentOffline;
             m_dEqupControlState[1] = (int)Ubisam.eCURRENT_CONTROL_STATE.eEquipmentOffline;
+
+
+            VMesEEpromData.Clear();
+
+            //VMesEEpromData.Add(new EEpromCsvData
+            //{
+            //    SHOPID = "aaaa0",
+            //    PRODID = "aaaa1",
+            //    PROCID = "aaaa2",
+            //    EEP_ITEM = "aaaa3",
+            //    ADDRESS = 44,
+            //    DATA_SIZE = 55,
+            //    DATA_FORMAT = "aaaa6",
+            //    BYTE_ORDER = "aaaa7",
+            //    FIX_YN = "aaaa8",
+            //    ITEM_CODE = "aaaa9",
+            //    ITEM_VALUE = "aaaa10",
+            //    CRC_START = "aaaa11",
+            //    CRC_END = "aaaa12",
+            //    PAD_VALUE = "aaaa13",
+            //    PAD_POSITION = "aaaa14"
+            //});
+
+
         }
     }
 }

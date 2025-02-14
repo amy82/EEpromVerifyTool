@@ -166,9 +166,10 @@ namespace ApsMotionControl
             {
                 //stopGrab
                 Globalo.GrabberDll.mGrabStop();
-                Globalo.GrabberDll.mCloseBoard();
-                //closeDevice
+                
             }
+            Globalo.GrabberDll.mCloseBoard();
+            //closeDevice
             eLogSender("GrabberDll", $"[CCD]Laon Close");
             m_nCurrentCcdState = (int)CCD_GRAB_MODE.CCD_GRAB_STOP;
             UiconfigLoad();

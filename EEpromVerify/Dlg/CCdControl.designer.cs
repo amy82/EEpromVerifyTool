@@ -59,6 +59,7 @@
             this.BTN_CCD_GABBER_OPEN = new System.Windows.Forms.Button();
             this.BTN_MANUAL_PCB = new System.Windows.Forms.Button();
             this.BTN_MANUAL_LENS = new System.Windows.Forms.Button();
+            this.BTN_CCD_EEPROM_VERIFY_TEST = new System.Windows.Forms.Button();
             this.CcdPanel.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -128,6 +129,7 @@
             // groupBox3
             // 
             this.groupBox3.BackColor = System.Drawing.Color.White;
+            this.groupBox3.Controls.Add(this.BTN_CCD_EEPROM_VERIFY_TEST);
             this.groupBox3.Controls.Add(this.dataGridView_EEpromData);
             this.groupBox3.Controls.Add(this.textBox_ReadDataLeng);
             this.groupBox3.Controls.Add(this.textBox_ReadAddr);
@@ -455,6 +457,20 @@
             this.BTN_MANUAL_LENS.Visible = false;
             this.BTN_MANUAL_LENS.Click += new System.EventHandler(this.BTN_MANUAL_LENS_Click);
             // 
+            // BTN_CCD_EEPROM_VERIFY_TEST
+            // 
+            this.BTN_CCD_EEPROM_VERIFY_TEST.BackColor = System.Drawing.Color.Tan;
+            this.BTN_CCD_EEPROM_VERIFY_TEST.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BTN_CCD_EEPROM_VERIFY_TEST.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BTN_CCD_EEPROM_VERIFY_TEST.ForeColor = System.Drawing.Color.White;
+            this.BTN_CCD_EEPROM_VERIFY_TEST.Location = new System.Drawing.Point(344, 192);
+            this.BTN_CCD_EEPROM_VERIFY_TEST.Name = "BTN_CCD_EEPROM_VERIFY_TEST";
+            this.BTN_CCD_EEPROM_VERIFY_TEST.Size = new System.Drawing.Size(142, 55);
+            this.BTN_CCD_EEPROM_VERIFY_TEST.TabIndex = 37;
+            this.BTN_CCD_EEPROM_VERIFY_TEST.Text = "EEprom Verify Test";
+            this.BTN_CCD_EEPROM_VERIFY_TEST.UseVisualStyleBackColor = false;
+            this.BTN_CCD_EEPROM_VERIFY_TEST.Click += new System.EventHandler(this.BTN_CCD_EEPROM_VERIFY_TEST_Click);
+            // 
             // CCdControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -510,5 +526,6 @@
         private System.Windows.Forms.TextBox textBox_ReadAddr;
         private System.Windows.Forms.TextBox textBox_SlaveAddr;
         private System.Windows.Forms.DataGridView dataGridView_EEpromData;
+        private System.Windows.Forms.Button BTN_CCD_EEPROM_VERIFY_TEST;
     }
 }

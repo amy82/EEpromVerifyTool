@@ -749,7 +749,66 @@ namespace ApsMotionControl.Dlg
             }
             dataGridView_EEpromData.ClearSelection();
         }
-         
+        private void BTN_CCD_EEPROM_VERIFY_TEST_Click(object sender, EventArgs e)
+        {
+            int i = 0;
+            //제품에서 읽은 값
+            //Globalo.mCCdPanel.CcdEEpromReadData.Clear();
+
+            //MES 에서 받은 값
+            //Globalo.dataManage.mesData.VMesEEpromData.Clear();
+
+            //Address 0 / size 1
+            //Address 1 / size 1
+            //Address 2 / size 4
+            //Address 6 / size 4
+            //Address 10 / size 1
+            //Address 11 / size 6
+            //Address 17 / size 14
+
+            //두개 비교
+            int eepromCount = Globalo.dataManage.mesData.VMesEEpromData.Count();
+
+            string dataHex = BitConverter.ToString(CcdEEpromReadData.GetRange(0, 5).ToArray()).Replace("-", " ");
+            for (i = 0; i < eepromCount; i++)
+            {
+
+            }
+        }
+        public void EEpromRead()
+        {
+            //testEEpromRead();
+            if (this.InvokeRequired)
+            {
+                //this.Invoke(new Action(testEEpromRead));
+                bool Rtn = (bool)this.Invoke(new Func<bool>(() =>testEEpromRead()));
+            }
+            else
+            {
+                testEEpromRead();
+            }
+
+            string dataHex = BitConverter.ToString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray()).Replace("-", " ");     //0x10 0x12 -> 10 12
+            string dataDec = string.Join(" ", Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5));     //0x10 0x12 -> 10 12
+
+            string dataAscii = Encoding.ASCII.GetString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray());     //
+            float dataFloat = BitConverter.ToSingle(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray(), 0);     //float <- Big Endian / Little Endian 여부도 확인해야 해
+            //Big Endian 상위 바이트(큰 값)가 앞에 저장
+            //Little Endian 하위 바이트 (작읍 값) 가 앞에 저장됨
+            //byte[] bigEndianBytes = { 0x41, 0x20, 0x00, 0x00 };
+            // float value = BitConverter.ToSingle(bigEndianBytes, 0);
+
+            //byte[] littleEndianBytes = { 0x00, 0x00, 0x20, 0x41 };
+            //Array.Reverse(littleEndianBytes); // 바이트 순서 변경 (Big → Little)
+            //float value = BitConverter.ToSingle(littleEndianBytes, 0);
+
+
+            int dataInt16 = BitConverter.ToInt16(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray(), 0);     //
+            int dataInt32 = BitConverter.ToInt32(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray(), 0);     //
+
+
+            string data = Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray().ToString();
+        }
         public static unsafe bool testEEpromRead()
         {
             int i = 0;
@@ -861,10 +920,7 @@ namespace ApsMotionControl.Dlg
 
             //EEPROM_TotalRead_Type2(0x0000, 0x513, CompareEEpromData, 512);//최대 32씩만	0x512	0x46D
         }
-        public void EEpromRead()
-        {
-            testEEpromRead();
-        }
+        
         private void CCdControl_VisibleChanged(object sender, EventArgs e)
         {
             if (this.Visible)

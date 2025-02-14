@@ -168,6 +168,11 @@ namespace ApsMotionControl
         public static readonly string LGIT_MATERIAL_ID_CONFIRM = "LGIT_MATERIAL_ID_CONFIRM";
         public static readonly string LGIT_MATERIAL_ID_FAIL = "LGIT_MATERIAL_ID_FAIL";
         public static readonly string LGIT_PAUSE = "LGIT_PAUSE";
-        
+
+        public static readonly string LGIT_EEPROM_DATA = "LGIT_EEPROM_DATA";
+        public static readonly string LGIT_EEPROM_FAIL = "LGIT_EEPROM_FAIL";
+
+
+
     }
 }

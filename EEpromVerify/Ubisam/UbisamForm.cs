@@ -423,6 +423,8 @@ namespace ApsMotionControl.Ubisam
                 dataMainList.ChildVariables.Add(dataValue);
                 dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "ExchangeReason", Value = "" };
                 dataMainList.ChildVariables.Add(dataValue);
+                dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "ProductID", Value = "" }; //v2.2.7 버전에서 추가 250214
+                dataMainList.ChildVariables.Add(dataValue);
 
                 _gemDriver.SetVariable(dataMainList);
 
@@ -683,6 +685,14 @@ namespace ApsMotionControl.Ubisam
             {
                 Globalo.dataManage.mesData.vLotStart.Clear();
             }
+            if (remoteCommandInfo.RemoteCommand == SecsGemData.LGIT_EEPROM_DATA)
+            {
+                Globalo.dataManage.mesData.VMesEEpromData.Clear();
+            }
+            if (remoteCommandInfo.RemoteCommand == SecsGemData.LGIT_EEPROM_FAIL)
+            {
+
+            }
 
             //
             //
@@ -748,6 +758,88 @@ namespace ApsMotionControl.Ubisam
                         if (remoteCommandInfo.RemoteCommand == SecsGemData.LGIT_LOT_START)
                         {
                             Globalo.dataManage.mesData.vLotStart.Add(parameter);
+                        }
+
+
+                        if (remoteCommandInfo.RemoteCommand == SecsGemData.LGIT_EEPROM_DATA)
+                        {
+                            Data.EEpromCsvData tempData = new Data.EEpromCsvData();
+                            foreach (EnhancedCommandParameterItem subitem in item.ChildParameterItem.Items)
+                            {
+                                if (subitem.Name == "ADDRESS")
+                                {
+                                    tempData.ADDRESS = subitem.Value;
+                                }
+                                else if (subitem.Name == "DATA_SIZE")
+                                {
+                                    tempData.DATA_SIZE = subitem.Value;
+                                }
+                                else if (subitem.Name == "DATA_FORMAT")
+                                {
+                                    tempData.DATA_FORMAT = subitem.Value;
+                                }
+                                else if (subitem.Name == "BYTE_ORDER")
+                                {
+                                    tempData.BYTE_ORDER = subitem.Value;
+                                }
+                                else if (subitem.Name == "FIX_YN")
+                                {
+                                    tempData.FIX_YN = subitem.Value;
+                                }
+                                else if (subitem.Name == "ITEM_VALUE")
+                                {
+                                    tempData.ITEM_VALUE = subitem.Value;
+                                }
+                                else if (subitem.Name == "ITEM_CODE")
+                                {
+                                    tempData.ITEM_CODE = subitem.Value;
+                                }
+                                else if (subitem.Name == "CRC_START")
+                                {
+                                    tempData.CRC_START = subitem.Value;
+                                }
+                                else if (subitem.Name == "CRC_END")
+                                {
+                                    tempData.CRC_END = subitem.Value;
+                                }
+                                else if (subitem.Name == "PAD_VALUE")
+                                {
+                                    tempData.PAD_VALUE = subitem.Value;
+                                }
+                                else if (subitem.Name == "PAD_POSITION")
+                                {
+                                    tempData.PAD_POSITION = subitem.Value;
+                                }
+
+
+
+
+
+                            }
+                            Globalo.dataManage.mesData.VMesEEpromData.Add(tempData);
+
+                            //Globalo.dataManage.mesData.VMesEEpromData.Add("",);
+                            /*
+                             * VMesEEpromData.Add(new EEpromCsvData
+                            {
+                                SHOPID = "aaaa0",
+                                PRODID = "aaaa1",
+                                PROCID = "aaaa2",
+                                EEP_ITEM = "aaaa3",
+                                ADDRESS = 44,
+                                DATA_SIZE = 55,
+                                DATA_FORMAT = "aaaa6",
+                                BYTE_ORDER = "aaaa7",
+                                FIX_YN = "aaaa8",
+                                ITEM_CODE = "aaaa9",
+                                ITEM_VALUE = "aaaa10",
+                                CRC_START = "aaaa11",
+                                CRC_END = "aaaa12",
+                                PAD_VALUE = "aaaa13",
+                                PAD_POSITION = "aaaa14"
+                            });
+                                             */
+
                         }
 
                     }
