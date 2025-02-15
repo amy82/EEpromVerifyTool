@@ -35,6 +35,7 @@ namespace ApsMotionControl
         public static Dlg.CCdControl mCCdPanel;
         public static Dlg.ConfigControl mConfigPanel;
         public static Dlg.AlarmControl mAlarmPanel;
+        public static Dlg.LogControl mlogControl;
         public static Dlg.CamControl camControl;
         public static Ubisam.UbisamForm ubisamForm;
 
