@@ -25,7 +25,7 @@ namespace ApsMotionControl
         public const int CamHeight = 400;
         public const int ProductionHeight = 100;
         public const int LogViewHeight = 300;
-        public Button[] BtnArr = new Button[6];
+        public Button[] BtnArr = new Button[7];
         public Button[] RunBtnArr = new Button[3];
         public int[] RunBtnSizeArr = { 120, 120, 200 };
 
@@ -43,8 +43,9 @@ namespace ApsMotionControl
             BtnArr[1] = BTN_BOTTOM_CCD;
             BtnArr[2] = BTN_BOTTOM_SETUP;
             BtnArr[3] = BTN_BOTTOM_ALARM;
-            BtnArr[4] = BTN_BOTTOM_WALLPAPER;
-            BtnArr[5] = BTN_BOTTOM_EXIT;
+            BtnArr[4] = BTN_BOTTOM_LOG;
+            BtnArr[5] = BTN_BOTTOM_WALLPAPER;
+            BtnArr[6] = BTN_BOTTOM_EXIT;
             BTN_BOTTOM_TEACH.Visible = false;
             BTN_BOTTOM_IO.Visible = false;
             BTN_BOTTOM_LIGHT.Visible = false;
@@ -162,6 +163,8 @@ namespace ApsMotionControl
             Globalo.mCCdPanel = new Dlg.CCdControl(dRightPanelW, dRightPanelH);
             Globalo.mConfigPanel = new Dlg.ConfigControl(dRightPanelW, dRightPanelH);
             Globalo.mAlarmPanel = new Dlg.AlarmControl(dRightPanelW, dRightPanelH);
+            Globalo.mlogControl = new Dlg.LogControl(dRightPanelW, dRightPanelH);
+            
             Globalo.ubisamForm = new Ubisam.UbisamForm();
             Globalo.ubisamForm.UbisamUgcLoad();
             Globalo.ubisamForm.Visible = false;
@@ -175,6 +178,8 @@ namespace ApsMotionControl
             Globalo.mCCdPanel.BackColor = ColorTranslator.FromHtml("#F8F3F0");
             Globalo.mConfigPanel.BackColor = ColorTranslator.FromHtml("#F8F3F0");
             Globalo.mAlarmPanel.BackColor = ColorTranslator.FromHtml("#F8F3F0");
+            Globalo.mlogControl.BackColor = ColorTranslator.FromHtml("#F8F3F0");
+
             //Globalo.mIoPanel.eLogSender += eLogPrint;
 
 
@@ -427,7 +432,8 @@ namespace ApsMotionControl
                 //Log(enLogLevel.Info, $"{LogListBox.Text} LogListBox Set");
                 eLogPrint("test", $"LogListBox Set" + (i + 1).ToString());
             }
-
+            
+            
             //-----------------------------------------------
             //우측 버튼 
             //-----------------------------------------------
@@ -487,10 +493,13 @@ namespace ApsMotionControl
             Globalo.mCCdPanel.Visible = false;
             Globalo.mConfigPanel.Visible = false;
             Globalo.mAlarmPanel.Visible = false;
+            Globalo.mlogControl.Visible = false;
+            
             RightPanel.Controls.Add(Globalo.mMainPanel);
             RightPanel.Controls.Add(Globalo.mCCdPanel);
             RightPanel.Controls.Add(Globalo.mConfigPanel);
             RightPanel.Controls.Add(Globalo.mAlarmPanel);
+            RightPanel.Controls.Add(Globalo.mlogControl);
 
         }
         private void eLogPrint(object oSender, string LogDesc, Globalo.eMessageName bPopUpView = Globalo.eMessageName.M_NULL)
@@ -1135,6 +1144,7 @@ namespace ApsMotionControl
             Globalo.mCCdPanel.Visible = false;
             Globalo.mConfigPanel.Visible = false;
             Globalo.mAlarmPanel.Visible = false;
+            Globalo.mlogControl.Visible = false;
 
             MenuButtonSet(0);
         }
@@ -1147,6 +1157,7 @@ namespace ApsMotionControl
             Globalo.mMainPanel.Visible = false;
             Globalo.mConfigPanel.Visible = false;
             Globalo.mAlarmPanel.Visible = false;
+            Globalo.mlogControl.Visible = false;
             MenuButtonSet(1);
         }
         private void BTN_BOTTOM_SETUP_Click(object sender, EventArgs e)
@@ -1161,6 +1172,7 @@ namespace ApsMotionControl
             Globalo.mCCdPanel.Visible = false;
             Globalo.mMainPanel.Visible = false;
             Globalo.mAlarmPanel.Visible = false;
+            Globalo.mlogControl.Visible = false;
 
             MenuButtonSet(2);
 
@@ -1175,6 +1187,7 @@ namespace ApsMotionControl
             Globalo.mConfigPanel.Visible = false;
             Globalo.mCCdPanel.Visible = false;
             Globalo.mMainPanel.Visible = false;
+            Globalo.mlogControl.Visible = false;
 
             MenuButtonSet(3);
         }
@@ -1182,12 +1195,26 @@ namespace ApsMotionControl
 
         private void BTN_BOTTOM_LIGHT_Click(object sender, EventArgs e)
         {
-            MenuButtonSet(4);
+            //MenuButtonSet(4);
         }
 
         private void BTN_TOP_MES_Click(object sender, EventArgs e)
         {
             Globalo.ubisamForm.Visible = true;
+        }
+
+        private void BTN_BOTTOM_LOG_Click(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+
+            eLogPrint("AlarmBtn", $"{btn.Text} 버튼 Click");
+            Globalo.mlogControl.Visible = true;
+            Globalo.mAlarmPanel.Visible = false;
+            Globalo.mConfigPanel.Visible = false;
+            Globalo.mCCdPanel.Visible = false;
+            Globalo.mMainPanel.Visible = false;
+
+            MenuButtonSet(4);
         }
     }
 }

@@ -192,6 +192,12 @@
     <Compile Include="Data\YamlModelData.cs" />
     <Compile Include="DIoControl.cs" />
     <Compile Include="DioDefine.cs" />
+    <Compile Include="Dlg\LogControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Dlg\LogControl.designer.cs">
+      <DependentUpon>LogControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dlg\AlarmControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -333,6 +339,9 @@
       <DependentUpon>UbisamForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Vision.cs" />
+    <EmbeddedResource Include="Dlg\LogControl.resx">
+      <DependentUpon>LogControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dlg\AlarmControl.resx">
       <DependentUpon>AlarmControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -462,6 +471,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="icon\log.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

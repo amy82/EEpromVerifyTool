@@ -357,7 +357,7 @@ namespace ApsMotionControl.Dlg
             dataGridView_Recipe.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
 
             // 헤더 폰트 설정
-            dataGridView_Recipe.ColumnHeadersDefaultCellStyle.Font = new Font("나눔고딕", 10F, FontStyle.Bold);
+            dataGridView_Recipe.ColumnHeadersDefaultCellStyle.Font = new Font("나눔고딕", 9F, FontStyle.Bold);
 
             // 헤더 배경색 설정
             dataGridView_Recipe.ColumnHeadersDefaultCellStyle.BackColor = Color.GhostWhite;// LightGray;// Color.FromArgb(94, 129, 244); //Color.LightBlue;
@@ -392,7 +392,7 @@ namespace ApsMotionControl.Dlg
             dataGridView_Recipe.ReadOnly = true;
             DataGridViewCellStyle cellStyle = new DataGridViewCellStyle();
 
-            cellStyle.Font = new Font("나눔고딕", 10, FontStyle.Regular); // Change font and size
+            cellStyle.Font = new Font("나눔고딕", 9, FontStyle.Regular); // Change font and size
             cellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; // Center align text
             cellStyle.SelectionBackColor = Color.LightBlue;
             //cellStyle.SelectionForeColor = Color.Empty;
@@ -484,7 +484,7 @@ namespace ApsMotionControl.Dlg
             //dataGridView_Model.Columns[0].ReadOnly = true; // 읽기 전용
             dataGridView_Recipe.Columns[0].DefaultCellStyle.BackColor = Color.LightGray; // 배경색 설정
             dataGridView_Recipe.Columns[0].DefaultCellStyle.ForeColor = Color.Yellow; // 배경색 설정
-            dataGridView_Recipe.Columns[0].DefaultCellStyle.Font = new Font("나눔고딕", 10F, FontStyle.Bold); // 굵은 글씨
+            dataGridView_Recipe.Columns[0].DefaultCellStyle.Font = new Font("나눔고딕", 9F, FontStyle.Bold); // 굵은 글씨
             dataGridView_Recipe.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridView_Recipe.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
@@ -513,7 +513,7 @@ namespace ApsMotionControl.Dlg
             dataGridView_Model.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
 
             // 헤더 폰트 설정
-            dataGridView_Model.ColumnHeadersDefaultCellStyle.Font = new Font("나눔고딕", 10F, FontStyle.Bold);
+            dataGridView_Model.ColumnHeadersDefaultCellStyle.Font = new Font("나눔고딕", 9F, FontStyle.Bold);
 
             // 헤더 배경색 설정
             dataGridView_Model.ColumnHeadersDefaultCellStyle.BackColor = Color.GhostWhite;// Color.FromArgb(94, 129, 244); //Color.LightBlue;
@@ -546,7 +546,7 @@ namespace ApsMotionControl.Dlg
             dataGridView_Model.ReadOnly = true;
             DataGridViewCellStyle cellStyle = new DataGridViewCellStyle();
 
-            cellStyle.Font = new Font("나눔고딕", 10, FontStyle.Regular); // Change font and size
+            cellStyle.Font = new Font("나눔고딕", 9, FontStyle.Regular); // Change font and size
             cellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; // Center align text
             cellStyle.SelectionBackColor = Color.LightBlue;
             //cellStyle.SelectionForeColor = Color.Empty;
@@ -639,7 +639,7 @@ namespace ApsMotionControl.Dlg
 
             dataGridView_Model.Columns[0].DefaultCellStyle.BackColor = Color.LightGray; // 배경색 설정
             dataGridView_Model.Columns[0].DefaultCellStyle.ForeColor = Color.Yellow; // 배경색 설정
-            dataGridView_Model.Columns[0].DefaultCellStyle.Font = new Font("나눔고딕", 10F, FontStyle.Bold); // 굵은 글씨
+            dataGridView_Model.Columns[0].DefaultCellStyle.Font = new Font("나눔고딕", 9F, FontStyle.Bold); // 굵은 글씨
             dataGridView_Model.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; // 가운데 정렬
 
             dataGridView_Model.ClearSelection();

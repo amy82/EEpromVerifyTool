@@ -67,7 +67,7 @@
             // 
             // CcdPanel
             // 
-            this.CcdPanel.BackColor = System.Drawing.Color.Red;
+            this.CcdPanel.BackColor = System.Drawing.Color.Black;
             this.CcdPanel.Location = new System.Drawing.Point(0, 0);
             this.CcdPanel.Name = "CcdPanel";
             this.CcdPanel.Size = new System.Drawing.Size(539, 372);
