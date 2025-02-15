@@ -22,7 +22,7 @@ namespace ApsMotionControl
         public const int RunButtonWidth = 130;//164;
         public const int RunButtonHeight = 60;
 
-        public const int CamHeight = 400;
+        public const int CamHeight = 330;
         public const int ProductionHeight = 100;
         public const int LogViewHeight = 300;
         public Button[] BtnArr = new Button[7];

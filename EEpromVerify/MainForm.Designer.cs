@@ -155,7 +155,7 @@ namespace ApsMotionControl
             this.panel_ProductionInfo.Controls.Add(this.listBox_Log);
             this.panel_ProductionInfo.Location = new System.Drawing.Point(3, 361);
             this.panel_ProductionInfo.Name = "panel_ProductionInfo";
-            this.panel_ProductionInfo.Size = new System.Drawing.Size(694, 329);
+            this.panel_ProductionInfo.Size = new System.Drawing.Size(694, 367);
             this.panel_ProductionInfo.TabIndex = 7;
             // 
             // groupBox1
@@ -171,7 +171,7 @@ namespace ApsMotionControl
             this.groupBox1.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.groupBox1.Location = new System.Drawing.Point(4, 15);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(685, 188);
+            this.groupBox1.Size = new System.Drawing.Size(685, 252);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "production Info";
@@ -265,7 +265,7 @@ namespace ApsMotionControl
             // 
             this.label_LogTitle.AutoSize = true;
             this.label_LogTitle.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_LogTitle.Location = new System.Drawing.Point(9, 239);
+            this.label_LogTitle.Location = new System.Drawing.Point(9, 270);
             this.label_LogTitle.Name = "label_LogTitle";
             this.label_LogTitle.Size = new System.Drawing.Size(71, 14);
             this.label_LogTitle.TabIndex = 0;
@@ -277,7 +277,7 @@ namespace ApsMotionControl
             this.listBox_Log.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.listBox_Log.FormattingEnabled = true;
             this.listBox_Log.ItemHeight = 15;
-            this.listBox_Log.Location = new System.Drawing.Point(29, 271);
+            this.listBox_Log.Location = new System.Drawing.Point(29, 302);
             this.listBox_Log.Margin = new System.Windows.Forms.Padding(0);
             this.listBox_Log.Name = "listBox_Log";
             this.listBox_Log.Size = new System.Drawing.Size(431, 49);
@@ -290,9 +290,9 @@ namespace ApsMotionControl
             this.labelGuide.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelGuide.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.labelGuide.ForeColor = System.Drawing.Color.Black;
-            this.labelGuide.Location = new System.Drawing.Point(402, 279);
+            this.labelGuide.Location = new System.Drawing.Point(456, 279);
             this.labelGuide.Name = "labelGuide";
-            this.labelGuide.Size = new System.Drawing.Size(253, 57);
+            this.labelGuide.Size = new System.Drawing.Size(236, 57);
             this.labelGuide.TabIndex = 6;
             this.labelGuide.Text = "설비 정지 상태입니다.";
             this.labelGuide.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -306,7 +306,7 @@ namespace ApsMotionControl
             this.BTN_MAIN_START1.ForeColor = System.Drawing.Color.White;
             this.BTN_MAIN_START1.Location = new System.Drawing.Point(270, 279);
             this.BTN_MAIN_START1.Name = "BTN_MAIN_START1";
-            this.BTN_MAIN_START1.Size = new System.Drawing.Size(126, 57);
+            this.BTN_MAIN_START1.Size = new System.Drawing.Size(180, 57);
             this.BTN_MAIN_START1.TabIndex = 5;
             this.BTN_MAIN_START1.Text = "EEPROM START";
             this.BTN_MAIN_START1.UseVisualStyleBackColor = false;

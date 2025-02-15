@@ -24,6 +24,10 @@ namespace ApsMotionControl
         public MessagePopUpForm(string BtnLeftName = "", string BtnMidName = "", string BtnRightName = "확인")
         {
             InitializeComponent();
+
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
+            this.UpdateStyles();
+
             this.TopMost = true;
             this.CenterToScreen();
 
