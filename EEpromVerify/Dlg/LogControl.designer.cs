@@ -32,6 +32,15 @@
             this.ManualPanel = new System.Windows.Forms.Panel();
             this.BTN_MANUAL_PCB = new System.Windows.Forms.Button();
             this.BTN_MANUAL_LENS = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.BTN_LOG_DUMP_OPEN = new System.Windows.Forms.Button();
+            this.BTN_LOG_EQUIP_OPEN = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.ManualPanel.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // ManualTitleLabel
@@ -46,6 +55,8 @@
             // 
             // ManualPanel
             // 
+            this.ManualPanel.Controls.Add(this.groupBox2);
+            this.ManualPanel.Controls.Add(this.groupBox1);
             this.ManualPanel.Location = new System.Drawing.Point(21, 97);
             this.ManualPanel.Name = "ManualPanel";
             this.ManualPanel.Size = new System.Drawing.Size(899, 926);
@@ -81,6 +92,84 @@
             this.BTN_MANUAL_LENS.Visible = false;
             this.BTN_MANUAL_LENS.Click += new System.EventHandler(this.BTN_MANUAL_LENS_Click);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.BackColor = System.Drawing.Color.White;
+            this.groupBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.groupBox1.Controls.Add(this.textBox2);
+            this.groupBox1.Controls.Add(this.BTN_LOG_DUMP_OPEN);
+            this.groupBox1.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.groupBox1.Location = new System.Drawing.Point(36, 35);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(404, 132);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Dump File Path";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.BackColor = System.Drawing.Color.White;
+            this.groupBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.BTN_LOG_EQUIP_OPEN);
+            this.groupBox2.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.groupBox2.Location = new System.Drawing.Point(36, 231);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(404, 132);
+            this.groupBox2.TabIndex = 1;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Equip Log Path";
+            // 
+            // BTN_LOG_DUMP_OPEN
+            // 
+            this.BTN_LOG_DUMP_OPEN.BackColor = System.Drawing.Color.Tan;
+            this.BTN_LOG_DUMP_OPEN.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BTN_LOG_DUMP_OPEN.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BTN_LOG_DUMP_OPEN.ForeColor = System.Drawing.Color.White;
+            this.BTN_LOG_DUMP_OPEN.Location = new System.Drawing.Point(293, 28);
+            this.BTN_LOG_DUMP_OPEN.Name = "BTN_LOG_DUMP_OPEN";
+            this.BTN_LOG_DUMP_OPEN.Size = new System.Drawing.Size(96, 30);
+            this.BTN_LOG_DUMP_OPEN.TabIndex = 32;
+            this.BTN_LOG_DUMP_OPEN.Text = "FOLDER OPEN";
+            this.BTN_LOG_DUMP_OPEN.UseVisualStyleBackColor = false;
+            // 
+            // BTN_LOG_EQUIP_OPEN
+            // 
+            this.BTN_LOG_EQUIP_OPEN.BackColor = System.Drawing.Color.Tan;
+            this.BTN_LOG_EQUIP_OPEN.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BTN_LOG_EQUIP_OPEN.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BTN_LOG_EQUIP_OPEN.ForeColor = System.Drawing.Color.White;
+            this.BTN_LOG_EQUIP_OPEN.Location = new System.Drawing.Point(293, 30);
+            this.BTN_LOG_EQUIP_OPEN.Name = "BTN_LOG_EQUIP_OPEN";
+            this.BTN_LOG_EQUIP_OPEN.Size = new System.Drawing.Size(96, 30);
+            this.BTN_LOG_EQUIP_OPEN.TabIndex = 33;
+            this.BTN_LOG_EQUIP_OPEN.Text = "FOLDER OPEN";
+            this.BTN_LOG_EQUIP_OPEN.UseVisualStyleBackColor = false;
+            // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.Color.White;
+            this.textBox1.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.textBox1.Location = new System.Drawing.Point(8, 33);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(272, 21);
+            this.textBox1.TabIndex = 34;
+            this.textBox1.Text = "D:\\EVMS\\Log\\Step";
+            // 
+            // textBox2
+            // 
+            this.textBox2.BackColor = System.Drawing.Color.White;
+            this.textBox2.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.textBox2.Location = new System.Drawing.Point(8, 30);
+            this.textBox2.Multiline = true;
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.Size = new System.Drawing.Size(272, 22);
+            this.textBox2.TabIndex = 35;
+            this.textBox2.Text = "D:\\EVMS\\Log\\Dump";
+            // 
             // LogControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -92,6 +181,11 @@
             this.Name = "LogControl";
             this.Size = new System.Drawing.Size(940, 1042);
             this.VisibleChanged += new System.EventHandler(this.AlarmControl_VisibleChanged);
+            this.ManualPanel.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -102,5 +196,11 @@
         private System.Windows.Forms.Panel ManualPanel;
         private System.Windows.Forms.Button BTN_MANUAL_PCB;
         private System.Windows.Forms.Button BTN_MANUAL_LENS;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button BTN_LOG_DUMP_OPEN;
+        private System.Windows.Forms.Button BTN_LOG_EQUIP_OPEN;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox2;
     }
 }
