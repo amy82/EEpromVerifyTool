@@ -31,6 +31,7 @@ namespace ApsMotionControl
         {
             this.TopPanel = new System.Windows.Forms.Panel();
             this.BTN_TOP_MES = new System.Windows.Forms.Button();
+            this.MainTitlepictureBox = new System.Windows.Forms.PictureBox();
             this.MainTitleLabel = new System.Windows.Forms.Label();
             this.TimeLabel = new System.Windows.Forms.Label();
             this.LeftPanel = new System.Windows.Forms.Panel();
@@ -55,27 +56,26 @@ namespace ApsMotionControl
             this.RightPanel = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.BottomPanel = new System.Windows.Forms.Panel();
+            this.BTN_BOTTOM_LOG = new System.Windows.Forms.Button();
             this.label_build = new System.Windows.Forms.Label();
             this.label_version = new System.Windows.Forms.Label();
-            this.BTN_TOP_LOG = new System.Windows.Forms.Button();
-            this.MainTitlepictureBox = new System.Windows.Forms.PictureBox();
-            this.BTN_BOTTOM_LOG = new System.Windows.Forms.Button();
             this.BTN_BOTTOM_WALLPAPER = new System.Windows.Forms.Button();
             this.BTN_BOTTOM_EXIT = new System.Windows.Forms.Button();
             this.BTN_BOTTOM_ALARM = new System.Windows.Forms.Button();
             this.BTN_BOTTOM_LIGHT = new System.Windows.Forms.Button();
+            this.BTN_TOP_LOG = new System.Windows.Forms.Button();
             this.BTN_BOTTOM_IO = new System.Windows.Forms.Button();
             this.BTN_BOTTOM_CCD = new System.Windows.Forms.Button();
             this.BTN_BOTTOM_TEACH = new System.Windows.Forms.Button();
             this.BTN_BOTTOM_MAIN = new System.Windows.Forms.Button();
             this.BTN_BOTTOM_SETUP = new System.Windows.Forms.Button();
             this.TopPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MainTitlepictureBox)).BeginInit();
             this.LeftPanel.SuspendLayout();
             this.panel_ProductionInfo.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.BottomPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MainTitlepictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // TopPanel
@@ -94,17 +94,27 @@ namespace ApsMotionControl
             // 
             // BTN_TOP_MES
             // 
-            this.BTN_TOP_MES.BackColor = System.Drawing.Color.IndianRed;
+            this.BTN_TOP_MES.BackColor = System.Drawing.Color.White;
             this.BTN_TOP_MES.FlatAppearance.BorderColor = System.Drawing.Color.Gainsboro;
             this.BTN_TOP_MES.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_TOP_MES.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BTN_TOP_MES.Location = new System.Drawing.Point(840, 8);
+            this.BTN_TOP_MES.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BTN_TOP_MES.Location = new System.Drawing.Point(700, 4);
             this.BTN_TOP_MES.Name = "BTN_TOP_MES";
-            this.BTN_TOP_MES.Size = new System.Drawing.Size(68, 48);
+            this.BTN_TOP_MES.Size = new System.Drawing.Size(73, 53);
             this.BTN_TOP_MES.TabIndex = 11;
             this.BTN_TOP_MES.Text = "MES";
             this.BTN_TOP_MES.UseVisualStyleBackColor = false;
             this.BTN_TOP_MES.Click += new System.EventHandler(this.BTN_TOP_MES_Click);
+            // 
+            // MainTitlepictureBox
+            // 
+            this.MainTitlepictureBox.Image = global::ApsMotionControl.Properties.Resources.mainTitle;
+            this.MainTitlepictureBox.Location = new System.Drawing.Point(19, 10);
+            this.MainTitlepictureBox.Name = "MainTitlepictureBox";
+            this.MainTitlepictureBox.Size = new System.Drawing.Size(43, 36);
+            this.MainTitlepictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.MainTitlepictureBox.TabIndex = 10;
+            this.MainTitlepictureBox.TabStop = false;
             // 
             // MainTitleLabel
             // 
@@ -168,20 +178,20 @@ namespace ApsMotionControl
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.groupBox1.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Bold);
             this.groupBox1.Location = new System.Drawing.Point(4, 15);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(685, 252);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "production Info";
+            this.groupBox1.Text = " PRODUCTION INFO";
             // 
             // textBox_TopLot
             // 
             this.textBox_TopLot.BackColor = System.Drawing.Color.White;
             this.textBox_TopLot.Font = new System.Drawing.Font("나눔고딕", 15.75F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.textBox_TopLot.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.textBox_TopLot.Location = new System.Drawing.Point(317, 33);
+            this.textBox_TopLot.Location = new System.Drawing.Point(317, 38);
             this.textBox_TopLot.Name = "textBox_TopLot";
             this.textBox_TopLot.ReadOnly = true;
             this.textBox_TopLot.Size = new System.Drawing.Size(331, 32);
@@ -192,14 +202,14 @@ namespace ApsMotionControl
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label1.ForeColor = System.Drawing.Color.DimGray;
-            this.label1.Location = new System.Drawing.Point(596, 18);
+            this.label1.Font = new System.Drawing.Font("나눔고딕", 8.999999F);
+            this.label1.ForeColor = System.Drawing.Color.Black;
+            this.label1.Location = new System.Drawing.Point(585, 17);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(52, 12);
+            this.label1.Size = new System.Drawing.Size(63, 14);
             this.label1.TabIndex = 14;
-            this.label1.Text = "Barcode";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label1.Text = "BARCODE";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label_production_total
             // 
@@ -234,30 +244,30 @@ namespace ApsMotionControl
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label4.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label4.Location = new System.Drawing.Point(10, 84);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(54, 15);
+            this.label4.Size = new System.Drawing.Size(52, 14);
             this.label4.TabIndex = 2;
             this.label4.Text = "TOTAL :";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label3.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label3.Location = new System.Drawing.Point(10, 59);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(34, 15);
+            this.label3.Size = new System.Drawing.Size(33, 14);
             this.label3.TabIndex = 1;
             this.label3.Text = "NG :";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label2.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label2.Location = new System.Drawing.Point(10, 32);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(33, 15);
+            this.label2.Size = new System.Drawing.Size(31, 14);
             this.label2.TabIndex = 0;
             this.label2.Text = "OK :";
             // 
@@ -267,9 +277,9 @@ namespace ApsMotionControl
             this.label_LogTitle.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_LogTitle.Location = new System.Drawing.Point(9, 270);
             this.label_LogTitle.Name = "label_LogTitle";
-            this.label_LogTitle.Size = new System.Drawing.Size(71, 14);
+            this.label_LogTitle.Size = new System.Drawing.Size(68, 14);
             this.label_LogTitle.TabIndex = 0;
-            this.label_LogTitle.Text = "| LOG VIEW";
+            this.label_LogTitle.Text = " LOG VIEW";
             // 
             // listBox_Log
             // 
@@ -428,6 +438,24 @@ namespace ApsMotionControl
             this.BottomPanel.Size = new System.Drawing.Size(150, 800);
             this.BottomPanel.TabIndex = 3;
             // 
+            // BTN_BOTTOM_LOG
+            // 
+            this.BTN_BOTTOM_LOG.BackColor = System.Drawing.Color.Transparent;
+            this.BTN_BOTTOM_LOG.FlatAppearance.BorderSize = 0;
+            this.BTN_BOTTOM_LOG.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BTN_BOTTOM_LOG.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BTN_BOTTOM_LOG.ForeColor = System.Drawing.Color.DimGray;
+            this.BTN_BOTTOM_LOG.Image = global::ApsMotionControl.Properties.Resources.log;
+            this.BTN_BOTTOM_LOG.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.BTN_BOTTOM_LOG.Location = new System.Drawing.Point(8, 241);
+            this.BTN_BOTTOM_LOG.Name = "BTN_BOTTOM_LOG";
+            this.BTN_BOTTOM_LOG.Size = new System.Drawing.Size(133, 36);
+            this.BTN_BOTTOM_LOG.TabIndex = 13;
+            this.BTN_BOTTOM_LOG.Text = "  LOG";
+            this.BTN_BOTTOM_LOG.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BTN_BOTTOM_LOG.UseVisualStyleBackColor = false;
+            this.BTN_BOTTOM_LOG.Click += new System.EventHandler(this.BTN_BOTTOM_LOG_Click);
+            // 
             // label_build
             // 
             this.label_build.BackColor = System.Drawing.Color.Transparent;
@@ -451,50 +479,6 @@ namespace ApsMotionControl
             this.label_version.TabIndex = 11;
             this.label_version.Text = "VersionInfo : V1.1.0";
             this.label_version.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // BTN_TOP_LOG
-            // 
-            this.BTN_TOP_LOG.BackColor = System.Drawing.Color.LightPink;
-            this.BTN_TOP_LOG.FlatAppearance.BorderSize = 0;
-            this.BTN_TOP_LOG.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_TOP_LOG.Font = new System.Drawing.Font("Nirmala UI", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BTN_TOP_LOG.ForeColor = System.Drawing.Color.White;
-            this.BTN_TOP_LOG.Location = new System.Drawing.Point(0, 0);
-            this.BTN_TOP_LOG.Margin = new System.Windows.Forms.Padding(0);
-            this.BTN_TOP_LOG.Name = "BTN_TOP_LOG";
-            this.BTN_TOP_LOG.Size = new System.Drawing.Size(140, 60);
-            this.BTN_TOP_LOG.TabIndex = 0;
-            this.BTN_TOP_LOG.Text = "LGIT";
-            this.BTN_TOP_LOG.UseVisualStyleBackColor = false;
-            this.BTN_TOP_LOG.Click += new System.EventHandler(this.BTN_TOP_LOG_Click);
-            // 
-            // MainTitlepictureBox
-            // 
-            this.MainTitlepictureBox.Image = global::ApsMotionControl.Properties.Resources.mainTitle;
-            this.MainTitlepictureBox.Location = new System.Drawing.Point(19, 10);
-            this.MainTitlepictureBox.Name = "MainTitlepictureBox";
-            this.MainTitlepictureBox.Size = new System.Drawing.Size(43, 36);
-            this.MainTitlepictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.MainTitlepictureBox.TabIndex = 10;
-            this.MainTitlepictureBox.TabStop = false;
-            // 
-            // BTN_BOTTOM_LOG
-            // 
-            this.BTN_BOTTOM_LOG.BackColor = System.Drawing.Color.Transparent;
-            this.BTN_BOTTOM_LOG.FlatAppearance.BorderSize = 0;
-            this.BTN_BOTTOM_LOG.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_BOTTOM_LOG.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BTN_BOTTOM_LOG.ForeColor = System.Drawing.Color.DimGray;
-            this.BTN_BOTTOM_LOG.Image = global::ApsMotionControl.Properties.Resources.log;
-            this.BTN_BOTTOM_LOG.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BTN_BOTTOM_LOG.Location = new System.Drawing.Point(8, 241);
-            this.BTN_BOTTOM_LOG.Name = "BTN_BOTTOM_LOG";
-            this.BTN_BOTTOM_LOG.Size = new System.Drawing.Size(133, 36);
-            this.BTN_BOTTOM_LOG.TabIndex = 13;
-            this.BTN_BOTTOM_LOG.Text = "  LOG";
-            this.BTN_BOTTOM_LOG.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.BTN_BOTTOM_LOG.UseVisualStyleBackColor = false;
-            this.BTN_BOTTOM_LOG.Click += new System.EventHandler(this.BTN_BOTTOM_LOG_Click);
             // 
             // BTN_BOTTOM_WALLPAPER
             // 
@@ -567,6 +551,22 @@ namespace ApsMotionControl
             this.BTN_BOTTOM_LIGHT.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BTN_BOTTOM_LIGHT.UseVisualStyleBackColor = false;
             this.BTN_BOTTOM_LIGHT.Click += new System.EventHandler(this.BTN_BOTTOM_LIGHT_Click);
+            // 
+            // BTN_TOP_LOG
+            // 
+            this.BTN_TOP_LOG.BackColor = System.Drawing.Color.LightPink;
+            this.BTN_TOP_LOG.FlatAppearance.BorderSize = 0;
+            this.BTN_TOP_LOG.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BTN_TOP_LOG.Font = new System.Drawing.Font("Nirmala UI", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BTN_TOP_LOG.ForeColor = System.Drawing.Color.White;
+            this.BTN_TOP_LOG.Location = new System.Drawing.Point(0, 0);
+            this.BTN_TOP_LOG.Margin = new System.Windows.Forms.Padding(0);
+            this.BTN_TOP_LOG.Name = "BTN_TOP_LOG";
+            this.BTN_TOP_LOG.Size = new System.Drawing.Size(140, 60);
+            this.BTN_TOP_LOG.TabIndex = 0;
+            this.BTN_TOP_LOG.Text = "LGIT";
+            this.BTN_TOP_LOG.UseVisualStyleBackColor = false;
+            this.BTN_TOP_LOG.Click += new System.EventHandler(this.BTN_TOP_LOG_Click);
             // 
             // BTN_BOTTOM_IO
             // 
@@ -670,6 +670,7 @@ namespace ApsMotionControl
             this.Text = "eepromVerify";
             this.TopPanel.ResumeLayout(false);
             this.TopPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MainTitlepictureBox)).EndInit();
             this.LeftPanel.ResumeLayout(false);
             this.panel_ProductionInfo.ResumeLayout(false);
             this.panel_ProductionInfo.PerformLayout();
@@ -677,7 +678,6 @@ namespace ApsMotionControl
             this.groupBox1.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.BottomPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.MainTitlepictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
