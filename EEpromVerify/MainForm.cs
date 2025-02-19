@@ -502,6 +502,17 @@ namespace ApsMotionControl
             RightPanel.Controls.Add(Globalo.mlogControl);
 
         }
+        public void BcrSet(string value)
+        {
+            if (textBox_TopLot.InvokeRequired)
+            {
+                textBox_TopLot.Invoke(new Action(() => textBox_TopLot.Text = value));
+            }
+            else
+            {
+                textBox_TopLot.Text = value;
+            }
+        }
         private void eLogPrint(object oSender, string LogDesc, Globalo.eMessageName bPopUpView = Globalo.eMessageName.M_NULL)
         {
             DateTime dTime = DateTime.Now;

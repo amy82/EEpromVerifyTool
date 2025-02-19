@@ -30,7 +30,14 @@ namespace ApsMotionControl.FThread
             Console.WriteLine("ManualThread ProcessRun Run.");
             if (nType == 1)
             {
+                //---------------------------------------------------------------------------------------
+                //Thread Fn Run
+                //
                 Globalo.mCCdPanel.EEpromRead();
+
+
+                //---------------------------------------------------------------------------------------
+
                 cts.Cancel();
             }
             Console.WriteLine("ManualThread stopped safely.");

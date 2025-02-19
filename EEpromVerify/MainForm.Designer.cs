@@ -191,10 +191,10 @@ namespace ApsMotionControl
             this.textBox_TopLot.BackColor = System.Drawing.Color.White;
             this.textBox_TopLot.Font = new System.Drawing.Font("나눔고딕", 15.75F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.textBox_TopLot.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.textBox_TopLot.Location = new System.Drawing.Point(317, 38);
+            this.textBox_TopLot.Location = new System.Drawing.Point(250, 38);
             this.textBox_TopLot.Name = "textBox_TopLot";
             this.textBox_TopLot.ReadOnly = true;
-            this.textBox_TopLot.Size = new System.Drawing.Size(331, 32);
+            this.textBox_TopLot.Size = new System.Drawing.Size(398, 32);
             this.textBox_TopLot.TabIndex = 15;
             this.textBox_TopLot.Text = "0000000000";
             this.textBox_TopLot.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;

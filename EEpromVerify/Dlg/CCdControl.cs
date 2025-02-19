@@ -769,10 +769,100 @@ namespace ApsMotionControl.Dlg
             //두개 비교
             int eepromCount = Globalo.dataManage.mesData.VMesEEpromData.Count();
 
-            string dataHex = BitConverter.ToString(CcdEEpromReadData.GetRange(0, 5).ToArray()).Replace("-", " ");
-            for (i = 0; i < eepromCount; i++)
-            {
 
+            if (Globalo.dataManage.eepromData.dataList == null)
+            {
+                Console.WriteLine("Globalo.dataManage.eepromData.dataList null");
+                return;
+            }
+
+            if (CcdEEpromReadData == null)
+            {
+                Console.WriteLine("CcdEEpromReadData null");
+                return;
+            }
+
+
+            
+
+
+            int TotalCount = Globalo.dataManage.eepromData.dataList.Count;
+
+
+            string logData = $"csv 에서 로드한 항목 개수:{TotalCount}";
+            Globalo.LogPrint("CCdControl", logData);
+
+            logData = $"마지막 Address: {Globalo.dataManage.eepromData.dataList[TotalCount - 1].ADDRESS}";
+            Globalo.LogPrint("CCdControl", logData);
+
+            logData = $"마지막 Data Size:{Globalo.dataManage.eepromData.dataList[TotalCount - 1].DATA_SIZE}";
+            Globalo.LogPrint("CCdControl", logData);
+
+
+
+            //마지막 Address 가 184이고 Data Size 가 2 이면   
+            //184 , 185 2개를 읽는 거기 때문에 Address 더하기 Data Size 하면 된다 전체 읽어야될 수 = 184 + 2 = 186
+            //string dataHex = BitConverter.ToString(CcdEEpromReadData.GetRange(0, 5).ToArray()).Replace("-", " ");
+
+
+            string dataHex = BitConverter.ToString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray()).Replace("-", " ");     //0x10 0x12 -> 10 12
+            string dataDec = string.Join(" ", Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5));     //0x10 0x12 -> 10 12
+
+            string dataAscii = Encoding.ASCII.GetString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray());     //
+            float dataFloat = BitConverter.ToSingle(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray(), 0);     //float <- Big Endian / Little Endian 여부도 확인해야 해
+            double dataDouble = BitConverter.ToDouble(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray(), 0);
+            //Big Endian 상위 바이트(큰 값)가 앞에 저장
+            //Little Endian 하위 바이트 (작읍 값) 가 앞에 저장됨
+            //byte[] bigEndianBytes = { 0x41, 0x20, 0x00, 0x00 };
+            // float value = BitConverter.ToSingle(bigEndianBytes, 0);
+
+            //byte[] littleEndianBytes = { 0x00, 0x00, 0x20, 0x41 };
+            //Array.Reverse(littleEndianBytes); // 바이트 순서 변경 (Big → Little)
+            //float value = BitConverter.ToSingle(littleEndianBytes, 0);
+
+
+            int dataInt16 = BitConverter.ToInt16(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray(), 0);     //
+            int dataInt32 = BitConverter.ToInt32(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray(), 0);     //
+
+
+            //string data = Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray().ToString();
+
+            string readData = "";
+            int startAddress = 0;
+            int readCount = 0;
+            for (i = 0; i < TotalCount; i++)
+            {
+                startAddress = Globalo.dataManage.eepromData.dataList[i].ADDRESS;
+                readCount = Globalo.dataManage.eepromData.dataList[i].DATA_SIZE;
+
+                if (Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT == Data.CEEpromData.HEX)
+                {
+                    readData = BitConverter.ToString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray()).Replace("-", " ");
+                }
+                else if (Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT == Data.CEEpromData.ASCII)
+                {
+                    readData = Encoding.ASCII.GetString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray());
+                }
+                else if (Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT == Data.CEEpromData.FLOAT)
+                {
+                    readData = BitConverter.ToSingle(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray(), 0).ToString();
+                }
+                else if (Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT == Data.CEEpromData.DOUBLE)
+                {
+                    readData = BitConverter.ToSingle(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray(), 0).ToString();
+                }
+                else if (Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT == Data.CEEpromData.EMPTY)       //0xFF로 채워져서 HEX로 하면 될 듯
+                {
+                    readData = BitConverter.ToString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray()).Replace("-", " ");
+                }
+                else if (Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CRC8_SAE_J1850_ZERO)
+                {
+                    //값을 읽어서 계산 필요
+                }
+                else if (Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CHECKSUM_RFC1071)
+                {
+                    //값을 읽어서 계산 필요
+                }
             }
         }
         public void EEpromRead()
@@ -788,26 +878,7 @@ namespace ApsMotionControl.Dlg
                 testEEpromRead();
             }
 
-            string dataHex = BitConverter.ToString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray()).Replace("-", " ");     //0x10 0x12 -> 10 12
-            string dataDec = string.Join(" ", Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5));     //0x10 0x12 -> 10 12
-
-            string dataAscii = Encoding.ASCII.GetString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray());     //
-            float dataFloat = BitConverter.ToSingle(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray(), 0);     //float <- Big Endian / Little Endian 여부도 확인해야 해
-            //Big Endian 상위 바이트(큰 값)가 앞에 저장
-            //Little Endian 하위 바이트 (작읍 값) 가 앞에 저장됨
-            //byte[] bigEndianBytes = { 0x41, 0x20, 0x00, 0x00 };
-            // float value = BitConverter.ToSingle(bigEndianBytes, 0);
-
-            //byte[] littleEndianBytes = { 0x00, 0x00, 0x20, 0x41 };
-            //Array.Reverse(littleEndianBytes); // 바이트 순서 변경 (Big → Little)
-            //float value = BitConverter.ToSingle(littleEndianBytes, 0);
-
-
-            int dataInt16 = BitConverter.ToInt16(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray(), 0);     //
-            int dataInt32 = BitConverter.ToInt32(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray(), 0);     //
-
-
-            string data = Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray().ToString();
+            
         }
         public static unsafe bool testEEpromRead()
         {
