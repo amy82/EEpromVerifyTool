@@ -19,17 +19,28 @@ namespace ApsMotionControl.Data
     public class CEEpromData
     {
 
-        public static readonly string DF_HEX = "HEX";
-        public static readonly string DF_ASCII = "ASCII";
-        public static readonly string DF_DEC = "DEC";
-        public static readonly string DF_FLOAT = "FLOAT";
-        public static readonly string DF_DOUBLE = "DOUBLE";
-        public static readonly string DF_UNIX_TIME = "UNIX_TIME";
-        public static readonly string DF_CRC_CRC8_SAE_J1850_ZERO = "CRC_CRC8_SAE_J1850_ZERO";
-        public static readonly string DF_EMPTY = "EMPTY";
+        public static readonly string HEX = "HEX";
+        public static readonly string ASCII = "ASCII";
+        public static readonly string DEC = "DEC";
+        public static readonly string FLOAT = "FLOAT";
+        public static readonly string DOUBLE = "DOUBLE";
+        public static readonly string UNIX_TIME = "UNIX_TIME";
+
+        public static readonly string CRC8_DEFAULT = "CRC8_DEFAULT";
+        public static readonly string CRC8_SAE_J1850 = "CRC8_SAE_J1850";
+        public static readonly string CRC_CRC8_SAE_J1850_ZERO = "CRC_CRC8_SAE_J1850_ZERO";
+
+        public static readonly string CRC16_CCIT_ZERO = "CRC16_CCIT_ZERO";
+        public static readonly string CRC16_CCIT_FALSE = "CRC16_CCIT_FALSE";
+        public static readonly string CHECKSUM16_RFC1071 = "CHECKSUM16_RFC1071";
+        public static readonly string CRC_CHECKSUM_RFC1071 = "CRC_CHECKSUM_RFC1071";
 
 
-        public DataTable dataTable = new DataTable();
+
+        public static readonly string EMPTY = "EMPTY";
+
+
+        //public DataTable dataTable = new DataTable();
 
 
         public List<EEpromCsvData> dataList;
@@ -39,13 +50,13 @@ namespace ApsMotionControl.Data
         }
         public void LoadExcelData()
         {
-            string filePath = string.Format(@"{0}\30.csv", Application.StartupPath); //file path
+            string filePath = string.Format(@"{0}\95.csv", Application.StartupPath); //file path
             ReadCsvToList(filePath);
         }
         public void SaveExcelData()
         {
 
-            string filePath = string.Format(@"{0}\30.csv", Application.StartupPath); //file path
+            string filePath = string.Format(@"{0}\95.csv", Application.StartupPath); //file path
             WriteCsvFromList(filePath, dataList);
         }
 

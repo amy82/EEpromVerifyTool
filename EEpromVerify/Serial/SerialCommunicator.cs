@@ -73,6 +73,9 @@ namespace ApsMotionControl.Serial
                 string logData = $"[Bcr] Scan Data:{scanData}";
 
                 Globalo.LogPrint("Serial", logData);
+
+
+                Globalo.MainForm.BcrSet(scanData);
             }
             catch (Exception ex)
             {
