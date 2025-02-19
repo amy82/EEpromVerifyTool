@@ -332,7 +332,7 @@ namespace ApsMotionControl.Data
                     Array.Reverse(bytes); // 빅엔디안으로 변환 (네트워크 전송 시 필요)
                 }
                 
-                RtnString = BitConverter.ToString(bytes).Replace("-", " ");
+                RtnString = BitConverter.ToString(bytes).Replace("-", "");
             }
             else if (Format == DOUBLE && FixYn == "Y")
             {
@@ -343,7 +343,7 @@ namespace ApsMotionControl.Data
                     Array.Reverse(bytes); // 빅엔디안 변환
                 }
                 
-                RtnString = BitConverter.ToString(bytes).Replace("-", " ");
+                RtnString = BitConverter.ToString(bytes).Replace("-", "");
             }
             else// (Format == HEX || Format == EMPTY || Format ==  || FixYn == "N")      //N이면 무조건 Hex로 들어온다.
             {
