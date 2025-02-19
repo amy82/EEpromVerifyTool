@@ -38,19 +38,28 @@ namespace ApsMotionControl.FThread
                 //    Globalo.taskWork.m_nCurrentStep = readyProcess.HomeProcess(Globalo.taskWork.m_nCurrentStep);
                 //}
 
-                if (Globalo.taskWork.m_nCurrentStep >= 20000 && Globalo.taskWork.m_nCurrentStep < 30000)
-                {
-                    Globalo.taskWork.m_nCurrentStep = readyProcess.AutoReady(Globalo.taskWork.m_nCurrentStep, cts.Token);
-                }
-                else if (Globalo.taskWork.m_nCurrentStep >= 30000 && Globalo.taskWork.m_nCurrentStep < 40000)
+                //if (Globalo.taskWork.m_nCurrentStep >= 20000 && Globalo.taskWork.m_nCurrentStep < 30000)
+                //{
+                //    Globalo.taskWork.m_nCurrentStep = readyProcess.AutoReady(Globalo.taskWork.m_nCurrentStep, cts.Token);
+                //}
+                if (Globalo.taskWork.m_nCurrentStep >= 30000 && Globalo.taskWork.m_nCurrentStep < 40000)
                 {
                     Globalo.taskWork.m_nCurrentStep = RunProcess.Auto_Loading(Globalo.taskWork.m_nCurrentStep);
+                }
+                else if (Globalo.taskWork.m_nCurrentStep >= 40000 && Globalo.taskWork.m_nCurrentStep < 50000)
+                {
+                    Globalo.taskWork.m_nCurrentStep = RunProcess.Auto_EEpromVerify(Globalo.taskWork.m_nCurrentStep);
+                }
+                else if (Globalo.taskWork.m_nCurrentStep >= 50000 && Globalo.taskWork.m_nCurrentStep < 60000)
+                {
+                    Globalo.taskWork.m_nCurrentStep = RunProcess.Auto_Final(Globalo.taskWork.m_nCurrentStep);
                 }
 
             }
             else if (Globalo.taskWork.m_nCurrentStep == -1)
             {
-                //Globalo.MainForm.StopAutoProcess();
+                //Globalo.MainForm.StopAutoProcess();       
+                // TODO:   STOP 버튼 함수 살려야된다. 250219
                 cts.Cancel();
             }
             else if (Globalo.taskWork.m_nCurrentStep < 0)

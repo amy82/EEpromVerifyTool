@@ -66,8 +66,13 @@ namespace ApsMotionControl
         {
             MessagePopUpForm messagePopUp3 = new MessagePopUpForm("", "YES", "NO");
             messagePopUp3.MessageSet(Globalo.eMessageName.M_ASK, LogDesc);
+
+            Globalo.serialPortManager.Barcode.BarcodeScanned += messagePopUp3.OnDialogCloseEvent;
+
+
             DialogResult result = messagePopUp3.ShowDialog();
 
+            
             return result;
         }
         public static void LogPrint(object oSender, string LogDesc, Globalo.eMessageName bPopUpView = Globalo.eMessageName.M_NULL)

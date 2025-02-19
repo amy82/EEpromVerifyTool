@@ -26,13 +26,13 @@ namespace ApsMotionControl.Data
         public static readonly string DOUBLE = "DOUBLE";
         public static readonly string UNIX_TIME = "UNIX_TIME";
 
-        public static readonly string CRC8_DEFAULT = "CRC8_DEFAULT";
-        public static readonly string CRC8_SAE_J1850 = "CRC8_SAE_J1850";
+        public static readonly string CRC_CRC8_DEFAULT = "CRC_CRC8_DEFAULT";
+        public static readonly string CRC_CRC8_SAE_J1850 = "CRC_CRC8_SAE_J1850";
         public static readonly string CRC_CRC8_SAE_J1850_ZERO = "CRC_CRC8_SAE_J1850_ZERO";
 
-        public static readonly string CRC16_CCIT_ZERO = "CRC16_CCIT_ZERO";
-        public static readonly string CRC16_CCIT_FALSE = "CRC16_CCIT_FALSE";
-        public static readonly string CHECKSUM16_RFC1071 = "CHECKSUM16_RFC1071";
+        public static readonly string CRC_CRC16_CCIT_ZERO = "CRC_CRC16_CCIT_ZERO";
+        public static readonly string CRC_CRC16_CCIT_FALSE = "CRC_CRC16_CCIT_FALSE";
+        public static readonly string CRC_CHECKSUM16_RFC1071 = "CRC_CHECKSUM16_RFC1071";
 
 
         public static readonly string CRC_CHECKSUM_RFC1071 = "CRC_CHECKSUM_RFC1071";
@@ -297,7 +297,61 @@ namespace ApsMotionControl.Data
             ushort checksum2 = ComputeRFC1071Checksum(testData2);
             Console.WriteLine($"Checksum: {checksum2:X4}"); // 16진수 출력
 
+            byte[] bytes = BitConverter.GetBytes(checksum2);
+            Array.Reverse(bytes);
+            ushort littleEndianValue = BitConverter.ToUInt16(bytes, 0);
 
+        }
+
+        public static string CrcCommonCalculation(string Type, byte[] data) //, byte polynomial = 0x00, byte initialValue = 0x00, byte xorOut = 0x00)
+        {
+            string RtnString = "";
+            if (Type == CRC_CRC8_SAE_J1850)
+            {
+                byte crc8_sae_j1850 = ComputeCRC8(data, 0x1D, 0xFF, 0xFF); // CRC8_SAE_J1850
+            }
+            else if (Type == CRC_CRC8_SAE_J1850)
+            {
+                byte crc8_sae_j1850 = ComputeCRC8(data, 0x1D, 0xFF, 0xFF); // CRC8_SAE_J1850
+                RtnString = crc8_sae_j1850.ToString();
+            }
+            else if (Type == CRC_CRC8_SAE_J1850_ZERO)
+            {
+                byte crc8_sae_j1850_zero = ComputeCRC8(data, 0x1D, 0x00, 0x00); // CRC8_SAE_J1850_ZERO
+                RtnString = crc8_sae_j1850_zero.ToString();
+            }
+            else if (Type == CRC_CRC16_CCIT_ZERO)
+            {
+                ushort crc16_ccitt_zero = ComputeCRC16(data, 0x1021, 0x0000, 0x0000); // CRC16_CCIT_ZERO
+                RtnString = crc16_ccitt_zero.ToString("X4");
+            }
+            else if (Type == CRC_CRC16_CCIT_FALSE)
+            {
+                ushort crc16_ccitt_false = ComputeCRC16(data, 0x1021, 0xFFFF, 0x0000); // CRC16_CCIT_FALSE
+                RtnString = crc16_ccitt_false.ToString("X4");
+            }
+            else if (Type == CRC_CHECKSUM16_RFC1071)
+            {
+                ushort checksum16 = ComputeChecksum16(data);
+                RtnString = checksum16.ToString("X4");
+            }
+            else if (Type == CRC_CHECKSUM_RFC1071)
+            {
+                ushort checksum = ComputeRFC1071Checksum(data);
+
+                byte[] bytes = BitConverter.GetBytes(checksum);
+                Array.Reverse(bytes);
+                ushort littleEndianValue = BitConverter.ToUInt16(bytes, 0);     //Little Endian 뒤집기
+
+
+                RtnString = checksum.ToString("X4");
+            }
+            else 
+            {
+                byte crc8_default = ComputeCRC8(data, 0x07, 0x00, 0x00);  // CRC8_DEFAULT
+                RtnString = crc8_default.ToString();
+            }
+            return RtnString;
         }
         public static string StringToHex(string Input, string Format, string Order, string FixYn)       //MES 에서 받은 값을 변환
         {
@@ -379,6 +433,9 @@ namespace ApsMotionControl.Data
             //MES_EEPROM_VALUE = BitConverter.ToString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray()).Replace("-", " ");
             return RtnString; // 마지막 공백 제거
         }
+
+
+
         //CRC-8 계산
         public static byte ComputeCRC8(byte[] data, byte polynomial, byte initialValue, byte xorOut)
         {

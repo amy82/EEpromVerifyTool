@@ -14,6 +14,7 @@ namespace ApsMotionControl.Data
     public class _DrivingSettings
     {
         public bool IdleReportPass { get; set; }
+        public bool EnableAutoStartBcr { get; set; }
     }
     public class ConfigData
     {

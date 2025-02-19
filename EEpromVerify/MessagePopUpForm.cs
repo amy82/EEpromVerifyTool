@@ -12,6 +12,10 @@ namespace ApsMotionControl
 {
     public partial class MessagePopUpForm : Form
     {
+
+        
+
+
         public string Text1 = "";
         public string Text2 = "";
         public string Text3 = "";
@@ -41,6 +45,9 @@ namespace ApsMotionControl
 
             MessageBody.Text = "";
             nMessageYype = Globalo.eMessageName.M_INFO;
+
+
+
         }
         public void MessageSet(Globalo.eMessageName ntype, string sBodyMsg, string sTitleTxt = "", string sTopTxt = "", int option1 = 0)
         {
@@ -117,17 +124,18 @@ namespace ApsMotionControl
             {
 
             }
+            Globalo.serialPortManager.Barcode.BarcodeScanned -= OnDialogCloseEvent;
             this.Close();
         }
 
         private void BTN_MESSAGE3_Click(object sender, EventArgs e) //가운데 버튼
         {
-
+            Globalo.serialPortManager.Barcode.BarcodeScanned -= OnDialogCloseEvent;
         }
 
         private void BTN_MESSAGE2_Click(object sender, EventArgs e) //가장 좌측 버튼
         {
-
+            Globalo.serialPortManager.Barcode.BarcodeScanned -= OnDialogCloseEvent;
         }
         private void CloseMessage(object sender, EventArgs e)
         {
@@ -147,7 +155,17 @@ namespace ApsMotionControl
             this.DialogResult = DialogResult.Yes;
             this.Close();
         }
-
+        public void OnDialogCloseEvent(string barcodeData)
+        {
+            // this.Invoke((MethodInvoker)(() => this.Close())); // 안전한 UI 스레드 호출
+            Globalo.serialPortManager.Barcode.BarcodeScanned -= OnDialogCloseEvent;
+            this.Invoke((MethodInvoker)(() =>
+            {
+                //MessageBox.Show($"Barcode Scanned: {barcodeData}");
+                this.DialogResult = DialogResult.Yes;
+                this.Close();
+            }));
+        }
         private void labelTop_VisibleChanged(object sender, EventArgs e)
         {
             if (nMessageYype == Globalo.eMessageName.M_OP_CALL)

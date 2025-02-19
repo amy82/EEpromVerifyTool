@@ -38,8 +38,17 @@ namespace ApsMotionControl.FThread
 
                 //---------------------------------------------------------------------------------------
 
-                cts.Cancel();
             }
+            if (nType == 2)
+            {
+                Globalo.mLaonGrabberClass.OpenDevice();
+            }
+            if (nType == 3)
+            {
+                Globalo.mLaonGrabberClass.CloseDevice();
+            }
+
+            cts.Cancel();
             Console.WriteLine("ManualThread stopped safely.");
         }
         //protected override void ProcessRun()
