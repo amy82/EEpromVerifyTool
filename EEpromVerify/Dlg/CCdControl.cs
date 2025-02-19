@@ -805,12 +805,12 @@ namespace ApsMotionControl.Dlg
             //string dataHex = BitConverter.ToString(CcdEEpromReadData.GetRange(0, 5).ToArray()).Replace("-", " ");
 
 
-            string dataHex = BitConverter.ToString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray()).Replace("-", " ");     //0x10 0x12 -> 10 12
-            string dataDec = string.Join(" ", Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5));     //0x10 0x12 -> 10 12
+            //string dataHex = BitConverter.ToString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray()).Replace("-", " ");     //0x10 0x12 -> 10 12
+            //string dataDec = string.Join(" ", Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5));     //0x10 0x12 -> 10 12
 
-            string dataAscii = Encoding.ASCII.GetString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray());     //
-            float dataFloat = BitConverter.ToSingle(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray(), 0);     //float <- Big Endian / Little Endian 여부도 확인해야 해
-            double dataDouble = BitConverter.ToDouble(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray(), 0);
+            //string dataAscii = Encoding.ASCII.GetString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray());     //
+            //float dataFloat = BitConverter.ToSingle(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray(), 0);     //float <- Big Endian / Little Endian 여부도 확인해야 해
+            //double dataDouble = BitConverter.ToDouble(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray(), 0);
             //Big Endian 상위 바이트(큰 값)가 앞에 저장
             //Little Endian 하위 바이트 (작읍 값) 가 앞에 저장됨
             //byte[] bigEndianBytes = { 0x41, 0x20, 0x00, 0x00 };
@@ -821,15 +821,20 @@ namespace ApsMotionControl.Dlg
             //float value = BitConverter.ToSingle(littleEndianBytes, 0);
 
 
-            int dataInt16 = BitConverter.ToInt16(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray(), 0);     //
-            int dataInt32 = BitConverter.ToInt32(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray(), 0);     //
+            //int dataInt16 = BitConverter.ToInt16(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray(), 0);     //
+            //int dataInt32 = BitConverter.ToInt32(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray(), 0);     //
 
 
             //string data = Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray().ToString();
 
             string readData = "";
+            string MES_EEPROM_VALUE = "";
+            string EEPROM_READ_VALUE = "";
             int startAddress = 0;
             int readCount = 0;
+
+            //FIX_YN 이 Y 이고 , BYTE_ORDER 이 Little 이면 뒤집어서 비교해야된다.
+            //FIX_YN 이 Y면 DATA_FORMAT에 표기된 포맷으로 ITEM_VALUE가 전달된다   DOUBLE = 0
             for (i = 0; i < TotalCount; i++)
             {
                 startAddress = Globalo.dataManage.eepromData.dataList[i].ADDRESS;
@@ -837,32 +842,122 @@ namespace ApsMotionControl.Dlg
 
                 if (Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT == Data.CEEpromData.HEX)
                 {
-                    readData = BitConverter.ToString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray()).Replace("-", " ");
+                    readData = BitConverter.ToString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray()).Replace("-", "");//Replace("-", " ");
+                    Console.WriteLine($"HEX: {readData}");
                 }
                 else if (Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT == Data.CEEpromData.ASCII)
                 {
                     readData = Encoding.ASCII.GetString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray());
+                    Console.WriteLine($"ASCII: {readData}");
                 }
                 else if (Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT == Data.CEEpromData.FLOAT)
                 {
                     readData = BitConverter.ToSingle(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray(), 0).ToString();
+                    Console.WriteLine($"FLOAT: {readData}");
                 }
                 else if (Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT == Data.CEEpromData.DOUBLE)
                 {
                     readData = BitConverter.ToSingle(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray(), 0).ToString();
+                    Console.WriteLine($"DOUBLE: {readData}");
                 }
                 else if (Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT == Data.CEEpromData.EMPTY)       //0xFF로 채워져서 HEX로 하면 될 듯
                 {
                     readData = BitConverter.ToString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray()).Replace("-", " ");
+                    Console.WriteLine($"EMPTY: {readData}");
                 }
-                else if (Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CRC8_SAE_J1850_ZERO)
+                 
+                
+                
+                if (Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CRC8_SAE_J1850_ZERO)
                 {
                     //값을 읽어서 계산 필요
+                    //byte[] fordData = { 0x01, 0x00, 0x67, 0xAD, 0x57, 0xE9, 0xFF, 0xFF, 0xFF, 0xFF };
+                    //byte fordcrc8_sae_j1850_zero = ComputeCRC8(fordData, 0x1D, 0x00, 0x00); // CRC8_SAE_J1850_ZERO
+                    startAddress = int.Parse(Globalo.dataManage.eepromData.dataList[i].CRC_START);
+                    readCount = int.Parse(Globalo.dataManage.eepromData.dataList[i].CRC_END);
+
+                    byte fordcrc8_sae_j1850_zero = Data.CEEpromData.ComputeCRC8(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount - startAddress + 1).ToArray(), 0x1D, 0x00, 0x00);
+                    Console.WriteLine($"CRC_CRC8_SAE_J1850_ZERO: {fordcrc8_sae_j1850_zero}");
+
+                    EEPROM_READ_VALUE = fordcrc8_sae_j1850_zero.ToString("X4");
                 }
                 else if (Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CHECKSUM_RFC1071)
                 {
                     //값을 읽어서 계산 필요
+                    startAddress = int.Parse(Globalo.dataManage.eepromData.dataList[i].CRC_START);
+                    readCount = int.Parse(Globalo.dataManage.eepromData.dataList[i].CRC_END);
+
+                    ushort checksum_rf1071 = Data.CEEpromData.ComputeRFC1071Checksum(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount - startAddress + 1).ToArray());
+
+                    Console.WriteLine($"CRC_CHECKSUM_RFC1071: {checksum_rf1071}");
+
+
+                    // TODO: LGIT AM Paju		Verify	CRC_FOR_SERIAL_NUMBER	66	2	CRC_CHECKSUM_RFC1071	Little	N	EEP_CAL_CRC_SN	0x10FC
+                    //checksum_rf1071 = 0xFC10 으로 계산되어 나온다 , Little 면 뒤집어서 비교해야된다.
+                    EEPROM_READ_VALUE = checksum_rf1071.ToString("X4");
                 }
+                else
+                {
+                    EEPROM_READ_VALUE = BitConverter.ToString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray()).Replace("-", "");
+                }
+
+
+
+                //FIX_YN 이 Y 이고 , BYTE_ORDER 이 Little 이면 뒤집어서 비교해야된다.
+
+                //FIX_YN 이 Y면 DATA_FORMAT에 표기된 포맷으로 ITEM_VALUE가 전달된다   DOUBLE = 0
+
+                
+
+
+
+                //EEPROM_READ_VALUE = Globalo.mCCdPanel.CcdEEpromReadData 에서 변환해야된다.
+
+                if (Globalo.dataManage.eepromData.dataList[i].FIX_YN == "Y")
+                {
+                    //FIX_YN 이 Y 이고 , DATA_FORMAT 이 HEX 가 아니면 HEX로 변환해서 비교해야된다.
+
+                    //ASCII   -> HEX
+                    //FLOAT   -> HEX
+                    //DOUBLE  -> HEX
+                    //DEC     -> HEX
+                    //ASCIIToHex
+                    
+                }
+
+                //Globalo.dataManage.mesData.VMesEEpromData.Add(tempData);
+
+
+                //eeprom에서 읽은값 전부 hex라서 변활할 필요가 없다.
+                MES_EEPROM_VALUE = Data.CEEpromData.StringToHex(Globalo.dataManage.eepromData.dataList[i].ITEM_VALUE,
+                    Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT, 
+                    Globalo.dataManage.eepromData.dataList[i].BYTE_ORDER, 
+                    Globalo.dataManage.eepromData.dataList[i].FIX_YN);
+
+                //Globalo.mLaonGrabberClass.eepromDicData
+                //mes를 뒤집어야지 eeprom 읽은값은 안 뒤집어도 된다?
+                //if(Globalo.dataManage.eepromData.dataList[i].BYTE_ORDER == "Little")
+                //{
+                //    //뒤집어야된다
+                //    EEPROM_READ_VALUE = BitConverter.ToString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray().Reverse().ToArray()).Replace("-", "");
+                //}
+                //else
+                //{
+                //    EEPROM_READ_VALUE = BitConverter.ToString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray()).Replace("-", "");
+                //}
+
+                
+                if (EEPROM_READ_VALUE == MES_EEPROM_VALUE)
+                {
+                    //OK
+                    Console.WriteLine($"{EEPROM_READ_VALUE} == {MES_EEPROM_VALUE} OK");
+                }
+                else
+                {
+                    //NG
+                    Console.WriteLine($"{EEPROM_READ_VALUE} == {MES_EEPROM_VALUE} NG");
+                }
+
             }
         }
         public void EEpromRead()
