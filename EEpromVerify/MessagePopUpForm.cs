@@ -158,9 +158,9 @@ namespace ApsMotionControl
         public void OnDialogCloseEvent(string barcodeData)
         {
             // this.Invoke((MethodInvoker)(() => this.Close())); // 안전한 UI 스레드 호출
-            Globalo.serialPortManager.Barcode.BarcodeScanned -= OnDialogCloseEvent;
             this.Invoke((MethodInvoker)(() =>
             {
+                Globalo.serialPortManager.Barcode.BarcodeScanned -= OnDialogCloseEvent;
                 //MessageBox.Show($"Barcode Scanned: {barcodeData}");
                 this.DialogResult = DialogResult.Yes;
                 this.Close();
@@ -177,6 +177,11 @@ namespace ApsMotionControl
                 }
             }
                 
+        }
+
+        private void MessagePopUpForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+           // Globalo.serialPortManager.Barcode.BarcodeScanned -= OnDialogCloseEvent;
         }
     }
 }

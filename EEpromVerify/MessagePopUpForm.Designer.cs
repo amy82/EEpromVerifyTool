@@ -145,6 +145,7 @@ namespace ApsMotionControl
             this.Name = "MessagePopUpForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "MessagePopUpForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MessagePopUpForm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.warnningImage)).EndInit();
             this.ResumeLayout(false);
 

@@ -11,6 +11,8 @@ namespace ApsMotionControl.FThread
     public class AutoRunthread : BaseThread
     {
         //public event delLogSender eLogSender;       //외부에서 호출할때 사용
+        
+
 
         private Process.PcbProcess RunProcess = new Process.PcbProcess();
         private Process.ReadyProcess readyProcess = new Process.ReadyProcess();
@@ -56,19 +58,16 @@ namespace ApsMotionControl.FThread
                 }
 
             }
-            else if (Globalo.taskWork.m_nCurrentStep == -1)
-            {
-                //Globalo.MainForm.StopAutoProcess();       
-                // TODO:   STOP 버튼 함수 살려야된다. 250219
-                cts.Cancel();
-            }
             else if (Globalo.taskWork.m_nCurrentStep < 0)
             {
                 Globalo.MainForm.PauseAutoProcess();
             }
             else
             {
-                cts.Cancel();
+                //Globalo.MainForm.StopAutoProcess();       
+                // TODO:   STOP 버튼 함수 살려야된다. 250219 왜? 250220
+                //cts.Cancel();
+                Stop();
             }
         }
 

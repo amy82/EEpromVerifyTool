@@ -28,6 +28,16 @@ namespace ApsMotionControl
             timeThread = new FThread.TimeThread();
             autoRunthread = new FThread.AutoRunthread();
 
+            // 이벤트 핸들러 등록
+            autoRunthread.ThreadCompleted += (bool result) =>
+            {
+                Console.WriteLine($"[Event] Thread 종료됨, 결과: {result}");
+                //if(Globalo.MainForm != null)
+                //{
+                //    Globalo.MainForm.StopAutoProcess();
+                //}
+            };
+
             if (ProgramState.ON_LINE_MIL)
             {
                 ccdColorThread = new FThread.CcdColorThread();

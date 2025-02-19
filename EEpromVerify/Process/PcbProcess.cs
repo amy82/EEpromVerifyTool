@@ -10,17 +10,19 @@ namespace ApsMotionControl.Process
 {
     public class PcbProcess
     {
-
+        private readonly SynchronizationContext _syncContext;
         public int nTimeTick = 0;
         //public int[] SensorSet;
         public int[] SensorSet = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         public int[] OrgOnGoing = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         private bool autoPause = true;
+
+        System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer { Interval = 5000 }; // 3초 후 바코드 스캔된 것처럼 처리
         public PcbProcess()
         {
             //SensorSet = new int[4];
             //textCmdPos.Text = String.Format("{0:0.000}", dCmdPosition);
-            
+            _syncContext = SynchronizationContext.Current;
         }
 
         public int Auto_Loading(int nStep)       //로딩(30000 ~ 40000)
@@ -38,19 +40,19 @@ namespace ApsMotionControl.Process
                     break;
 
                 case 30050:
-                    if(autoPause)
-                    {
-                        autoPause = false;
-                        szLog = $"[AUTO] 자동운전 TEST 2 일시정지[STEP : {nStep}]";
-                        Globalo.LogPrint("AutoPrecess", szLog, Globalo.eMessageName.M_WARNING);
-                        nRetStep = -30050;
-                        break;
-                    }
+                    //if(autoPause)
+                    //{
+                    //    autoPause = false;
+                    //    szLog = $"[AUTO] 자동운전 TEST 2 일시정지[STEP : {nStep}]";
+                    //    Globalo.LogPrint("AutoPrecess", szLog, Globalo.eMessageName.M_WARNING);
+                    //    nRetStep = -30050;
+                    //    break;
+                    //}
 
 
 
                     // 바코드 이벤트를 발생시키는 시뮬레이션
-                    System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer { Interval = 5000 }; // 3초 후 바코드 스캔된 것처럼 처리
+                    
                     timer.Tick += (sender, args) =>
                     {
                         timer.Stop();
@@ -61,9 +63,15 @@ namespace ApsMotionControl.Process
                     break;
                 case 30100:
 
+                    //_syncContext?.Post(_ => Globalo.MessageAskPopup("제품 투입후 진행해주세요!"), null);
+                    DialogResult result = DialogResult.None;
+                    _syncContext.Send(_ =>
+                    {
+                        result = Globalo.MessageAskPopup("제품 투입 후 진행해주세요!");
+                    }, null);
 
                     //Globalo.yamlManager.configData.DrivingSettings.EnableAutoStartBcr
-                    DialogResult result = Globalo.MessageAskPopup("제품 투입후 진행해주세요!");
+                    //DialogResult result = Globalo.MessageAskPopup("제품 투입후 진행해주세요!");
                     if (result == DialogResult.Yes)
                     {
                         nRetStep = 30150;
