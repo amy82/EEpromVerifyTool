@@ -33,8 +33,9 @@ namespace ApsMotionControl.Data
         public static readonly string CRC16_CCIT_ZERO = "CRC16_CCIT_ZERO";
         public static readonly string CRC16_CCIT_FALSE = "CRC16_CCIT_FALSE";
         public static readonly string CHECKSUM16_RFC1071 = "CHECKSUM16_RFC1071";
-        public static readonly string CRC_CHECKSUM_RFC1071 = "CRC_CHECKSUM_RFC1071";
 
+
+        public static readonly string CRC_CHECKSUM_RFC1071 = "CRC_CHECKSUM_RFC1071";
 
 
         public static readonly string EMPTY = "EMPTY";
@@ -269,6 +270,114 @@ namespace ApsMotionControl.Data
             ushort checksum16 = ComputeChecksum16(data3);
             Console.WriteLine($"CHECKSUM16_RFC1071: {checksum16:X4}");
 
+
+            byte[] testData = Enumerable.Repeat((byte)0x20, 30).ToArray(); // 30개 0x20 값
+            ushort checksum = ComputeRFC1071Checksum(testData);
+
+            Console.WriteLine($"Checksum: {checksum:X4}"); // 16진수 출력
+
+
+            byte[] testData2 = {
+            0xAB, 0x9C, 0xFF, 0x89, 0x29, 0x2A, 0xAE, 0x40,
+            0x9E, 0xA6, 0x83, 0x65, 0x9E, 0x28, 0xAE, 0x40,
+            0x3C, 0xAD, 0x1E, 0xC7, 0x7A, 0x25, 0x9E, 0x40,
+            0x76, 0x18, 0xB8, 0xF8, 0x5A, 0x15, 0x91, 0x40,
+            0x5D, 0x8C, 0x61, 0x8A, 0xD4, 0xDA, 0xD1, 0xBF,
+            0x41, 0x15, 0x8C, 0x2C, 0xB6, 0x22, 0xDF, 0x3F,
+            0x48, 0x78, 0x1E, 0x2B, 0x51, 0x34, 0xEA, 0xBF,
+            0x89, 0x70, 0x2C, 0x64, 0x57, 0xB1, 0xDD, 0x3F,
+            0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+            0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+            0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+            0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0xA3, 0x48, 0xB1, 0x45, 0xCD, 0xCC, 0x04, 0x40
+        };
+
+            ushort checksum2 = ComputeRFC1071Checksum(testData2);
+            Console.WriteLine($"Checksum: {checksum2:X4}"); // 16진수 출력
+
+
+        }
+        public static string StringToHex(string Input, string Format, string Order, string FixYn)       //MES 에서 받은 값을 변환
+        {
+            string RtnString = "";
+            
+            
+            if (Format == ASCII && FixYn == "Y")
+            {
+                StringBuilder hex = new StringBuilder();
+                byte[] bytes = Encoding.ASCII.GetBytes(Input); // 문자열 → 바이트 배열 변환
+
+                //위에서 N일 경우가 있어서 무조건
+                //Y만 들어온다.
+
+                for (int i = bytes.Length - 1; i >= 0; i--) // 뒤에서부터 추가
+                {
+                    hex.AppendFormat("{0:X2} ", bytes[i]);      //Little Endian 변환 코드
+                }
+
+                //foreach (char c in Input)
+                //{
+                //    hex.AppendFormat("{0:X2} ", (byte)c); // 각 문자를 16진수 2자리로 변환
+                //}
+                RtnString = hex.ToString().Trim();
+            }
+            else if (Format == FLOAT && FixYn == "Y")
+            {
+                float floatValue = float.Parse(Input);
+                byte[] bytes = BitConverter.GetBytes(floatValue); // float → byte[]
+                if (Order == "Little")
+                {
+                    Array.Reverse(bytes); // 빅엔디안으로 변환 (네트워크 전송 시 필요)
+                }
+                
+                RtnString = BitConverter.ToString(bytes).Replace("-", " ");
+            }
+            else if (Format == DOUBLE && FixYn == "Y")
+            {
+                double doubleValue = double.Parse(Input);
+                byte[] bytes = BitConverter.GetBytes(doubleValue); // double → byte[]
+                if(Order == "Little")
+                {
+                    Array.Reverse(bytes); // 빅엔디안 변환
+                }
+                
+                RtnString = BitConverter.ToString(bytes).Replace("-", " ");
+            }
+            else// (Format == HEX || Format == EMPTY || Format ==  || FixYn == "N")      //N이면 무조건 Hex로 들어온다.
+            {
+                Input = Input.Replace("0x", "");
+                if (FixYn == "Y" && Order == "Little")
+                {
+                    //뒤집어야된다.
+                    // 2자리씩 나누고 역순으로 정렬
+
+                    //char[] charArray = Input.ToCharArray();
+                    //Array.Reverse(charArray);
+                    //RtnString = new string(charArray);
+
+                    // 2자리씩 나누기
+                    string[] bytes = Enumerable.Range(0, Input.Length / 2)
+                                               .Select(i => Input.Substring(i * 2, 2))
+                                               .ToArray();
+
+                    // Little Endian 변환 (뒤집기)
+                    RtnString = string.Join("", bytes.Reverse());
+
+                }
+                else
+                {
+                    RtnString = Input;
+                }
+
+            }
+
+
+
+
+            //MES_EEPROM_VALUE = BitConverter.ToString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray()).Replace("-", " ");
+            return RtnString; // 마지막 공백 제거
         }
         //CRC-8 계산
         public static byte ComputeCRC8(byte[] data, byte polynomial, byte initialValue, byte xorOut)
@@ -314,6 +423,32 @@ namespace ApsMotionControl.Data
                 }
             }
             return (ushort)~sum; // 1의 보수 적용
+        }
+
+
+        public static ushort ComputeRFC1071Checksum(byte[] data)
+        {
+            uint sum = 0;
+
+            // 16비트 단위로 더하기 (2바이트씩 묶어서 처리)
+            for (int i = 0; i < data.Length; i += 2)
+            {
+                ushort word = (ushort)(data[i] << 8); // 상위 바이트
+                if (i + 1 < data.Length)
+                {
+                    word |= data[i + 1]; // 하위 바이트 추가
+                }
+                sum += word;
+            }
+
+            // 16비트 초과한 값을 처리 (Carry Bit Handling)
+            while ((sum >> 16) > 0)
+            {
+                sum = (sum & 0xFFFF) + (sum >> 16);
+            }
+
+            // One's Complement 취하기
+            return (ushort)~sum;
         }
     }
 }
