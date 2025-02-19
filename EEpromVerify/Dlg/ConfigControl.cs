@@ -43,7 +43,8 @@ namespace ApsMotionControl.Dlg
         {
             //운전 설정
             Globalo.yamlManager.configData.DrivingSettings.IdleReportPass = checkBox_IdleReportPass.Checked;
-
+            Globalo.yamlManager.configData.DrivingSettings.EnableAutoStartBcr = checkBox_BcrGo.Checked;
+            
             //Serial Port
             Globalo.yamlManager.configData.SerialPort.Bcr = comboBox_Port_Bcr.Text;
         }
@@ -51,6 +52,8 @@ namespace ApsMotionControl.Dlg
         {
             bool setBool = Globalo.yamlManager.configData.DrivingSettings.IdleReportPass;
             checkBox_IdleReportPass.Checked = Globalo.yamlManager.configData.DrivingSettings.IdleReportPass;
+            checkBox_BcrGo.Checked = Globalo.yamlManager.configData.DrivingSettings.EnableAutoStartBcr;
+
         }
         public void ShowComPort()
         {

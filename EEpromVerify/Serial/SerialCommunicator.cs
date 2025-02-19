@@ -20,6 +20,8 @@ namespace ApsMotionControl.Serial
         public StopBits StopBits { get; set; }
         public Parity Parity { get; set; }
 
+        public event Action<string> BarcodeScanned;
+
         public enum BaudRates
         {
             Baud1200 = 1200,
@@ -58,6 +60,11 @@ namespace ApsMotionControl.Serial
             // 2. 데이터 수신 이벤트 핸들러 등록
             _serialPort.DataReceived += SerialPort_DataReceived;
         }
+        // 바코드 스캔 발생 시 이벤트 호출
+        public void SimulateScan(string barcodeData)
+        {
+            BarcodeScanned?.Invoke(barcodeData);
+        }
         // 6. 바코드 데이터 수신 이벤트 처리
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
@@ -76,6 +83,10 @@ namespace ApsMotionControl.Serial
 
 
                 Globalo.MainForm.BcrSet(scanData);
+
+
+                SimulateScan("call");
+
             }
             catch (Exception ex)
             {

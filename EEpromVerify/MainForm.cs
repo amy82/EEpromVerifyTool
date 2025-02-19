@@ -631,7 +631,7 @@ namespace ApsMotionControl
         {
             //Button btn = sender as Button;
             //eLogPrint("Log", $"{btn.Text} 버튼 Click");
-
+            
             if (Debugger.IsAttached)
             {
                 //string parameter = "111,222,333,444,555,";
@@ -710,13 +710,14 @@ namespace ApsMotionControl
                 return;
             }
 
-            if (ProgramState.CurrentState == OperationState.Stopped)
-            {
-                Globalo.LogPrint("MainForm", "[INFO] 운전준비가 완료되지 않았습니다.", Globalo.eMessageName.M_WARNING);
-                return;
-            }
+            //if (ProgramState.CurrentState == OperationState.Stopped)
+            //{
+            //    Globalo.LogPrint("MainForm", "[INFO] 운전준비가 완료되지 않았습니다.", Globalo.eMessageName.M_WARNING);
+            //    return;
+            //}
 
             string logStr = "자동운전 진행 하시겠습니까 ?";
+
             if (ProgramState.CurrentState == OperationState.Paused)
             {
                 if (Math.Abs(Globalo.taskWork.m_nCurrentStep) < 30000 || Math.Abs(Globalo.taskWork.m_nCurrentStep) >= 90000)
@@ -737,18 +738,13 @@ namespace ApsMotionControl
             }
 
             MessagePopUpForm messagePopUp = new MessagePopUpForm("", "YES", "NO");
-
             messagePopUp.MessageSet(Globalo.eMessageName.M_ASK, logStr);
             DialogResult result = messagePopUp.ShowDialog();
-
 
             if (result == DialogResult.Yes)
             {
                 StartAutoProcess();     //자동 운전 시작
             }
-            
-
-
         }
         /// <summary>
         /// 정지
@@ -1067,7 +1063,7 @@ namespace ApsMotionControl
 
 
             Globalo.taskWork.m_nStartStep = 30000;
-            Globalo.taskWork.m_nEndStep = 40000;
+            Globalo.taskWork.m_nEndStep = 60000;
 
             ProgramState.CurrentState = OperationState.AutoRunning;
             bool bRtn = Globalo.threadControl.autoRunthread.Start();
@@ -1075,7 +1071,6 @@ namespace ApsMotionControl
             {
                 ProgramState.CurrentState = OperationState.Stopped;
                 return false;
-
             }
 
             labelGuide.Text = "자동 운전 중입니다.";

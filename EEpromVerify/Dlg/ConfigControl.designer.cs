@@ -30,16 +30,17 @@
         {
             this.ManualTitleLabel = new System.Windows.Forms.Label();
             this.ManualPanel = new System.Windows.Forms.Panel();
+            this.BTN_CONFIG_SAVE = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label_Config_Bcr = new System.Windows.Forms.Label();
             this.comboBox_Port_Bcr = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.BTN_CONFIG_SAVE = new System.Windows.Forms.Button();
+            this.checkBox_IdleReportPass = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.BTN_MANUAL_PCB = new System.Windows.Forms.Button();
             this.BTN_MANUAL_LENS = new System.Windows.Forms.Button();
-            this.checkBox_IdleReportPass = new System.Windows.Forms.CheckBox();
+            this.checkBox_BcrGo = new System.Windows.Forms.CheckBox();
             this.ManualPanel.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -64,6 +65,20 @@
             this.ManualPanel.Name = "ManualPanel";
             this.ManualPanel.Size = new System.Drawing.Size(909, 737);
             this.ManualPanel.TabIndex = 4;
+            // 
+            // BTN_CONFIG_SAVE
+            // 
+            this.BTN_CONFIG_SAVE.BackColor = System.Drawing.Color.Tan;
+            this.BTN_CONFIG_SAVE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BTN_CONFIG_SAVE.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BTN_CONFIG_SAVE.ForeColor = System.Drawing.Color.White;
+            this.BTN_CONFIG_SAVE.Location = new System.Drawing.Point(755, 656);
+            this.BTN_CONFIG_SAVE.Name = "BTN_CONFIG_SAVE";
+            this.BTN_CONFIG_SAVE.Size = new System.Drawing.Size(122, 53);
+            this.BTN_CONFIG_SAVE.TabIndex = 28;
+            this.BTN_CONFIG_SAVE.Text = "SAVE";
+            this.BTN_CONFIG_SAVE.UseVisualStyleBackColor = false;
+            this.BTN_CONFIG_SAVE.Click += new System.EventHandler(this.BTN_CONFIG_SAVE_Click);
             // 
             // groupBox1
             // 
@@ -116,6 +131,7 @@
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.White;
+            this.groupBox2.Controls.Add(this.checkBox_BcrGo);
             this.groupBox2.Controls.Add(this.checkBox_IdleReportPass);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Location = new System.Drawing.Point(28, 21);
@@ -124,19 +140,19 @@
             this.groupBox2.TabIndex = 45;
             this.groupBox2.TabStop = false;
             // 
-            // BTN_CONFIG_SAVE
+            // checkBox_IdleReportPass
             // 
-            this.BTN_CONFIG_SAVE.BackColor = System.Drawing.Color.Tan;
-            this.BTN_CONFIG_SAVE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_CONFIG_SAVE.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BTN_CONFIG_SAVE.ForeColor = System.Drawing.Color.White;
-            this.BTN_CONFIG_SAVE.Location = new System.Drawing.Point(755, 656);
-            this.BTN_CONFIG_SAVE.Name = "BTN_CONFIG_SAVE";
-            this.BTN_CONFIG_SAVE.Size = new System.Drawing.Size(122, 53);
-            this.BTN_CONFIG_SAVE.TabIndex = 28;
-            this.BTN_CONFIG_SAVE.Text = "SAVE";
-            this.BTN_CONFIG_SAVE.UseVisualStyleBackColor = false;
-            this.BTN_CONFIG_SAVE.Click += new System.EventHandler(this.BTN_CONFIG_SAVE_Click);
+            this.checkBox_IdleReportPass.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.checkBox_IdleReportPass.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.checkBox_IdleReportPass.FlatAppearance.BorderSize = 2;
+            this.checkBox_IdleReportPass.FlatAppearance.CheckedBackColor = System.Drawing.Color.DarkGray;
+            this.checkBox_IdleReportPass.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.checkBox_IdleReportPass.Location = new System.Drawing.Point(11, 53);
+            this.checkBox_IdleReportPass.Name = "checkBox_IdleReportPass";
+            this.checkBox_IdleReportPass.Size = new System.Drawing.Size(275, 40);
+            this.checkBox_IdleReportPass.TabIndex = 27;
+            this.checkBox_IdleReportPass.Text = "IDLE REASON REPORT PASS";
+            this.checkBox_IdleReportPass.UseVisualStyleBackColor = false;
             // 
             // label3
             // 
@@ -180,19 +196,19 @@
             this.BTN_MANUAL_LENS.Visible = false;
             this.BTN_MANUAL_LENS.Click += new System.EventHandler(this.BTN_MANUAL_LENS_Click);
             // 
-            // checkBox_IdleReportPass
+            // checkBox_BcrGo
             // 
-            this.checkBox_IdleReportPass.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.checkBox_IdleReportPass.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.checkBox_IdleReportPass.FlatAppearance.BorderSize = 2;
-            this.checkBox_IdleReportPass.FlatAppearance.CheckedBackColor = System.Drawing.Color.DarkGray;
-            this.checkBox_IdleReportPass.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.checkBox_IdleReportPass.Location = new System.Drawing.Point(11, 53);
-            this.checkBox_IdleReportPass.Name = "checkBox_IdleReportPass";
-            this.checkBox_IdleReportPass.Size = new System.Drawing.Size(275, 40);
-            this.checkBox_IdleReportPass.TabIndex = 27;
-            this.checkBox_IdleReportPass.Text = "IDLE REASON REPORT PASS";
-            this.checkBox_IdleReportPass.UseVisualStyleBackColor = false;
+            this.checkBox_BcrGo.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.checkBox_BcrGo.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.checkBox_BcrGo.FlatAppearance.BorderSize = 2;
+            this.checkBox_BcrGo.FlatAppearance.CheckedBackColor = System.Drawing.Color.DarkGray;
+            this.checkBox_BcrGo.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.checkBox_BcrGo.Location = new System.Drawing.Point(11, 99);
+            this.checkBox_BcrGo.Name = "checkBox_BcrGo";
+            this.checkBox_BcrGo.Size = new System.Drawing.Size(275, 40);
+            this.checkBox_BcrGo.TabIndex = 28;
+            this.checkBox_BcrGo.Text = "Start Automation on Barcode";
+            this.checkBox_BcrGo.UseVisualStyleBackColor = false;
             // 
             // ConfigControl
             // 
@@ -225,5 +241,6 @@
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.Label label_Config_Bcr;
         private System.Windows.Forms.CheckBox checkBox_IdleReportPass;
+        private System.Windows.Forms.CheckBox checkBox_BcrGo;
     }
 }

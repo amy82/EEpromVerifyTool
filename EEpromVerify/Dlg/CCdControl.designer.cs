@@ -34,6 +34,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.BTN_CCD_ROI_SAVE = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.BTN_CCD_EEPROM_VERIFY_TEST = new System.Windows.Forms.Button();
             this.dataGridView_EEpromData = new System.Windows.Forms.DataGridView();
             this.textBox_ReadDataLeng = new System.Windows.Forms.TextBox();
             this.textBox_ReadAddr = new System.Windows.Forms.TextBox();
@@ -59,7 +60,6 @@
             this.BTN_CCD_GABBER_OPEN = new System.Windows.Forms.Button();
             this.BTN_MANUAL_PCB = new System.Windows.Forms.Button();
             this.BTN_MANUAL_LENS = new System.Windows.Forms.Button();
-            this.BTN_CCD_EEPROM_VERIFY_TEST = new System.Windows.Forms.Button();
             this.CcdPanel.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -94,9 +94,9 @@
             this.groupBox4.BackColor = System.Drawing.Color.White;
             this.groupBox4.Controls.Add(this.label4);
             this.groupBox4.Controls.Add(this.BTN_CCD_ROI_SAVE);
-            this.groupBox4.Location = new System.Drawing.Point(740, 344);
+            this.groupBox4.Location = new System.Drawing.Point(740, 290);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(169, 311);
+            this.groupBox4.Size = new System.Drawing.Size(169, 133);
             this.groupBox4.TabIndex = 47;
             this.groupBox4.TabStop = false;
             // 
@@ -116,11 +116,11 @@
             // 
             this.BTN_CCD_ROI_SAVE.BackColor = System.Drawing.Color.Tan;
             this.BTN_CCD_ROI_SAVE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_CCD_ROI_SAVE.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BTN_CCD_ROI_SAVE.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_CCD_ROI_SAVE.ForeColor = System.Drawing.Color.White;
             this.BTN_CCD_ROI_SAVE.Location = new System.Drawing.Point(26, 58);
             this.BTN_CCD_ROI_SAVE.Name = "BTN_CCD_ROI_SAVE";
-            this.BTN_CCD_ROI_SAVE.Size = new System.Drawing.Size(114, 50);
+            this.BTN_CCD_ROI_SAVE.Size = new System.Drawing.Size(114, 46);
             this.BTN_CCD_ROI_SAVE.TabIndex = 27;
             this.BTN_CCD_ROI_SAVE.Text = "ROI SAVE";
             this.BTN_CCD_ROI_SAVE.UseVisualStyleBackColor = false;
@@ -143,9 +143,23 @@
             this.groupBox3.Controls.Add(this.button4);
             this.groupBox3.Location = new System.Drawing.Point(13, 17);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(502, 537);
+            this.groupBox3.Size = new System.Drawing.Size(502, 602);
             this.groupBox3.TabIndex = 46;
             this.groupBox3.TabStop = false;
+            // 
+            // BTN_CCD_EEPROM_VERIFY_TEST
+            // 
+            this.BTN_CCD_EEPROM_VERIFY_TEST.BackColor = System.Drawing.Color.Tan;
+            this.BTN_CCD_EEPROM_VERIFY_TEST.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BTN_CCD_EEPROM_VERIFY_TEST.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BTN_CCD_EEPROM_VERIFY_TEST.ForeColor = System.Drawing.Color.White;
+            this.BTN_CCD_EEPROM_VERIFY_TEST.Location = new System.Drawing.Point(344, 192);
+            this.BTN_CCD_EEPROM_VERIFY_TEST.Name = "BTN_CCD_EEPROM_VERIFY_TEST";
+            this.BTN_CCD_EEPROM_VERIFY_TEST.Size = new System.Drawing.Size(142, 55);
+            this.BTN_CCD_EEPROM_VERIFY_TEST.TabIndex = 37;
+            this.BTN_CCD_EEPROM_VERIFY_TEST.Text = "EEprom Verify Test";
+            this.BTN_CCD_EEPROM_VERIFY_TEST.UseVisualStyleBackColor = false;
+            this.BTN_CCD_EEPROM_VERIFY_TEST.Click += new System.EventHandler(this.BTN_CCD_EEPROM_VERIFY_TEST_Click);
             // 
             // dataGridView_EEpromData
             // 
@@ -153,7 +167,7 @@
             this.dataGridView_EEpromData.Location = new System.Drawing.Point(18, 168);
             this.dataGridView_EEpromData.Name = "dataGridView_EEpromData";
             this.dataGridView_EEpromData.RowTemplate.Height = 23;
-            this.dataGridView_EEpromData.Size = new System.Drawing.Size(291, 329);
+            this.dataGridView_EEpromData.Size = new System.Drawing.Size(291, 416);
             this.dataGridView_EEpromData.TabIndex = 36;
             // 
             // textBox_ReadDataLeng
@@ -273,7 +287,7 @@
             this.groupBox1.Controls.Add(this.BTN_CCD_BMP_LOAD);
             this.groupBox1.Location = new System.Drawing.Point(740, 17);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(169, 311);
+            this.groupBox1.Size = new System.Drawing.Size(169, 258);
             this.groupBox1.TabIndex = 46;
             this.groupBox1.TabStop = false;
             // 
@@ -281,11 +295,11 @@
             // 
             this.BTN_CCD_RAW_SAVE.BackColor = System.Drawing.Color.Tan;
             this.BTN_CCD_RAW_SAVE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_CCD_RAW_SAVE.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BTN_CCD_RAW_SAVE.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_CCD_RAW_SAVE.ForeColor = System.Drawing.Color.White;
-            this.BTN_CCD_RAW_SAVE.Location = new System.Drawing.Point(27, 211);
+            this.BTN_CCD_RAW_SAVE.Location = new System.Drawing.Point(27, 196);
             this.BTN_CCD_RAW_SAVE.Name = "BTN_CCD_RAW_SAVE";
-            this.BTN_CCD_RAW_SAVE.Size = new System.Drawing.Size(114, 50);
+            this.BTN_CCD_RAW_SAVE.Size = new System.Drawing.Size(114, 46);
             this.BTN_CCD_RAW_SAVE.TabIndex = 30;
             this.BTN_CCD_RAW_SAVE.Text = "RAW SAVE";
             this.BTN_CCD_RAW_SAVE.UseVisualStyleBackColor = false;
@@ -295,11 +309,11 @@
             // 
             this.BTN_CCD_RAW_LOAD.BackColor = System.Drawing.Color.Tan;
             this.BTN_CCD_RAW_LOAD.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_CCD_RAW_LOAD.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BTN_CCD_RAW_LOAD.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_CCD_RAW_LOAD.ForeColor = System.Drawing.Color.White;
-            this.BTN_CCD_RAW_LOAD.Location = new System.Drawing.Point(27, 160);
+            this.BTN_CCD_RAW_LOAD.Location = new System.Drawing.Point(27, 150);
             this.BTN_CCD_RAW_LOAD.Name = "BTN_CCD_RAW_LOAD";
-            this.BTN_CCD_RAW_LOAD.Size = new System.Drawing.Size(114, 50);
+            this.BTN_CCD_RAW_LOAD.Size = new System.Drawing.Size(114, 46);
             this.BTN_CCD_RAW_LOAD.TabIndex = 29;
             this.BTN_CCD_RAW_LOAD.Text = "RAW LOAD";
             this.BTN_CCD_RAW_LOAD.UseVisualStyleBackColor = false;
@@ -309,11 +323,11 @@
             // 
             this.BTN_CCD_BMP_SAVE.BackColor = System.Drawing.Color.Tan;
             this.BTN_CCD_BMP_SAVE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_CCD_BMP_SAVE.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BTN_CCD_BMP_SAVE.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_CCD_BMP_SAVE.ForeColor = System.Drawing.Color.White;
-            this.BTN_CCD_BMP_SAVE.Location = new System.Drawing.Point(27, 109);
+            this.BTN_CCD_BMP_SAVE.Location = new System.Drawing.Point(27, 104);
             this.BTN_CCD_BMP_SAVE.Name = "BTN_CCD_BMP_SAVE";
-            this.BTN_CCD_BMP_SAVE.Size = new System.Drawing.Size(114, 50);
+            this.BTN_CCD_BMP_SAVE.Size = new System.Drawing.Size(114, 46);
             this.BTN_CCD_BMP_SAVE.TabIndex = 28;
             this.BTN_CCD_BMP_SAVE.Text = "BMP SAVE";
             this.BTN_CCD_BMP_SAVE.UseVisualStyleBackColor = false;
@@ -324,7 +338,7 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("굴림", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label1.ForeColor = System.Drawing.Color.DimGray;
-            this.label1.Location = new System.Drawing.Point(23, 17);
+            this.label1.Location = new System.Drawing.Point(18, 17);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(145, 23);
             this.label1.TabIndex = 26;
@@ -335,11 +349,11 @@
             // 
             this.BTN_CCD_BMP_LOAD.BackColor = System.Drawing.Color.Tan;
             this.BTN_CCD_BMP_LOAD.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_CCD_BMP_LOAD.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BTN_CCD_BMP_LOAD.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_CCD_BMP_LOAD.ForeColor = System.Drawing.Color.White;
             this.BTN_CCD_BMP_LOAD.Location = new System.Drawing.Point(27, 58);
             this.BTN_CCD_BMP_LOAD.Name = "BTN_CCD_BMP_LOAD";
-            this.BTN_CCD_BMP_LOAD.Size = new System.Drawing.Size(114, 50);
+            this.BTN_CCD_BMP_LOAD.Size = new System.Drawing.Size(114, 46);
             this.BTN_CCD_BMP_LOAD.TabIndex = 27;
             this.BTN_CCD_BMP_LOAD.Text = "BMP LOAD";
             this.BTN_CCD_BMP_LOAD.UseVisualStyleBackColor = false;
@@ -355,7 +369,7 @@
             this.groupBox2.Controls.Add(this.BTN_CCD_GABBER_OPEN);
             this.groupBox2.Location = new System.Drawing.Point(552, 17);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(169, 311);
+            this.groupBox2.Size = new System.Drawing.Size(169, 258);
             this.groupBox2.TabIndex = 45;
             this.groupBox2.TabStop = false;
             // 
@@ -363,11 +377,11 @@
             // 
             this.BTN_CCD_GABBER_CLOSE.BackColor = System.Drawing.Color.Tan;
             this.BTN_CCD_GABBER_CLOSE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_CCD_GABBER_CLOSE.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BTN_CCD_GABBER_CLOSE.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_CCD_GABBER_CLOSE.ForeColor = System.Drawing.Color.White;
-            this.BTN_CCD_GABBER_CLOSE.Location = new System.Drawing.Point(27, 211);
+            this.BTN_CCD_GABBER_CLOSE.Location = new System.Drawing.Point(27, 196);
             this.BTN_CCD_GABBER_CLOSE.Name = "BTN_CCD_GABBER_CLOSE";
-            this.BTN_CCD_GABBER_CLOSE.Size = new System.Drawing.Size(114, 50);
+            this.BTN_CCD_GABBER_CLOSE.Size = new System.Drawing.Size(114, 46);
             this.BTN_CCD_GABBER_CLOSE.TabIndex = 30;
             this.BTN_CCD_GABBER_CLOSE.Text = "CLOSE";
             this.BTN_CCD_GABBER_CLOSE.UseVisualStyleBackColor = false;
@@ -377,11 +391,11 @@
             // 
             this.BTN_CCD_GABBER_STOP.BackColor = System.Drawing.Color.Tan;
             this.BTN_CCD_GABBER_STOP.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_CCD_GABBER_STOP.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BTN_CCD_GABBER_STOP.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_CCD_GABBER_STOP.ForeColor = System.Drawing.Color.White;
-            this.BTN_CCD_GABBER_STOP.Location = new System.Drawing.Point(27, 160);
+            this.BTN_CCD_GABBER_STOP.Location = new System.Drawing.Point(27, 150);
             this.BTN_CCD_GABBER_STOP.Name = "BTN_CCD_GABBER_STOP";
-            this.BTN_CCD_GABBER_STOP.Size = new System.Drawing.Size(114, 50);
+            this.BTN_CCD_GABBER_STOP.Size = new System.Drawing.Size(114, 46);
             this.BTN_CCD_GABBER_STOP.TabIndex = 29;
             this.BTN_CCD_GABBER_STOP.Text = "STOP";
             this.BTN_CCD_GABBER_STOP.UseVisualStyleBackColor = false;
@@ -391,11 +405,11 @@
             // 
             this.BTN_CCD_GABBER_START.BackColor = System.Drawing.Color.Tan;
             this.BTN_CCD_GABBER_START.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_CCD_GABBER_START.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BTN_CCD_GABBER_START.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_CCD_GABBER_START.ForeColor = System.Drawing.Color.White;
-            this.BTN_CCD_GABBER_START.Location = new System.Drawing.Point(27, 109);
+            this.BTN_CCD_GABBER_START.Location = new System.Drawing.Point(27, 104);
             this.BTN_CCD_GABBER_START.Name = "BTN_CCD_GABBER_START";
-            this.BTN_CCD_GABBER_START.Size = new System.Drawing.Size(114, 50);
+            this.BTN_CCD_GABBER_START.Size = new System.Drawing.Size(114, 46);
             this.BTN_CCD_GABBER_START.TabIndex = 28;
             this.BTN_CCD_GABBER_START.Text = "START";
             this.BTN_CCD_GABBER_START.UseVisualStyleBackColor = false;
@@ -417,11 +431,11 @@
             // 
             this.BTN_CCD_GABBER_OPEN.BackColor = System.Drawing.Color.Tan;
             this.BTN_CCD_GABBER_OPEN.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_CCD_GABBER_OPEN.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BTN_CCD_GABBER_OPEN.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_CCD_GABBER_OPEN.ForeColor = System.Drawing.Color.White;
             this.BTN_CCD_GABBER_OPEN.Location = new System.Drawing.Point(27, 58);
             this.BTN_CCD_GABBER_OPEN.Name = "BTN_CCD_GABBER_OPEN";
-            this.BTN_CCD_GABBER_OPEN.Size = new System.Drawing.Size(114, 50);
+            this.BTN_CCD_GABBER_OPEN.Size = new System.Drawing.Size(114, 46);
             this.BTN_CCD_GABBER_OPEN.TabIndex = 27;
             this.BTN_CCD_GABBER_OPEN.Text = "OPEN";
             this.BTN_CCD_GABBER_OPEN.UseVisualStyleBackColor = false;
@@ -456,20 +470,6 @@
             this.BTN_MANUAL_LENS.UseVisualStyleBackColor = false;
             this.BTN_MANUAL_LENS.Visible = false;
             this.BTN_MANUAL_LENS.Click += new System.EventHandler(this.BTN_MANUAL_LENS_Click);
-            // 
-            // BTN_CCD_EEPROM_VERIFY_TEST
-            // 
-            this.BTN_CCD_EEPROM_VERIFY_TEST.BackColor = System.Drawing.Color.Tan;
-            this.BTN_CCD_EEPROM_VERIFY_TEST.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_CCD_EEPROM_VERIFY_TEST.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BTN_CCD_EEPROM_VERIFY_TEST.ForeColor = System.Drawing.Color.White;
-            this.BTN_CCD_EEPROM_VERIFY_TEST.Location = new System.Drawing.Point(344, 192);
-            this.BTN_CCD_EEPROM_VERIFY_TEST.Name = "BTN_CCD_EEPROM_VERIFY_TEST";
-            this.BTN_CCD_EEPROM_VERIFY_TEST.Size = new System.Drawing.Size(142, 55);
-            this.BTN_CCD_EEPROM_VERIFY_TEST.TabIndex = 37;
-            this.BTN_CCD_EEPROM_VERIFY_TEST.Text = "EEprom Verify Test";
-            this.BTN_CCD_EEPROM_VERIFY_TEST.UseVisualStyleBackColor = false;
-            this.BTN_CCD_EEPROM_VERIFY_TEST.Click += new System.EventHandler(this.BTN_CCD_EEPROM_VERIFY_TEST_Click);
             // 
             // CCdControl
             // 
