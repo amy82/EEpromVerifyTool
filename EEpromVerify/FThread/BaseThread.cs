@@ -12,6 +12,8 @@ namespace ApsMotionControl.FThread
         protected Thread thread;
         protected bool m_bPause = false;
         protected CancellationTokenSource cts;
+        public event Action<bool> ThreadCompleted; // 쓰레드 종료 이벤트
+        private bool _result;
 
         public int threadCount = 0;
 
@@ -36,20 +38,25 @@ namespace ApsMotionControl.FThread
                     ThreadRun();
                     Thread.Sleep(Globalo.BASE_THREAD_INTERVAL);
                 }
-                cts = null;
+                
+                _result = true;
             }
             catch (ThreadAbortException e)
             {
                 Console.WriteLine("Thread - caught ThreadAbortException - resetting.");
                 Console.WriteLine("Exception message: {0}", e.Message);
+                _result = false;
             }
             finally
             {
+                cts = null;
+                thread = null;
                 Console.WriteLine("ProcessRun mesfinallysage");
             }
 
 
             Console.WriteLine("Thread 종료됨.");
+            ThreadCompleted?.Invoke(_result); // 쓰레드 종료 시 이벤트 호출
         }
         protected virtual void ManulRun(Action runAction)
         {
@@ -71,6 +78,7 @@ namespace ApsMotionControl.FThread
             finally
             {
                 Console.WriteLine("ProcessRun mesfinallysage");
+
             }
 
 
@@ -106,6 +114,11 @@ namespace ApsMotionControl.FThread
                         if (thread.IsAlive)
                         {
                             Console.WriteLine($"thread.IsAlive {thread.IsAlive}");
+                            return false;
+                        }
+                        else if (thread != null)
+                        {
+                            Console.WriteLine($"thread not null");
                             return false;
                         }
                         else
@@ -169,37 +182,67 @@ namespace ApsMotionControl.FThread
         {
             if (thread != null && cts != null)
             {
-                Console.WriteLine("Thread Stop() #1");
-                if(cts != null)
-                {
-                    Console.WriteLine("Thread Stop() cts.Cancel #1");
-                    cts.Cancel();
-                    Console.WriteLine("Thread Stop() cts.Cancel #2");
-                }
+                Console.WriteLine("Base Thread Stop() #1");
+                cts.Cancel();
+                m_bPause = false;       //일시정지 해제 cts.Cancel 보다 m_bPause를 먼저하면 ThreadRun 에서 일시 정지로 빠진다.
+                Console.WriteLine("Base Thread Stop() #End");
 
-                Console.WriteLine("Thread Stop() Join #1");
-                bool bRtn = thread.Join(100);  // 🔹 1초 동안 스레드 종료 대기 200ms 뒤에 빠져나와서 추가해도 괜찮음
-                Console.WriteLine("Thread Stop() Join #2");
-                if (bRtn == false)
-                {
-                    bRtn = thread.Join(50);
-                    if (bRtn == false)
-                    {
-                        Abort();
-                    }
-                        
-                }
+                //Console.WriteLine("Thread Stop() Join #1");
 
-                if (!thread.IsAlive) // 🔹 스레드가 종료되었는지 확인
-                {
-                    thread = null;
-                    cts = null;
-                }
-                m_bPause = false;       //일시정지 해제
+                //bool bRtn = thread.Join(100);  // 🔹 1초 동안 스레드 종료 대기 200ms 뒤에 빠져나와서 추가해도 괜찮음
 
-                Console.WriteLine("Thread Stop() #2");
+                //Console.WriteLine("Thread Stop() Join #2");
+                //if (bRtn == false)
+                //{
+                //    bRtn = thread.Join(50);
+                //    if (bRtn == false)
+                //    {
+                //        Abort();
+                //    }
+
+                //}
+
+                //if (!thread.IsAlive) // 🔹 스레드가 종료되었는지 확인
+                //{
+                //    thread = null;
+                //    cts = null;
+                //}
+
+                
             }
         }
+        //public void Stop()
+        //{
+        //    if (thread != null && cts != null)
+        //    {
+        //        Console.WriteLine("Thread Stop() #1");
+        //        cts.Cancel();
+
+        //        Console.WriteLine("Thread Stop() Join #1");
+
+        //        bool bRtn = thread.Join(100);  // 🔹 1초 동안 스레드 종료 대기 200ms 뒤에 빠져나와서 추가해도 괜찮음
+
+        //        Console.WriteLine("Thread Stop() Join #2");
+        //        if (bRtn == false)
+        //        {
+        //            bRtn = thread.Join(50);
+        //            if (bRtn == false)
+        //            {
+        //                Abort();
+        //            }
+
+        //        }
+
+        //        if (!thread.IsAlive) // 🔹 스레드가 종료되었는지 확인
+        //        {
+        //            thread = null;
+        //            cts = null;
+        //        }
+        //        m_bPause = false;       //일시정지 해제
+
+        //        Console.WriteLine("Thread Stop() #2");
+        //    }
+        //}
         public bool GetThreadRun()
         {
             if (thread != null)

@@ -1080,6 +1080,7 @@ namespace ApsMotionControl
             Globalo.LogPrint("MainForm", "[AUTO] AUTO RUN START");
             return true;
         }
+
         public void StopAutoProcess()
         {
             AutoRunTimerStop();
