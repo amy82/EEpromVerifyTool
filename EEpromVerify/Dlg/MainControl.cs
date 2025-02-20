@@ -25,7 +25,7 @@ namespace ApsMotionControl.Dlg
         private const int RecipeGridRowViewCount = 5;
 
         private int[] GridColWidth = { 30, 160, 210, 70, 270, 50, 50, 1 };
-        private int[] ResultGridColWidth = { 50, 150, 50, 50, 500, 100, 100, 100 };
+        private int[] ResultGridColWidth = { 150, 50, 50, 500, 500, 100, 100 };//{ 50, 150, 50, 50, 500, 100, 100, 100 };
         private int RecipeGridWidth = 0;
 
         private int ResultGridRowHeight = 30;
@@ -68,7 +68,7 @@ namespace ApsMotionControl.Dlg
             ShowModelGrid();
             ShowOpid();
             ShowRecipeList();
-            ShowVerifyResultGrid(50);
+            //ShowVerifyResultGrid(50);
         }
         private void InitResultGrid()
         {
@@ -85,7 +85,7 @@ namespace ApsMotionControl.Dlg
             dataGridView_Result.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None; // 모든 셀에 맞게 자동 조정
 
             // 열 자동 크기 조정
-            dataGridView_Result.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            dataGridView_Result.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;//DataGridViewAutoSizeColumnsMode.None;
 
             // 또는
             // 셀 내용 줄바꿈
@@ -128,27 +128,28 @@ namespace ApsMotionControl.Dlg
             DataGridViewCellStyle cellStyle = new DataGridViewCellStyle();
 
             cellStyle.Font = new Font("나눔고딕", 9, FontStyle.Regular); // Change font and size
-            cellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; // Center align text
+            cellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft; // Center align text
             cellStyle.SelectionBackColor = Color.Aquamarine;
             //cellStyle.SelectionForeColor = Color.Empty;
 
             dataGridView_Result.DefaultCellStyle = cellStyle;
 
             //DataGridViewCheckBoxColumn checkBoxColumn = new DataGridViewCheckBoxColumn();
-            DataGridViewTextBoxColumn[] textColumns = new DataGridViewTextBoxColumn[5];
+            DataGridViewTextBoxColumn[] textColumns = new DataGridViewTextBoxColumn[6];
 
-            for (i = 0; i < 5; i++)
+            for (i = 0; i < 6; i++)
             {
                 textColumns[i] = new DataGridViewTextBoxColumn();
             }
 
             //DataGridView
-            textColumns[0].HeaderText = "JUDGE";
-            textColumns[1].HeaderText = "EEP_ITEM";
-            textColumns[2].HeaderText = "ADDR";
-            textColumns[3].HeaderText = "SIZE";
-            textColumns[4].HeaderText = "ITEM_VALUE";
-
+            
+            textColumns[0].HeaderText = "EEP_ITEM";
+            textColumns[1].HeaderText = "ADDR";
+            textColumns[2].HeaderText = "SIZE";
+            textColumns[3].HeaderText = "ITEM_VALUE";
+            textColumns[4].HeaderText = "EEPROM";
+            textColumns[5].HeaderText = "Result";
             //textColumns[0].Name = "No";
             //textColumns[1].Name = "Model";
 
@@ -160,6 +161,7 @@ namespace ApsMotionControl.Dlg
             dataGridView_Result.Columns.Add(textColumns[2]);
             dataGridView_Result.Columns.Add(textColumns[3]);
             dataGridView_Result.Columns.Add(textColumns[4]);
+            dataGridView_Result.Columns.Add(textColumns[5]);
 
             for (i = 0; i < dataGridView_Result.ColumnCount; i++)
             {
@@ -171,7 +173,7 @@ namespace ApsMotionControl.Dlg
             dataGridView_Result.Columns[2].Width = ResultGridColWidth[2];
             dataGridView_Result.Columns[3].Width = ResultGridColWidth[3];
             dataGridView_Result.Columns[4].Width = ResultGridColWidth[4]; ;// gridWidth - ResultGridColWidth[0] - ResultGridColWidth[1] - ResultGridColWidth[2] - ResultGridColWidth[3];
-
+            dataGridView_Result.Columns[5].Width = ResultGridColWidth[5];
 
 
 
@@ -182,7 +184,6 @@ namespace ApsMotionControl.Dlg
 
             for (i = 0; i < ResultGridRowViewCount; i++)
             {
-
                 string text = $"예시 텍스트 {i}"; // 예시 텍스트 생성
                 //bool isChecked = (i % 2 == 0); // 짝수인 경우 체크박스가 체크됨
                 dataGridView_Result.Rows.Add("", "", "", "", ""); // 행 추가
@@ -230,11 +231,12 @@ namespace ApsMotionControl.Dlg
             //dataGridView_Result.Columns[0].DefaultCellStyle.ForeColor = Color.Yellow; // 배경색 설정
             //dataGridView_Result.Columns[0].DefaultCellStyle.Font = new Font("맑은고딕", 9F, FontStyle.Bold); // 굵은 글씨
 
-            dataGridView_Result.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView_Result.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView_Result.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView_Result.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView_Result.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView_Result.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridView_Result.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridView_Result.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridView_Result.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridView_Result.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridView_Result.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
 
 
 
@@ -436,7 +438,7 @@ namespace ApsMotionControl.Dlg
         }
 
 
-        public void ShowVerifyResultGrid(int dataCount)
+        public void ShowVerifyResultGrid(List<Data.EEpromCsvData> _Mes_DataList, List<Data.EEpromCsvData> _EEp_DataList)
         {
             int i = 0;  //옆
 
@@ -447,6 +449,11 @@ namespace ApsMotionControl.Dlg
 
             dataGridView_Result.Rows.Clear();
 
+            int dataCount = _Mes_DataList.Count;
+            if(dataCount< 1)
+            {
+                return;
+            }
 
             int gridViewCount = dataCount;
 
@@ -460,18 +467,21 @@ namespace ApsMotionControl.Dlg
                 if (i < dataCount)
                 {
                     //dataGridView_Result.Rows.Add((i + 1).ToString(), Globalo.yamlManager.MesData.SecGemData.Modellist[i]);
-                    dataGridView_Result.Rows.Add((i + 1).ToString(), "", "", "", "0x202020202020202032354132303030393041435630335330303158413030");
+                    dataGridView_Result.Rows.Add(_Mes_DataList[i].EEP_ITEM, _Mes_DataList[i].ADDRESS, _Mes_DataList[i].DATA_SIZE, _Mes_DataList[i].ITEM_VALUE, "eep", "");
                 }
                 else
                 {
-                    dataGridView_Result.Rows.Add("", "", "", "", "0x202020202020202032354132303030393041435630335330303158413030");
+                    dataGridView_Result.Rows.Add("", "", "", "", "", "");
                     
                 }
-                dataGridView_Result.Rows[i].Cells[1].Style.BackColor = Color.White; // 1번 열
-                dataGridView_Result.Rows[i].Cells[1].Style.ForeColor = Color.Black; // 1번 열
+                //dataGridView_Result.Rows[i].Cells[1].Style.BackColor = Color.White; // 1번 열
+                //dataGridView_Result.Rows[i].Cells[1].Style.ForeColor = Color.Black; // 1번 열
+                //dataGridView_Result.Rows[i].Cells[1].Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
                // dataGridView_Result.Rows[i].Cells[1].Style.Font = new Font(dataGridView_Result.DefaultCellStyle.Font, FontStyle.Regular);
             }
 
+
+            //lobalo.dataManage.eepromData.dataList
 
             dataGridView_Result.ClearSelection();
         }

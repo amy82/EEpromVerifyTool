@@ -44,10 +44,12 @@ namespace ApsMotionControl.Data
         //public DataTable dataTable = new DataTable();
 
 
-        public List<EEpromCsvData> dataList;
+        public List<EEpromCsvData> MesDataList;
+        public List<EEpromCsvData> EEpromDataList;
         public CEEpromData()
         {
             checksumTest();
+            EEpromDataList = new List<EEpromCsvData>();
         }
         public void LoadExcelData()
         {
@@ -58,9 +60,16 @@ namespace ApsMotionControl.Data
         {
 
             string filePath = string.Format(@"{0}\30.csv", Application.StartupPath); //file path
-            WriteCsvFromList(filePath, dataList);
+            WriteCsvFromList(filePath, MesDataList);
         }
 
+
+        public bool BinDumpFileSave()
+        {
+
+
+            return true;
+        }
         private void WriteCsvFromList(string filePath, List<EEpromCsvData> dataList)
         {
             using (var writer = new StreamWriter(filePath))
@@ -117,7 +126,7 @@ namespace ApsMotionControl.Data
                     IgnoreBlankLines = true // 빈 줄 무시
                 }))
                 {
-                    dataList = new List<EEpromCsvData>(csv.GetRecords<EEpromCsvData>());
+                    MesDataList = new List<EEpromCsvData>(csv.GetRecords<EEpromCsvData>());
                     
                 }
             }

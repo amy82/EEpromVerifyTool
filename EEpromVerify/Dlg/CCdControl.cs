@@ -784,7 +784,7 @@ namespace ApsMotionControl.Dlg
             int eepromCount = Globalo.dataManage.mesData.VMesEEpromData.Count();
 
 
-            if (Globalo.dataManage.eepromData.dataList == null)
+            if (Globalo.dataManage.eepromData.MesDataList == null)
             {
                 Console.WriteLine("Globalo.dataManage.eepromData.dataList null");
                 return;
@@ -800,16 +800,16 @@ namespace ApsMotionControl.Dlg
             
 
 
-            int TotalCount = Globalo.dataManage.eepromData.dataList.Count;
+            int TotalCount = Globalo.dataManage.eepromData.MesDataList.Count;
 
 
             string logData = $"csv 에서 로드한 항목 개수:{TotalCount}";
             Globalo.LogPrint("CCdControl", logData);
 
-            logData = $"마지막 Address: {Globalo.dataManage.eepromData.dataList[TotalCount - 1].ADDRESS}";
+            logData = $"마지막 Address: {Globalo.dataManage.eepromData.MesDataList[TotalCount - 1].ADDRESS}";
             Globalo.LogPrint("CCdControl", logData);
 
-            logData = $"마지막 Data Size:{Globalo.dataManage.eepromData.dataList[TotalCount - 1].DATA_SIZE}";
+            logData = $"마지막 Data Size:{Globalo.dataManage.eepromData.MesDataList[TotalCount - 1].DATA_SIZE}";
             Globalo.LogPrint("CCdControl", logData);
 
 
@@ -911,25 +911,25 @@ namespace ApsMotionControl.Dlg
                 //        Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount - startAddress + 1).ToArray());
                 //}
 
-                if (Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CRC8_DEFAULT ||
-                    Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CRC8_SAE_J1850 ||
-                    Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CRC8_SAE_J1850_ZERO ||
-                    Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CRC16_CCIT_ZERO ||
-                    Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CRC16_CCIT_FALSE ||
-                    Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CHECKSUM16_RFC1071 ||
-                    Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CHECKSUM_RFC1071)
+                if (Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CRC8_DEFAULT ||
+                    Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CRC8_SAE_J1850 ||
+                    Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CRC8_SAE_J1850_ZERO ||
+                    Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CRC16_CCIT_ZERO ||
+                    Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CRC16_CCIT_FALSE ||
+                    Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CHECKSUM16_RFC1071 ||
+                    Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CHECKSUM_RFC1071)
                 {
-                    startAddress = int.Parse(Globalo.dataManage.eepromData.dataList[i].CRC_START);
-                    readCount = int.Parse(Globalo.dataManage.eepromData.dataList[i].CRC_END);
+                    startAddress = int.Parse(Globalo.dataManage.eepromData.MesDataList[i].CRC_START);
+                    readCount = int.Parse(Globalo.dataManage.eepromData.MesDataList[i].CRC_END);
 
                     EEPROM_READ_VALUE = Data.CEEpromData.CrcCommonCalculation(
-                        Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT, Globalo.dataManage.eepromData.dataList[i].BYTE_ORDER,
+                        Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT, Globalo.dataManage.eepromData.MesDataList[i].BYTE_ORDER,
                         Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount - startAddress + 1).ToArray());
                 }
                 else
                 {
-                    startAddress = Globalo.dataManage.eepromData.dataList[i].ADDRESS;
-                    readCount = Globalo.dataManage.eepromData.dataList[i].DATA_SIZE;
+                    startAddress = Globalo.dataManage.eepromData.MesDataList[i].ADDRESS;
+                    readCount = Globalo.dataManage.eepromData.MesDataList[i].DATA_SIZE;
                     EEPROM_READ_VALUE = BitConverter.ToString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray()).Replace("-", "");
                 }
 
@@ -945,31 +945,31 @@ namespace ApsMotionControl.Dlg
                 //Globalo.dataManage.mesData.VMesEEpromData.Add(tempData);
 
 
-                if(Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT == Data.CEEpromData.EMPTY)
+                if(Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.EMPTY)
                 {
                     //EMPTY 일때 FF로 채워진다.
-                    MES_EEPROM_VALUE = string.Concat(Enumerable.Repeat("FF", Globalo.dataManage.eepromData.dataList[i].DATA_SIZE));
+                    MES_EEPROM_VALUE = string.Concat(Enumerable.Repeat("FF", Globalo.dataManage.eepromData.MesDataList[i].DATA_SIZE));
                 }
                 else
                 {
                     //ITEM_VALUE 값의 자리수는 10인데, DATA_SIZE 는 14개  두개가 서로 다를때
 
 
-                    MES_EEPROM_VALUE = Data.CEEpromData.StringToHex(Globalo.dataManage.eepromData.dataList[i].ITEM_VALUE,
-                        Globalo.dataManage.eepromData.dataList[i].DATA_FORMAT,
-                        Globalo.dataManage.eepromData.dataList[i].BYTE_ORDER,
-                        Globalo.dataManage.eepromData.dataList[i].FIX_YN);
+                    MES_EEPROM_VALUE = Data.CEEpromData.StringToHex(Globalo.dataManage.eepromData.MesDataList[i].ITEM_VALUE,
+                        Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT,
+                        Globalo.dataManage.eepromData.MesDataList[i].BYTE_ORDER,
+                        Globalo.dataManage.eepromData.MesDataList[i].FIX_YN);
 
                     int hexLength = MES_EEPROM_VALUE.Length / 2;
-                    if (hexLength != Globalo.dataManage.eepromData.dataList[i].DATA_SIZE)
+                    if (hexLength != Globalo.dataManage.eepromData.MesDataList[i].DATA_SIZE)
                     {
                         //FIX_YN 이 Y 일때 HEX 값이 아니라서 나누기 하면 안된다.
                         //0x112233 -> 0x0000112233 왼쪽으로 PAD_VALUE 값으로 채운다.
                         //EEPROM_READ_VALUE	"2020202041434130385330303558"	string
                         //MES_EEPROM_VALUE    "58353030533830414341"  string
-                        string padValue = Globalo.dataManage.eepromData.dataList[i].PAD_VALUE.Replace("0x", "");
+                        string padValue = Globalo.dataManage.eepromData.MesDataList[i].PAD_VALUE.Replace("0x", "");
 
-                        int leng = Globalo.dataManage.eepromData.dataList[i].DATA_SIZE - hexLength;
+                        int leng = Globalo.dataManage.eepromData.MesDataList[i].DATA_SIZE - hexLength;
 
                         MES_EEPROM_VALUE = string.Concat(Enumerable.Repeat(padValue, leng)) + MES_EEPROM_VALUE;
                     }
@@ -978,13 +978,13 @@ namespace ApsMotionControl.Dlg
 
 
                 //eeprom에서 읽은값 전부 hex라서 변활할 필요가 없다.
-                
+
 
                 //Globalo.mLaonGrabberClass.eepromDicData
                 //mes를 뒤집어야지 eeprom 읽은값은 안 뒤집어도 된다?
 
 
-                //if(Globalo.dataManage.eepromData.dataList[i].BYTE_ORDER == "Little")
+                //if(Globalo.dataManage.eepromData.MesDataList[i].BYTE_ORDER == "Little")
                 //{
                 //    //뒤집어야된다
                 //    EEPROM_READ_VALUE = BitConverter.ToString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray().Reverse().ToArray()).Replace("-", "");
@@ -994,7 +994,10 @@ namespace ApsMotionControl.Dlg
                 //    EEPROM_READ_VALUE = BitConverter.ToString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray()).Replace("-", "");
                 //}
 
-                
+                //public List<EEpromCsvData> EEpromDataList;
+                Data.EEpromCsvData tempEepData = new Data.EEpromCsvData();
+                tempEepData.ITEM_VALUE = EEPROM_READ_VALUE;
+                Globalo.dataManage.eepromData.EEpromDataList.Add(tempEepData);
                 if (EEPROM_READ_VALUE == MES_EEPROM_VALUE)
                 {
                     //OK
