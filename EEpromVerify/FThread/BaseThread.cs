@@ -33,9 +33,12 @@ namespace ApsMotionControl.FThread
                 ThreadInit();
                 while (!cts.Token.IsCancellationRequested)
                 {
-                    if (m_bPause) continue;
-
                     ThreadRun();
+
+                    if (m_bPause)
+                    {
+                        continue;
+                    }
                     Thread.Sleep(Globalo.BASE_THREAD_INTERVAL);
                 }
                 
@@ -156,59 +159,16 @@ namespace ApsMotionControl.FThread
             }
             return true;
         }
-
-        //public bool StopCheck()
-        //{
-        //    if (thread == null)
-        //    {
-        //        return true;
-        //    }
-
-        //    bool brtn = thread.Join(200);
-
-        //    if (brtn)
-        //    {
-        //        thread = null;
-        //        cts = null;
-        //    }
-        //    else
-        //    {
-        //        Abort();
-        //    }
-        //    return brtn;
-        //}
-
         public void Stop()
         {
             if (thread != null && cts != null)
             {
                 Console.WriteLine("Base Thread Stop() #1");
+                
                 cts.Cancel();
                 m_bPause = false;       //일시정지 해제 cts.Cancel 보다 m_bPause를 먼저하면 ThreadRun 에서 일시 정지로 빠진다.
+
                 Console.WriteLine("Base Thread Stop() #End");
-
-                //Console.WriteLine("Thread Stop() Join #1");
-
-                //bool bRtn = thread.Join(100);  // 🔹 1초 동안 스레드 종료 대기 200ms 뒤에 빠져나와서 추가해도 괜찮음
-
-                //Console.WriteLine("Thread Stop() Join #2");
-                //if (bRtn == false)
-                //{
-                //    bRtn = thread.Join(50);
-                //    if (bRtn == false)
-                //    {
-                //        Abort();
-                //    }
-
-                //}
-
-                //if (!thread.IsAlive) // 🔹 스레드가 종료되었는지 확인
-                //{
-                //    thread = null;
-                //    cts = null;
-                //}
-
-                
             }
         }
         //public void Stop()
