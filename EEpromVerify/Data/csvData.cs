@@ -8,7 +8,13 @@ using System.Threading.Tasks;
 
 namespace ApsMotionControl.Data
 {
-    public class EEpromCsvData      //15개
+
+    public class EEpromReadData
+    {
+        public string ITEM_VALUE { get; set; }  //10
+        public string RESULT { get; set; }
+    }
+    public class MesEEpromCsvData      //15개
     {
         public string SHOPID { get; set; }  //0
         public string PRODID { get; set; }  //1

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
+
 
 namespace ApsMotionControl
 {
@@ -48,7 +50,8 @@ namespace ApsMotionControl
         public const int MTF_ROI_COUNT = 20;
 
         public const int BASE_THREAD_INTERVAL = 10;
-
+        public static Color GridHeaderBackColor = Color.MediumAquamarine;// LightYellow;//OldLace;//WhiteSmoke; 
+        //Color.WhiteSmoke
         public static void MessageShowPopup(string LogDesc, Globalo.eMessageName bPopUpView = Globalo.eMessageName.M_NULL)
         {
             if (Globalo.MainForm.InvokeRequired)

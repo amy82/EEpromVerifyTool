@@ -44,24 +44,35 @@ namespace ApsMotionControl.Data
         //public DataTable dataTable = new DataTable();
 
 
-        public List<EEpromCsvData> dataList;
+        public List<MesEEpromCsvData> MesDataList;
+        public List<EEpromReadData> EEpromDataList;
         public CEEpromData()
         {
             checksumTest();
+            EndianTest();
+
+            EEpromDataList = new List<EEpromReadData>();
         }
         public void LoadExcelData()
         {
-            string filePath = string.Format(@"{0}\95.csv", Application.StartupPath); //file path
+            string filePath = string.Format(@"{0}\30.csv", Application.StartupPath); //file path
             ReadCsvToList(filePath);
         }
         public void SaveExcelData()
         {
 
-            string filePath = string.Format(@"{0}\95.csv", Application.StartupPath); //file path
-            WriteCsvFromList(filePath, dataList);
+            string filePath = string.Format(@"{0}\30.csv", Application.StartupPath); //file path
+            WriteCsvFromList(filePath, MesDataList);
         }
 
-        private void WriteCsvFromList(string filePath, List<EEpromCsvData> dataList)
+
+        public bool BinDumpFileSave()
+        {
+
+
+            return true;
+        }
+        private void WriteCsvFromList(string filePath, List<MesEEpromCsvData> dataList)
         {
             using (var writer = new StreamWriter(filePath))
             using (var csv = new CsvWriter(writer, new CsvConfiguration(CultureInfo.InvariantCulture)
@@ -70,7 +81,7 @@ namespace ApsMotionControl.Data
                 TrimOptions = TrimOptions.Trim // 공백 자동 제거
             }))
             {
-                csv.WriteHeader<EEpromCsvData>(); //  헤더 작성
+                csv.WriteHeader<MesEEpromCsvData>(); //  헤더 작성
                 csv.NextRecord(); //  다음 줄로 이동
                 csv.WriteRecords(dataList); //  데이터 작성
             }
@@ -117,7 +128,7 @@ namespace ApsMotionControl.Data
                     IgnoreBlankLines = true // 빈 줄 무시
                 }))
                 {
-                    dataList = new List<EEpromCsvData>(csv.GetRecords<EEpromCsvData>());
+                    MesDataList = new List<MesEEpromCsvData>(csv.GetRecords<MesEEpromCsvData>());
                     
                 }
             }
@@ -238,7 +249,62 @@ namespace ApsMotionControl.Data
             }
         }
 
+        public void EndianTest()
+        {
+            // TODO: FIX-YN 값이 N일 경우에 항상 HEX로 전달되며, UI 표기시에 BYTE_ORDER / DATA_FORMAT 참고하여 변환 필요
+            //0x8FA9BBB20BBB7B40 
+            //0x8F A9 BB B2 0B BB 7B 40 
+            byte[] data4 = { 0x8F, 0xA9, 0xBB, 0xB2, 0x0B, 0xBB, 0x7B, 0x40 };
+            if (BitConverter.IsLittleEndian)
+            {
+                Console.WriteLine($"{BitConverter.IsLittleEndian}");
+            }
+            double bigEndianDouble = BitConverter.ToDouble(data4, 0);
+            if (BitConverter.IsLittleEndian)
+            {
+                Console.WriteLine($"{BitConverter.IsLittleEndian}");
+            }
+            Array.Reverse(data4);
+            if (BitConverter.IsLittleEndian)
+            {
+                Console.WriteLine($"{BitConverter.IsLittleEndian}");
+            }
+            bigEndianDouble = BitConverter.ToDouble(data4, 0);
+            if (BitConverter.IsLittleEndian)
+            {
+                Console.WriteLine($"{BitConverter.IsLittleEndian}");
+            }
+            List<byte> datalist4 = new List<byte>();
+            for (int i = 0; i < data4.Length; i++)
+            {
+                datalist4.Add(data4[i]);
+            }
 
+            string doubleStr = BitConverter.ToString(datalist4.GetRange(0, 7).ToArray().Reverse().ToArray()).Replace("-", "");
+
+            doubleStr = BitConverter.ToSingle(datalist4.GetRange(0, 7).ToArray(), 0).ToString();
+            doubleStr = BitConverter.ToSingle(datalist4.GetRange(0, 7).ToArray().Reverse().ToArray(), 0).ToString();
+            double doubleValue1 = BitConverter.ToDouble(datalist4.ToArray(), 0);
+            if (BitConverter.IsLittleEndian)
+            {
+                Console.WriteLine($"{BitConverter.IsLittleEndian}");
+            }
+            //Endian 변환 후 0x407BBB0BB2BBA98F Double 로 변환하면 443.690356 값이 됩니다.
+            //EPROM_READ_VALUE = BitConverter.ToString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray().Reverse().ToArray()).Replace("-", "");
+
+
+            byte[] data__4 = { 0x40, 0x7B, 0xBB, 0x0B, 0xB2, 0xBB, 0xA9, 0x8F };
+            datalist4.Clear();
+            for (int i = 0; i < data4.Length; i++)
+            {
+                datalist4.Add(data__4[i]);
+            }
+            doubleValue1 = BitConverter.ToDouble(datalist4.ToArray(), 0);
+            if (BitConverter.IsLittleEndian)
+            {
+                Console.WriteLine($"{BitConverter.IsLittleEndian}");
+            }
+        }
 
         public void checksumTest()
         {
@@ -301,62 +367,93 @@ namespace ApsMotionControl.Data
             Array.Reverse(bytes);
             ushort littleEndianValue = BitConverter.ToUInt16(bytes, 0);
 
+
+            
         }
 
-        public static string CrcCommonCalculation(string Type, byte[] data) //, byte polynomial = 0x00, byte initialValue = 0x00, byte xorOut = 0x00)
+        public static string CrcCommonCalculation(string Type, string order, byte[] data) //, byte polynomial = 0x00, byte initialValue = 0x00, byte xorOut = 0x00)
         {
             string RtnString = "";
             if (Type == CRC_CRC8_SAE_J1850)
             {
                 byte crc8_sae_j1850 = ComputeCRC8(data, 0x1D, 0xFF, 0xFF); // CRC8_SAE_J1850
+                RtnString = crc8_sae_j1850.ToString("X2");
             }
             else if (Type == CRC_CRC8_SAE_J1850)
             {
                 byte crc8_sae_j1850 = ComputeCRC8(data, 0x1D, 0xFF, 0xFF); // CRC8_SAE_J1850
-                RtnString = crc8_sae_j1850.ToString();
+                RtnString = crc8_sae_j1850.ToString("X2");
             }
             else if (Type == CRC_CRC8_SAE_J1850_ZERO)
             {
                 byte crc8_sae_j1850_zero = ComputeCRC8(data, 0x1D, 0x00, 0x00); // CRC8_SAE_J1850_ZERO
-                RtnString = crc8_sae_j1850_zero.ToString();
+                RtnString = crc8_sae_j1850_zero.ToString("X2");
             }
             else if (Type == CRC_CRC16_CCIT_ZERO)
             {
                 ushort crc16_ccitt_zero = ComputeCRC16(data, 0x1021, 0x0000, 0x0000); // CRC16_CCIT_ZERO
+                if (order == "Little")
+                {
+                    byte[] bytes = BitConverter.GetBytes(crc16_ccitt_zero);
+                    Array.Reverse(bytes);
+                    ushort littleEndianValue = BitConverter.ToUInt16(bytes, 0);     //Little Endian 뒤집기
+
+                    crc16_ccitt_zero = littleEndianValue;
+                }
+
                 RtnString = crc16_ccitt_zero.ToString("X4");
             }
             else if (Type == CRC_CRC16_CCIT_FALSE)
             {
                 ushort crc16_ccitt_false = ComputeCRC16(data, 0x1021, 0xFFFF, 0x0000); // CRC16_CCIT_FALSE
+                if (order == "Little")
+                {
+                    byte[] bytes = BitConverter.GetBytes(crc16_ccitt_false);
+                    Array.Reverse(bytes);
+                    ushort littleEndianValue = BitConverter.ToUInt16(bytes, 0);     //Little Endian 뒤집기
+
+                    crc16_ccitt_false = littleEndianValue;
+                }
                 RtnString = crc16_ccitt_false.ToString("X4");
             }
             else if (Type == CRC_CHECKSUM16_RFC1071)
             {
                 ushort checksum16 = ComputeChecksum16(data);
+                if (order == "Little")
+                {
+                    byte[] bytes = BitConverter.GetBytes(checksum16);
+                    Array.Reverse(bytes);
+                    ushort littleEndianValue = BitConverter.ToUInt16(bytes, 0);     //Little Endian 뒤집기
+
+                    checksum16 = littleEndianValue;
+                }
                 RtnString = checksum16.ToString("X4");
             }
             else if (Type == CRC_CHECKSUM_RFC1071)
             {
                 ushort checksum = ComputeRFC1071Checksum(data);
+                if(order == "Little")
+                {
+                    byte[] bytes = BitConverter.GetBytes(checksum);
+                    Array.Reverse(bytes);
+                    ushort littleEndianValue = BitConverter.ToUInt16(bytes, 0);     //Little Endian 뒤집기
 
-                byte[] bytes = BitConverter.GetBytes(checksum);
-                Array.Reverse(bytes);
-                ushort littleEndianValue = BitConverter.ToUInt16(bytes, 0);     //Little Endian 뒤집기
-
+                    checksum = littleEndianValue;
+                }
 
                 RtnString = checksum.ToString("X4");
             }
             else 
             {
                 byte crc8_default = ComputeCRC8(data, 0x07, 0x00, 0x00);  // CRC8_DEFAULT
-                RtnString = crc8_default.ToString();
+                RtnString = crc8_default.ToString("X2");
             }
             return RtnString;
         }
         public static string StringToHex(string Input, string Format, string Order, string FixYn)       //MES 에서 받은 값을 변환
         {
             string RtnString = "";
-            
+            int i = 0;
             
             if (Format == ASCII && FixYn == "Y")
             {
@@ -365,10 +462,15 @@ namespace ApsMotionControl.Data
 
                 //위에서 N일 경우가 있어서 무조건
                 //Y만 들어온다.
-
-                for (int i = bytes.Length - 1; i >= 0; i--) // 뒤에서부터 추가
+                if(Order == "Little")
                 {
-                    hex.AppendFormat("{0:X2} ", bytes[i]);      //Little Endian 변환 코드
+                    Array.Reverse(bytes);
+
+                }
+
+                for (i = 0; i < bytes.Length; i++) // 뒤에서부터 추가
+                {
+                    hex.AppendFormat("{0:X2}", bytes[i]);      //Little Endian 변환 코드
                 }
 
                 //foreach (char c in Input)
@@ -413,7 +515,7 @@ namespace ApsMotionControl.Data
 
                     // 2자리씩 나누기
                     string[] bytes = Enumerable.Range(0, Input.Length / 2)
-                                               .Select(i => Input.Substring(i * 2, 2))
+                                               .Select(j => Input.Substring(j * 2, 2))
                                                .ToArray();
 
                     // Little Endian 변환 (뒤집기)

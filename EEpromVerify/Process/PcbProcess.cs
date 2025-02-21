@@ -15,7 +15,7 @@ namespace ApsMotionControl.Process
         //public int[] SensorSet;
         public int[] SensorSet = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         public int[] OrgOnGoing = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        private bool autoPause = true;
+        //private bool autoPause = true;
 
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer { Interval = 5000 }; // 3초 후 바코드 스캔된 것처럼 처리
         public PcbProcess()

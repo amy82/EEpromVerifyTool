@@ -56,15 +56,23 @@ namespace ApsMotionControl.FThread
                 {
                     Globalo.taskWork.m_nCurrentStep = RunProcess.Auto_Final(Globalo.taskWork.m_nCurrentStep);
                 }
-
             }
             else if (Globalo.taskWork.m_nCurrentStep < 0)
             {
-                Globalo.MainForm.PauseAutoProcess();
+                if (cts.Token.IsCancellationRequested)
+                {
+                    //정지 요청시
+                    Stop();
+                }
+                else
+                {
+                    //일시 정지 요청시
+                    Globalo.MainForm.PauseAutoProcess();
+                }
             }
             else
             {
-                //Globalo.MainForm.StopAutoProcess();       
+                //Globalo.MainForm.StopAutoProcess();
                 // TODO:   STOP 버튼 함수 살려야된다. 250219 왜? 250220
                 //cts.Cancel();
                 Stop();

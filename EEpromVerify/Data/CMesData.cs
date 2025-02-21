@@ -134,7 +134,7 @@ namespace ApsMotionControl.Data
         //EEPROM_DATA = RcmdParameter 하고 비슷하다
         //public List<RcmdParameter> vLotIdFail 
 
-        public List<EEpromCsvData> VMesEEpromData { get; set; } = new List<EEpromCsvData>();
+        public List<MesEEpromCsvData> VMesEEpromData { get; set; } = new List<MesEEpromCsvData>();
 
 
         ///private CMesData() { } // 외부 생성 방지

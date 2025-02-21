@@ -196,6 +196,9 @@ namespace ApsMotionControl
 
             eLogPrint("Main", "PG START");
             //eLogPrint("Main", "자동운전 중 진행할 수 없습니다.", Globalo.eMessageName.M_INFO);
+
+
+            Globalo.mMainPanel.ShowVerifyResultGrid(Globalo.dataManage.eepromData.MesDataList, Globalo.dataManage.eepromData.EEpromDataList);
         }
         public void InitMilLib()
         {
@@ -560,7 +563,11 @@ namespace ApsMotionControl
             //}
             //Vision End
             //oGlobal.vision.ThreadEnd();
-
+            if(Globalo.GrabberDll.mIsGrabStarted())
+            {
+                Globalo.GrabberDll.mGrabStop();
+            }
+            Globalo.GrabberDll.mCloseBoard();
 
             Globalo.threadControl.AllClose();
 
