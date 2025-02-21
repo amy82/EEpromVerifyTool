@@ -563,7 +563,11 @@ namespace ApsMotionControl
             //}
             //Vision End
             //oGlobal.vision.ThreadEnd();
-
+            if(Globalo.GrabberDll.mIsGrabStarted())
+            {
+                Globalo.GrabberDll.mGrabStop();
+            }
+            Globalo.GrabberDll.mCloseBoard();
 
             Globalo.threadControl.AllClose();
 

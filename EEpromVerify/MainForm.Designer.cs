@@ -189,12 +189,12 @@ namespace ApsMotionControl
             // textBox_TopLot
             // 
             this.textBox_TopLot.BackColor = System.Drawing.Color.White;
-            this.textBox_TopLot.Font = new System.Drawing.Font("나눔고딕", 15.75F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.textBox_TopLot.Font = new System.Drawing.Font("나눔고딕", 14.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.textBox_TopLot.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.textBox_TopLot.Location = new System.Drawing.Point(250, 38);
+            this.textBox_TopLot.Location = new System.Drawing.Point(9, 41);
             this.textBox_TopLot.Name = "textBox_TopLot";
             this.textBox_TopLot.ReadOnly = true;
-            this.textBox_TopLot.Size = new System.Drawing.Size(398, 32);
+            this.textBox_TopLot.Size = new System.Drawing.Size(480, 29);
             this.textBox_TopLot.TabIndex = 15;
             this.textBox_TopLot.Text = "0000000000";
             this.textBox_TopLot.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -204,7 +204,7 @@ namespace ApsMotionControl
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("나눔고딕", 8.999999F);
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(585, 17);
+            this.label1.Location = new System.Drawing.Point(10, 22);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 14);
             this.label1.TabIndex = 14;
@@ -214,7 +214,7 @@ namespace ApsMotionControl
             // label_production_total
             // 
             this.label_production_total.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_production_total.Location = new System.Drawing.Point(72, 81);
+            this.label_production_total.Location = new System.Drawing.Point(572, 77);
             this.label_production_total.Name = "label_production_total";
             this.label_production_total.Size = new System.Drawing.Size(107, 22);
             this.label_production_total.TabIndex = 5;
@@ -224,7 +224,7 @@ namespace ApsMotionControl
             // label_production_ng
             // 
             this.label_production_ng.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_production_ng.Location = new System.Drawing.Point(72, 55);
+            this.label_production_ng.Location = new System.Drawing.Point(572, 51);
             this.label_production_ng.Name = "label_production_ng";
             this.label_production_ng.Size = new System.Drawing.Size(107, 22);
             this.label_production_ng.TabIndex = 4;
@@ -234,7 +234,7 @@ namespace ApsMotionControl
             // label_production_ok
             // 
             this.label_production_ok.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_production_ok.Location = new System.Drawing.Point(72, 29);
+            this.label_production_ok.Location = new System.Drawing.Point(572, 25);
             this.label_production_ok.Name = "label_production_ok";
             this.label_production_ok.Size = new System.Drawing.Size(107, 22);
             this.label_production_ok.TabIndex = 3;
@@ -245,7 +245,7 @@ namespace ApsMotionControl
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label4.Location = new System.Drawing.Point(10, 84);
+            this.label4.Location = new System.Drawing.Point(510, 80);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(52, 14);
             this.label4.TabIndex = 2;
@@ -255,7 +255,7 @@ namespace ApsMotionControl
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label3.Location = new System.Drawing.Point(10, 59);
+            this.label3.Location = new System.Drawing.Point(510, 55);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(33, 14);
             this.label3.TabIndex = 1;
@@ -265,7 +265,7 @@ namespace ApsMotionControl
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label2.Location = new System.Drawing.Point(10, 32);
+            this.label2.Location = new System.Drawing.Point(510, 28);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(31, 14);
             this.label2.TabIndex = 0;

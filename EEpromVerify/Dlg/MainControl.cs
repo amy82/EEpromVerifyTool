@@ -26,6 +26,9 @@ namespace ApsMotionControl.Dlg
 
         private int[] GridColWidth = { 30, 160, 210, 70, 270, 50, 50, 1 };
         private int[] ResultGridColWidth = { 150, 50, 50, 500, 500, 100, 100 };//{ 50, 150, 50, 50, 500, 100, 100, 100 };
+
+        private const int ResultGridColCount = 6;
+        private string[] ResultTitle = { "Result", "EEP_ITEM", "ITEM_VALUE", "EEPROM", "ADDR", "SIZE" };
         private int RecipeGridWidth = 0;
 
         private int ResultGridRowHeight = 30;
@@ -61,7 +64,8 @@ namespace ApsMotionControl.Dlg
             setInterface();
             InitModelGrid();
             InitRecipeListGrid();
-            InitResultGrid();
+
+            InitResultGrid();           //eeprom 결과 표시
         }
         public void RefreshMain()
         {
@@ -135,47 +139,28 @@ namespace ApsMotionControl.Dlg
             dataGridView_Result.DefaultCellStyle = cellStyle;
 
             //DataGridViewCheckBoxColumn checkBoxColumn = new DataGridViewCheckBoxColumn();
-            DataGridViewTextBoxColumn[] textColumns = new DataGridViewTextBoxColumn[6];
 
-            for (i = 0; i < 6; i++)
+            int gridWidth = dataGridView_Result.Width;
+            DataGridViewTextBoxColumn[] textColumns = new DataGridViewTextBoxColumn[ResultGridColCount];
+
+            for (i = 0; i < ResultGridColCount; i++)
             {
                 textColumns[i] = new DataGridViewTextBoxColumn();
+                textColumns[i].HeaderText = ResultTitle[i];
+                dataGridView_Result.Columns.Add(textColumns[i]);
             }
 
-            //DataGridView
-            
-            textColumns[0].HeaderText = "EEP_ITEM";
-            textColumns[1].HeaderText = "ADDR";
-            textColumns[2].HeaderText = "SIZE";
-            textColumns[3].HeaderText = "ITEM_VALUE";
-            textColumns[4].HeaderText = "EEPROM";
-            textColumns[5].HeaderText = "Result";
+
             //textColumns[0].Name = "No";
             //textColumns[1].Name = "Model";
-
-
-
-
-            dataGridView_Result.Columns.Add(textColumns[0]);
-            dataGridView_Result.Columns.Add(textColumns[1]);
-            dataGridView_Result.Columns.Add(textColumns[2]);
-            dataGridView_Result.Columns.Add(textColumns[3]);
-            dataGridView_Result.Columns.Add(textColumns[4]);
-            dataGridView_Result.Columns.Add(textColumns[5]);
+            
 
             for (i = 0; i < dataGridView_Result.ColumnCount; i++)
             {
                 dataGridView_Result.Columns[i].Resizable = DataGridViewTriState.False;
+                dataGridView_Result.Columns[i].Width = ResultGridColWidth[i];
+                dataGridView_Result.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             }
-            int gridWidth = dataGridView_Result.Width;
-            dataGridView_Result.Columns[0].Width = ResultGridColWidth[0];
-            dataGridView_Result.Columns[1].Width = ResultGridColWidth[1];
-            dataGridView_Result.Columns[2].Width = ResultGridColWidth[2];
-            dataGridView_Result.Columns[3].Width = ResultGridColWidth[3];
-            dataGridView_Result.Columns[4].Width = ResultGridColWidth[4]; ;// gridWidth - ResultGridColWidth[0] - ResultGridColWidth[1] - ResultGridColWidth[2] - ResultGridColWidth[3];
-            dataGridView_Result.Columns[5].Width = ResultGridColWidth[5];
-
-
 
             // 행 높이 조정
             dataGridView_Result.RowTemplate.Height = ResultGridRowHeight; // 자동 추가되는 행 높이 설정
@@ -231,14 +216,7 @@ namespace ApsMotionControl.Dlg
             //dataGridView_Result.Columns[0].DefaultCellStyle.ForeColor = Color.Yellow; // 배경색 설정
             //dataGridView_Result.Columns[0].DefaultCellStyle.Font = new Font("맑은고딕", 9F, FontStyle.Bold); // 굵은 글씨
 
-            dataGridView_Result.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridView_Result.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridView_Result.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridView_Result.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridView_Result.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridView_Result.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-
-
+            
 
             dataGridView_Result.ClearSelection();
         }
@@ -438,7 +416,7 @@ namespace ApsMotionControl.Dlg
         }
 
 
-        public void ShowVerifyResultGrid(List<Data.EEpromCsvData> _Mes_DataList, List<Data.EEpromCsvData> _EEp_DataList)
+        public void ShowVerifyResultGrid(List<Data.MesEEpromCsvData> _Mes_DataList, List<Data.EEpromReadData> _EEp_DataList)
         {
             int i = 0;  //옆
 
@@ -448,6 +426,11 @@ namespace ApsMotionControl.Dlg
             //int dataCount = Globalo.yamlManager.MesData.SecGemData.Modellist.Count();
 
             dataGridView_Result.Rows.Clear();
+            if(_Mes_DataList.Count != _EEp_DataList.Count)
+            {
+                Console.WriteLine($"Mes Data, EEprom Data 개수가 다릅니다. {_Mes_DataList.Count} / {_EEp_DataList.Count}");
+                return;
+            }
 
             int dataCount = _Mes_DataList.Count;
             if(dataCount< 1)
@@ -467,7 +450,16 @@ namespace ApsMotionControl.Dlg
                 if (i < dataCount)
                 {
                     //dataGridView_Result.Rows.Add((i + 1).ToString(), Globalo.yamlManager.MesData.SecGemData.Modellist[i]);
-                    dataGridView_Result.Rows.Add(_Mes_DataList[i].EEP_ITEM, _Mes_DataList[i].ADDRESS, _Mes_DataList[i].DATA_SIZE, _Mes_DataList[i].ITEM_VALUE, "eep", "");
+                    //ResultTitle = { "Result", "EEP_ITEM", "ITEM_VALUE", "EEPROM", "ADDR", "SIZE" };
+                    dataGridView_Result.Rows.Add(_EEp_DataList[i].RESULT, _Mes_DataList[i].EEP_ITEM, _Mes_DataList[i].ITEM_VALUE, _EEp_DataList[i].ITEM_VALUE, _Mes_DataList[i].ADDRESS, _Mes_DataList[i].DATA_SIZE);
+                    if(_EEp_DataList[i].RESULT == "PASS")
+                    {
+                        dataGridView_Result.Rows[i].Cells[0].Style.BackColor = Color.Green; // 1번 열
+                    }
+                    else
+                    {
+                        dataGridView_Result.Rows[i].Cells[0].Style.BackColor = Color.Red; // 1번 열
+                    }
                 }
                 else
                 {

@@ -838,7 +838,7 @@ namespace ApsMotionControl.Dlg
             //int dataInt16 = BitConverter.ToInt16(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray(), 0);     //
             //int dataInt32 = BitConverter.ToInt32(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray(), 0);     //
 
-
+            Globalo.dataManage.eepromData.EEpromDataList.Clear();
             //string data = Globalo.mCCdPanel.CcdEEpromReadData.GetRange(0, 5).ToArray().ToString();
 
             string readData = "";
@@ -995,21 +995,105 @@ namespace ApsMotionControl.Dlg
                 //}
 
                 //public List<EEpromCsvData> EEpromDataList;
-                Data.EEpromCsvData tempEepData = new Data.EEpromCsvData();
-                tempEepData.ITEM_VALUE = EEPROM_READ_VALUE;
-                Globalo.dataManage.eepromData.EEpromDataList.Add(tempEepData);
+                Data.EEpromReadData tempEepData = new Data.EEpromReadData();
+
+                //------------------------------------------------------------------------------------------------------------------------------
+                //
+                //
+                //
+                //EEPROM 변환 값 
+                //EEPROM 에 적힌값은 전부 HEX 값이고,BYTE_ORDER 따라 변환해야된다.
+                //
+                //
+                if (Globalo.dataManage.eepromData.MesDataList[i].FIX_YN == "Y")
+                {
+                    if (Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.ASCII)
+                    {
+                        //Encoding.ASCII 은 그대로 변환돼서
+                        //Little 일때 뒤집으면된다.
+                        if (Globalo.dataManage.eepromData.MesDataList[i].BYTE_ORDER == "Little")
+                        {
+                            tempEepData.ITEM_VALUE = Encoding.ASCII.GetString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray().Reverse().ToArray());
+                        }
+                        else
+                        {
+                            tempEepData.ITEM_VALUE = Encoding.ASCII.GetString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray());
+                        }
+
+                        string padvalue = Globalo.dataManage.eepromData.MesDataList[i].PAD_VALUE;
+                    }
+                    else if (Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.DOUBLE)
+                    {
+                        //BitConverter 는 BitConverter.IsLittleEndian 에 따라가기 때문에
+                        //Big 일때 반대로 뒤집어야 된다.
+
+                        if (Globalo.dataManage.eepromData.MesDataList[i].BYTE_ORDER == "Big" && BitConverter.IsLittleEndian)
+                        {
+                            //항상 Little 로 변환되기 때문에 Big 일 때 뒤집어야 된다.
+                            tempEepData.ITEM_VALUE = BitConverter.ToSingle(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray().Reverse().ToArray(), 0).ToString();
+                        }
+                        else
+                        {
+                            tempEepData.ITEM_VALUE = BitConverter.ToSingle(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray(), 0).ToString();
+                        }
+
+                    }
+                    else if (Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.FLOAT)
+                    {
+                        if (Globalo.dataManage.eepromData.MesDataList[i].BYTE_ORDER == "Big" && BitConverter.IsLittleEndian)
+                        {
+                            tempEepData.ITEM_VALUE = BitConverter.ToSingle(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray().Reverse().ToArray(), 0).ToString();
+                        }
+                        else
+                        {
+                            tempEepData.ITEM_VALUE = BitConverter.ToSingle(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray(), 0).ToString();
+                        }
+
+                    }
+                    else if (Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.DEC)
+                    {
+
+                    }
+                    else if (Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.UNIX_TIME)
+                    {
+
+                    }
+                    else
+                    {
+                        //여기는 hex로 올거같다
+                        //crc , empty , hex, 등
+                        tempEepData.ITEM_VALUE = "0x" + EEPROM_READ_VALUE;
+
+
+                    }
+                }
+                else
+                {
+                    //N일때는 mes값도 모두 HEX 라서 0x 만 붙여주면된다.
+                    tempEepData.ITEM_VALUE = "0x" + EEPROM_READ_VALUE;
+                }
+                //
+                
+
+
+
+
                 if (EEPROM_READ_VALUE == MES_EEPROM_VALUE)
                 {
                     //OK
                     Console.WriteLine($"{EEPROM_READ_VALUE} == {MES_EEPROM_VALUE} OK");
+                    tempEepData.RESULT = "PASS";
                 }
                 else
                 {
                     //NG
                     Console.WriteLine($"{EEPROM_READ_VALUE} == {MES_EEPROM_VALUE} NG");
+                    tempEepData.RESULT = "FAIL";
                 }
-
+                Globalo.dataManage.eepromData.EEpromDataList.Add(tempEepData);
             }
+            Globalo.mMainPanel.ShowVerifyResultGrid(Globalo.dataManage.eepromData.MesDataList, Globalo.dataManage.eepromData.EEpromDataList);
+            
         }
         public void EEpromRead()
         {

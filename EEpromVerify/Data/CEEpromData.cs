@@ -44,12 +44,14 @@ namespace ApsMotionControl.Data
         //public DataTable dataTable = new DataTable();
 
 
-        public List<EEpromCsvData> MesDataList;
-        public List<EEpromCsvData> EEpromDataList;
+        public List<MesEEpromCsvData> MesDataList;
+        public List<EEpromReadData> EEpromDataList;
         public CEEpromData()
         {
             checksumTest();
-            EEpromDataList = new List<EEpromCsvData>();
+            EndianTest();
+
+            EEpromDataList = new List<EEpromReadData>();
         }
         public void LoadExcelData()
         {
@@ -70,7 +72,7 @@ namespace ApsMotionControl.Data
 
             return true;
         }
-        private void WriteCsvFromList(string filePath, List<EEpromCsvData> dataList)
+        private void WriteCsvFromList(string filePath, List<MesEEpromCsvData> dataList)
         {
             using (var writer = new StreamWriter(filePath))
             using (var csv = new CsvWriter(writer, new CsvConfiguration(CultureInfo.InvariantCulture)
@@ -79,7 +81,7 @@ namespace ApsMotionControl.Data
                 TrimOptions = TrimOptions.Trim // 공백 자동 제거
             }))
             {
-                csv.WriteHeader<EEpromCsvData>(); //  헤더 작성
+                csv.WriteHeader<MesEEpromCsvData>(); //  헤더 작성
                 csv.NextRecord(); //  다음 줄로 이동
                 csv.WriteRecords(dataList); //  데이터 작성
             }
@@ -126,7 +128,7 @@ namespace ApsMotionControl.Data
                     IgnoreBlankLines = true // 빈 줄 무시
                 }))
                 {
-                    MesDataList = new List<EEpromCsvData>(csv.GetRecords<EEpromCsvData>());
+                    MesDataList = new List<MesEEpromCsvData>(csv.GetRecords<MesEEpromCsvData>());
                     
                 }
             }
@@ -247,7 +249,62 @@ namespace ApsMotionControl.Data
             }
         }
 
+        public void EndianTest()
+        {
+            // TODO: FIX-YN 값이 N일 경우에 항상 HEX로 전달되며, UI 표기시에 BYTE_ORDER / DATA_FORMAT 참고하여 변환 필요
+            //0x8FA9BBB20BBB7B40 
+            //0x8F A9 BB B2 0B BB 7B 40 
+            byte[] data4 = { 0x8F, 0xA9, 0xBB, 0xB2, 0x0B, 0xBB, 0x7B, 0x40 };
+            if (BitConverter.IsLittleEndian)
+            {
+                Console.WriteLine($"{BitConverter.IsLittleEndian}");
+            }
+            double bigEndianDouble = BitConverter.ToDouble(data4, 0);
+            if (BitConverter.IsLittleEndian)
+            {
+                Console.WriteLine($"{BitConverter.IsLittleEndian}");
+            }
+            Array.Reverse(data4);
+            if (BitConverter.IsLittleEndian)
+            {
+                Console.WriteLine($"{BitConverter.IsLittleEndian}");
+            }
+            bigEndianDouble = BitConverter.ToDouble(data4, 0);
+            if (BitConverter.IsLittleEndian)
+            {
+                Console.WriteLine($"{BitConverter.IsLittleEndian}");
+            }
+            List<byte> datalist4 = new List<byte>();
+            for (int i = 0; i < data4.Length; i++)
+            {
+                datalist4.Add(data4[i]);
+            }
 
+            string doubleStr = BitConverter.ToString(datalist4.GetRange(0, 7).ToArray().Reverse().ToArray()).Replace("-", "");
+
+            doubleStr = BitConverter.ToSingle(datalist4.GetRange(0, 7).ToArray(), 0).ToString();
+            doubleStr = BitConverter.ToSingle(datalist4.GetRange(0, 7).ToArray().Reverse().ToArray(), 0).ToString();
+            double doubleValue1 = BitConverter.ToDouble(datalist4.ToArray(), 0);
+            if (BitConverter.IsLittleEndian)
+            {
+                Console.WriteLine($"{BitConverter.IsLittleEndian}");
+            }
+            //Endian 변환 후 0x407BBB0BB2BBA98F Double 로 변환하면 443.690356 값이 됩니다.
+            //EPROM_READ_VALUE = BitConverter.ToString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray().Reverse().ToArray()).Replace("-", "");
+
+
+            byte[] data__4 = { 0x40, 0x7B, 0xBB, 0x0B, 0xB2, 0xBB, 0xA9, 0x8F };
+            datalist4.Clear();
+            for (int i = 0; i < data4.Length; i++)
+            {
+                datalist4.Add(data__4[i]);
+            }
+            doubleValue1 = BitConverter.ToDouble(datalist4.ToArray(), 0);
+            if (BitConverter.IsLittleEndian)
+            {
+                Console.WriteLine($"{BitConverter.IsLittleEndian}");
+            }
+        }
 
         public void checksumTest()
         {
@@ -310,6 +367,8 @@ namespace ApsMotionControl.Data
             Array.Reverse(bytes);
             ushort littleEndianValue = BitConverter.ToUInt16(bytes, 0);
 
+
+            
         }
 
         public static string CrcCommonCalculation(string Type, string order, byte[] data) //, byte polynomial = 0x00, byte initialValue = 0x00, byte xorOut = 0x00)

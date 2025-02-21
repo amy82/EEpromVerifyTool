@@ -763,7 +763,7 @@ namespace ApsMotionControl.Ubisam
 
                         if (remoteCommandInfo.RemoteCommand == SecsGemData.LGIT_EEPROM_DATA)
                         {
-                            Data.EEpromCsvData tempData = new Data.EEpromCsvData();
+                            Data.MesEEpromCsvData tempData = new Data.MesEEpromCsvData();
                             foreach (EnhancedCommandParameterItem subitem in item.ChildParameterItem.Items)
                             {
                                 if (subitem.Name == "ADDRESS")
