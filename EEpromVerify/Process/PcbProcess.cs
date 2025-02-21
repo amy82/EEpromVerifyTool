@@ -156,6 +156,11 @@ namespace ApsMotionControl.Process
                     nRetStep = 41500;
                     break;
                 case 41500:
+
+                    _syncContext.Send(_ =>
+                    {
+                        Data.CEEpromData.EEpromVerifyRun();
+                    }, null);
                     
                     nRetStep = 42500;
                     break;
@@ -191,11 +196,11 @@ namespace ApsMotionControl.Process
                     nRetStep = 51500;
                     break;
                 case 51500:
-
+                    //로그저장
                     nRetStep = 52000;
                     break;
                 case 52000:
-
+                    //완공
                     nRetStep = 53000;
                     break;
                 case 53000:
