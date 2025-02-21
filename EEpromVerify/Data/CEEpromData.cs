@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 //using Excel = Microsoft.Office.Interop.Excel;
@@ -46,12 +47,15 @@ namespace ApsMotionControl.Data
 
         public List<MesEEpromCsvData> MesDataList;
         public List<EEpromReadData> EEpromDataList;
+
+        public List<byte> EquipEEpromReadData;
         public CEEpromData()
         {
             checksumTest();
             EndianTest();
 
             EEpromDataList = new List<EEpromReadData>();
+            EquipEEpromReadData = new List<byte>();          //제품에서 읽은 eeprom 값
         }
         public void LoadExcelData()
         {
@@ -65,7 +69,77 @@ namespace ApsMotionControl.Data
             WriteCsvFromList(filePath, MesDataList);
         }
 
+        public static bool EEpromVerifyRun()
+        {
 
+            return true;
+        }
+        public static unsafe bool EEpromDataRead()
+        {
+            int i = 0;
+            bool bRtn = true;
+            string slaveAddr = Regex.Replace("0x50", @"\D", "");
+            string readAddr = Regex.Replace("0x00", @"\D", "");
+
+            ushort readDataLength = 100;// Convert.ToUInt16(Globalo.mCCdPanel.textBox_ReadDataLeng.Text);  //읽어야될 길이
+            //readDataLength = MES에서 받은 데이터에서 확인
+
+            if (readDataLength < 1)
+            {
+                return false;
+            }
+
+            ushort maxReadLength = CLaonGrabberClass.MAX_READ_WRITE_LENGTH;
+            if (maxReadLength > readDataLength)
+            {
+                maxReadLength = readDataLength;
+            }
+
+            int errorCode = 0;
+            int endAddress = readDataLength;//// 0xE0;  //       241
+            //0x513;     //1299
+
+            ushort SlaveAddr = Convert.ToUInt16(slaveAddr, 16); // 0x50;
+            ushort StartAddr = Convert.ToUInt16(readAddr, 16); //0x00;
+
+            //ushort checkAddr = 0x3C06;
+
+            byte[] EEpromReadData = new byte[endAddress]; // EEPROM 데이터 읽기
+
+
+            Globalo.dataManage.eepromData.EquipEEpromReadData.Clear();
+
+            for (i = 0; i < endAddress; i += maxReadLength)     // 0;  i < 129;  i += 30; 
+            {
+                fixed (byte* pData = EEpromReadData)
+                {
+                    if ((i + maxReadLength) > endAddress)
+                    {
+                        //if( ( 0 + 30 ) > 129
+                        //if( ( 30 + 30 ) > 129
+                        //if( ( 60 + 30 ) > 129
+                        //if( ( 90 + 30 ) > 129
+                        //if( ( 120 + 30 ) > 129
+                        //150
+
+                        maxReadLength = (ushort)((endAddress - i) + 0);    //120 ~ 129 는 10개라서 + 1
+                    }
+                    errorCode = Globalo.GrabberDll.mReadI2CBurst(SlaveAddr, (ushort)(StartAddr + i), 2, pData + i, (ushort)maxReadLength);
+                    if (errorCode != 0)
+                    {
+                        bRtn = false;
+                        Console.WriteLine("mReadI2CBurst errorCode");
+                        break;
+                    }
+                }
+            }
+
+
+            Globalo.dataManage.eepromData.EquipEEpromReadData.AddRange(EEpromReadData);
+
+
+            return bRtn;
+        }
         public bool BinDumpFileSave()
         {
 

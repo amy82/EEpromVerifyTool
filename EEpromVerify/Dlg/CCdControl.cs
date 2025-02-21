@@ -1005,6 +1005,7 @@ namespace ApsMotionControl.Dlg
                 //EEPROM 에 적힌값은 전부 HEX 값이고,BYTE_ORDER 따라 변환해야된다.
                 //
                 //
+                string padvalue = Globalo.dataManage.eepromData.MesDataList[i].PAD_VALUE;
                 if (Globalo.dataManage.eepromData.MesDataList[i].FIX_YN == "Y")
                 {
                     if (Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.ASCII)
@@ -1020,7 +1021,15 @@ namespace ApsMotionControl.Dlg
                             tempEepData.ITEM_VALUE = Encoding.ASCII.GetString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray());
                         }
 
-                        string padvalue = Globalo.dataManage.eepromData.MesDataList[i].PAD_VALUE;
+                        if (padvalue.Length > 0)
+                        {
+                            //PAD_VALUE 값이 있으면 제외 해야된다 윤현순 책임 250221 mail
+                            int asciiValue = Convert.ToInt32(padvalue, 16);
+                            char character = (char)asciiValue;
+                            string strtemp = character.ToString();
+                            tempEepData.ITEM_VALUE = tempEepData.ITEM_VALUE.Replace(strtemp, "");
+                        }
+                        
                     }
                     else if (Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.DOUBLE)
                     {
@@ -1117,7 +1126,6 @@ namespace ApsMotionControl.Dlg
             Console.WriteLine("testEEpromRead run");
 
             string slaveAddr = Regex.Replace(Globalo.mCCdPanel.textBox_SlaveAddr.Text, @"\D", "");
-
             string readAddr = Regex.Replace(Globalo.mCCdPanel.textBox_ReadAddr.Text, @"\D", "");
             //string numericPart = Regex.Replace(input, @"\D", "");  // 숫자가 아닌 부분(\D)을 제거
             ushort readDataLength = Convert.ToUInt16(Globalo.mCCdPanel.textBox_ReadDataLeng.Text);  //읽어야될 길이
@@ -1192,21 +1200,15 @@ namespace ApsMotionControl.Dlg
                 }
             }
 
-            Globalo.mLaonGrabberClass.eepromDicData.Clear();
-            for (i = 0; i < endAddress; i++)
-            {
-                Globalo.mLaonGrabberClass.eepromDicData.Add((ushort)i, EEpromReadData[i]);
-            }
+            //Globalo.mLaonGrabberClass.eepromDicData.Clear();
+            //for (i = 0; i < endAddress; i++)
+            //{
+            //    Globalo.mLaonGrabberClass.eepromDicData.Add((ushort)i, EEpromReadData[i]);
+            //}
             Globalo.mCCdPanel.CcdEEpromReadData.AddRange(EEpromReadData);
 
             Globalo.mCCdPanel.ShowEEpromGrid(StartAddr, Globalo.mCCdPanel.CcdEEpromReadData.Count);
 
-            //string asciiString = "";
-            //for (i = 209; i < 225; i ++)
-            //{
-            //    asciiString += (char)EEpromReadData[i]; // ASCII 문자로 변환 후 문자열 추가
-            //}
-            //int leng = asciiString.Length;
             return true;
         }
         private void BTN_CCD_EEPROM_READ_Click(object sender, EventArgs e)

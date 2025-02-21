@@ -449,10 +449,17 @@ namespace ApsMotionControl.Dlg
             {
                 if (i < dataCount)
                 {
-                    //dataGridView_Result.Rows.Add((i + 1).ToString(), Globalo.yamlManager.MesData.SecGemData.Modellist[i]);
-                    //ResultTitle = { "Result", "EEP_ITEM", "ITEM_VALUE", "EEPROM", "ADDR", "SIZE" };
-                    dataGridView_Result.Rows.Add(_EEp_DataList[i].RESULT, _Mes_DataList[i].EEP_ITEM, _Mes_DataList[i].ITEM_VALUE, _EEp_DataList[i].ITEM_VALUE, _Mes_DataList[i].ADDRESS, _Mes_DataList[i].DATA_SIZE);
-                    if(_EEp_DataList[i].RESULT == "PASS")
+                    string eepData = _EEp_DataList[i].ITEM_VALUE;
+                    string mesData = _Mes_DataList[i].ITEM_VALUE;
+                    if (_Mes_DataList[i].DATA_FORMAT == "EMPTY" && _EEp_DataList[i].RESULT == "PASS")
+                    {
+                        //EMPTY 항목이 PASS 일 경우 0xFF 로만 표시한다.
+                        eepData = "0xFF";
+                        mesData = "0xFF";
+                    }
+                    dataGridView_Result.Rows.Add(_EEp_DataList[i].RESULT, _Mes_DataList[i].EEP_ITEM, mesData, eepData, _Mes_DataList[i].ADDRESS, _Mes_DataList[i].DATA_SIZE);
+
+                    if (_EEp_DataList[i].RESULT == "PASS")
                     {
                         dataGridView_Result.Rows[i].Cells[0].Style.BackColor = Color.Green; // 1번 열
                     }

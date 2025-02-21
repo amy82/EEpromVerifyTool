@@ -102,6 +102,7 @@ namespace ApsMotionControl.Process
         }
         public int Auto_EEpromVerify(int nStep)       //로딩(40000 ~ 50000)
         {
+            bool rtn = true;
             string szLog = "";
             const int UniqueNum = 40000;
             int nRetStep = nStep;
@@ -109,14 +110,53 @@ namespace ApsMotionControl.Process
             {
                 case UniqueNum:
 
+                    nRetStep = 40100;
+                    break;
+                case 40100:
+                    //영상 open
+                    rtn = Globalo.mLaonGrabberClass.OpenDevice();
+                    if(rtn == false)
+                    {
+                        szLog = $"[AUTO] CCd OpenDevice Fail[STEP : {nStep}]";
+                        Globalo.LogPrint("PcbPrecess", szLog);
+                        nRetStep = -40100;
+                        break;
+                    }
+
+                    szLog = $"[AUTO] CCd OpenDevice Ok[STEP : {nStep}]";
+                    Globalo.LogPrint("PcbPrecess", szLog);
+
+                    nRetStep = 40200;
+                    break;
+                case 40200:
+
+                    nRetStep = 40300;
+                    break;
+                case 40300:
+                    //영상 Grab Start ?? 선택 가능하게
+                    nRetStep = 40400;
+                    break;
+                case 40400:
+                    //제품에서 EEPROM READ
+
+                    rtn = Data.CEEpromData.EEpromDataRead();
+                    if(rtn == true)
+                    {
+                        szLog = $"[AUTO] EEPROM DATA READ OK[STEP : {nStep}]";
+                        Globalo.LogPrint("PcbPrecess", szLog);
+                    }
+                    else
+                    {
+                        szLog = $"[AUTO] EEPROM DATA READ FAIL[STEP : {nStep}]";
+                        Globalo.LogPrint("PcbPrecess", szLog);
+                    }
                     nRetStep = 40500;
                     break;
                 case 40500:
-
                     nRetStep = 41500;
                     break;
                 case 41500:
-
+                    
                     nRetStep = 42500;
                     break;
                 case 42500:
