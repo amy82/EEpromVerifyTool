@@ -27,6 +27,8 @@ namespace ApsMotionControl.Data
         public AlarmData alarmData {get; set;}
         public ImageData imageData { get; set; }
 
+        public _TaskData TaskData { get; private set; }
+
         public YamlManager()
         {
             // YAML Serializer & Deserializer 설정
@@ -337,7 +339,47 @@ namespace ApsMotionControl.Data
                 return false;
             }
         }
+        public bool TaskDataLoad()
+        {
+            string filePath = Path.Combine(CPath.BASE_DATA_PATH, CPath.yamlFilePathTask);
+            try
+            {
+                if (!File.Exists(filePath))
+                    return false;
 
+                TaskData = LoadYaml<_TaskData>(filePath);
+                if (TaskData == null)
+                {
+                    return false;
+                }
+
+                Globalo.dataManage.TaskWork.m_szChipID = TaskData.LotData.BarcodeData;
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading TaskDataLoad: {ex.Message}");
+                return false;
+            }
+        }
+        public bool TaskDataSave()
+        {
+            string filePath = Path.Combine(CPath.BASE_DATA_PATH, CPath.yamlFilePathTask);
+            try
+            {
+                if (!File.Exists(filePath))
+                    return false;
+
+                SaveYaml(filePath, TaskData);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error TaskDataSave: {ex.Message}");
+                return false;
+            }
+        }
         public bool AlarmLoad()
         {
             //Alarm_2025_02_04.yaml

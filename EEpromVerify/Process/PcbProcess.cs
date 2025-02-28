@@ -109,8 +109,18 @@ namespace ApsMotionControl.Process
             switch (nStep)
             {
                 case UniqueNum:
+                    if(true)        //offlien 모드 일대만?
+                    {
+                        //Data.CEEpromData.Search_MMD_Data_File
+                        // "Z23DC24327000030V3WT-13A997-A");
 
+                        string strfile = Data.CEEpromData.Search_MMD_Data_File(Globalo.dataManage.TaskWork.m_szChipID);
+                        Globalo.dataManage.eepromData.LoadExcelData(strfile);
+                    }
                     nRetStep = 40100;
+                    break;
+                case 40050:
+                    
                     break;
                 case 40100:
                     //영상 open
@@ -129,7 +139,6 @@ namespace ApsMotionControl.Process
                     nRetStep = 40200;
                     break;
                 case 40200:
-
                     nRetStep = 40300;
                     break;
                 case 40300:
@@ -153,10 +162,11 @@ namespace ApsMotionControl.Process
                     nRetStep = 40500;
                     break;
                 case 40500:
+                    //csv 파일 로드
                     nRetStep = 41500;
                     break;
                 case 41500:
-
+                    
                     _syncContext.Send(_ =>
                     {
                         Data.CEEpromData.EEpromVerifyRun();
@@ -219,4 +229,7 @@ namespace ApsMotionControl.Process
         //
         //
     }
+    
 }
+
+

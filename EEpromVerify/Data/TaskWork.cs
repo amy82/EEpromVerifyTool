@@ -16,6 +16,8 @@ namespace ApsMotionControl.Data
         public Rectangle[] rtSfrSmallRect = new Rectangle[Globalo.MTF_ROI_COUNT];
 
         public string m_szChipID;
+        public int EEpromReadTotalCount;
+
         public int bRecv_Lgit_Pp_select;
 
         public int bRecv_S6F12_Process_State_Change;
@@ -37,7 +39,7 @@ namespace ApsMotionControl.Data
         public TaskWork()
         {
             m_szChipID = "";
-
+            EEpromReadTotalCount = 1;
             bRecv_Lgit_Pp_select = -1;
             bRecv_S6F12_Process_State_Change = -1;
             bRecv_S6F12_PP_Selected = -1;

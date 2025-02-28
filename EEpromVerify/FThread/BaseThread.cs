@@ -33,11 +33,9 @@ namespace ApsMotionControl.FThread
                 ThreadInit();
                 while (!cts.Token.IsCancellationRequested)
                 {
-                    ThreadRun();
-
-                    if (m_bPause)
+                    if (m_bPause == false)
                     {
-                        continue;
+                        ThreadRun();
                     }
                     Thread.Sleep(Globalo.BASE_THREAD_INTERVAL);
                 }

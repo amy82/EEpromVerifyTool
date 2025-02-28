@@ -58,10 +58,15 @@ namespace ApsMotionControl.Data
             EEpromDataList = new List<EEpromReadData>();
             EquipEEpromReadData = new List<byte>();          //제품에서 읽은 eeprom 값
         }
-        public void LoadExcelData()
+        public void LoadExcelData(string filePath)
         {
-            string filePath = string.Format(@"{0}\30.csv", Application.StartupPath); //file path
-            ReadCsvToList(filePath);
+            //string filePath = string.Format(@"{0}\30.csv", Application.StartupPath); //file path
+            bool rtn = ReadCsvToList(filePath);
+            if(rtn)
+            {
+                int tCount = Globalo.dataManage.eepromData.MesDataList.Count;
+                Globalo.dataManage.TaskWork.EEpromReadTotalCount = Globalo.dataManage.eepromData.MesDataList[tCount - 1].ADDRESS + Globalo.dataManage.eepromData.MesDataList[tCount - 1].DATA_SIZE;
+            }
         }
         public void SaveExcelData()
         {
@@ -299,7 +304,7 @@ namespace ApsMotionControl.Data
             string slaveAddr = Regex.Replace("0x50", @"\D", "");
             string readAddr = Regex.Replace("0x00", @"\D", "");
 
-            ushort readDataLength = 100;// Convert.ToUInt16(Globalo.mCCdPanel.textBox_ReadDataLeng.Text);  //읽어야될 길이
+            int readDataLength = Globalo.dataManage.TaskWork.EEpromReadTotalCount;// Convert.ToUInt16(Globalo.mCCdPanel.textBox_ReadDataLeng.Text);  //읽어야될 길이
             //readDataLength = MES에서 받은 데이터에서 확인
 
             if (readDataLength < 1)
@@ -310,7 +315,7 @@ namespace ApsMotionControl.Data
             ushort maxReadLength = CLaonGrabberClass.MAX_READ_WRITE_LENGTH;
             if (maxReadLength > readDataLength)
             {
-                maxReadLength = readDataLength;
+                maxReadLength = (ushort)readDataLength;
             }
 
             int errorCode = 0;
@@ -900,6 +905,87 @@ namespace ApsMotionControl.Data
 
             // One's Complement 취하기
             return (ushort)~sum;
+        }
+        public static string Search_MMD_Data_File(string fileName)
+        {
+            string fullFilePath = "";
+
+            // 시작 날짜와 파일명을 설정
+            //DateTime currentDate = new DateTime(2025, 2, 28);
+            // 시작 날짜를 오늘 날짜로 설정
+            DateTime currentDate = DateTime.Today;
+            DateTime startDate = currentDate; // 시작 날짜는 오늘
+
+
+            string basePath = CPath.BASE_LOG_MMDDATA_PATH;  //@"D:\EVMS\LOG\MMD_DATA";
+            string searchFileName = SanitizeFileName(fileName);
+            if(searchFileName.Length < 1)
+            {
+                return "";
+            }
+            searchFileName += ".csv";
+            // 검색 기간 제한 (예: 최대 3개월)
+            int maxSearchMonths = 3; // 최대 3개월
+            int monthsSearched = 0; // 검색한 월 수
+            DateTime firstDateOfSearch = currentDate; // 첫 검색 날짜 기록
+
+            if(maxSearchMonths < 1)
+            {
+                maxSearchMonths = 1;
+            }
+            // 파일을 찾을 때까지 날짜를 하루씩 감소
+            while (currentDate > DateTime.MinValue)
+            {
+                // 폴더 경로를 "연도\월\일" 형식으로 생성
+                string year = currentDate.ToString("yyyy");
+                string month = currentDate.ToString("MM");
+                string day = currentDate.ToString("dd");
+
+                string fullPath = Path.Combine(basePath, year, month, day);
+                Console.WriteLine($"🔍 검사 중: {fullPath}");
+
+                // aaa.csv 파일 경로 생성
+                string targetFilePath = Path.Combine(basePath, year, month, day, searchFileName);
+                Console.WriteLine($"🔍 검사 중: {targetFilePath}");
+
+                // 폴더가 존재하는지 확인
+                if (File.Exists(targetFilePath))
+                {
+                    fullFilePath = targetFilePath;
+                    Console.WriteLine($"✅ 파일을 찾았습니다: {targetFilePath}");
+                    break;
+                }
+
+                // 날짜를 하루 줄임
+                currentDate = currentDate.AddDays(-1);
+                // 최대 검색 기간을 월 단위로 초과했는지 체크
+                monthsSearched = (firstDateOfSearch.Year - currentDate.Year) * 12 + firstDateOfSearch.Month - currentDate.Month;
+
+                if (monthsSearched >= maxSearchMonths)
+                {
+                    Console.WriteLine($"❌ 최대 검색 기간({maxSearchMonths}개월)을 초과했습니다.");
+                    break;
+                }
+            }
+
+            return fullFilePath;
+        }
+        public static string SanitizeFileName(string fileName)
+        {
+            // 윈도우에서 사용 불가능한 문자 목록을 가져옴
+            char[] invalidChars = Path.GetInvalidFileNameChars();
+
+            // 사용 불가능한 문자를 빈 문자열로 대체하여 제거
+            foreach (char c in invalidChars)
+            {
+                fileName = fileName.Replace(c.ToString(), "");
+            }
+
+            // 파일명이 공백이 되지 않도록 기본값 설정
+            if (string.IsNullOrWhiteSpace(fileName))
+                fileName = "default_filename";
+
+            return fileName;
         }
     }
 }

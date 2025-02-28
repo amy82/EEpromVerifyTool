@@ -95,10 +95,12 @@ namespace ApsMotionControl
 
             //string excelPath = string.Format(@"{0}\30.csv", Application.StartupPath); //file path
             //Globalo.dataManage.eepromData.ReadExcelData(excelPath);
-            Globalo.dataManage.eepromData.LoadExcelData();
+            string strfile = Data.CEEpromData.Search_MMD_Data_File("Z23DC24327000030V3WT-13A997-A");
+            Globalo.dataManage.eepromData.LoadExcelData(strfile);
 
 
             Globalo.yamlManager.configDataLoad();
+            Globalo.yamlManager.TaskDataLoad();
             Globalo.yamlManager.imageDataLoad();
             Globalo.dataManage.teachingData.DataLoad();
             Globalo.yamlManager.RecipeYamlListLoad();
@@ -197,7 +199,8 @@ namespace ApsMotionControl
             eLogPrint("Main", "PG START");
             //eLogPrint("Main", "자동운전 중 진행할 수 없습니다.", Globalo.eMessageName.M_INFO);
 
-
+            //Globalo.dataManage.TaskWork.m_szChipID
+            BcrSet(Globalo.dataManage.TaskWork.m_szChipID);
             Globalo.mMainPanel.ShowVerifyResultGrid(Globalo.dataManage.eepromData.MesDataList, Globalo.dataManage.eepromData.EEpromDataList);
         }
         public void InitMilLib()
@@ -515,6 +518,11 @@ namespace ApsMotionControl
             {
                 textBox_TopLot.Text = value;
             }
+            Globalo.dataManage.TaskWork.m_szChipID = value;
+
+            Globalo.yamlManager.TaskDataSave();
+            //string sanitizedFileName = Data.CEEpromData.SanitizeFileName(value);
+            //Console.WriteLine($"✅ 사용 가능한 파일명: {sanitizedFileName}");
         }
         private void eLogPrint(object oSender, string LogDesc, Globalo.eMessageName bPopUpView = Globalo.eMessageName.M_NULL)
         {
@@ -636,52 +644,21 @@ namespace ApsMotionControl
 
         private void BTN_TOP_LOG_Click(object sender, EventArgs e)
         {
-            //Button btn = sender as Button;
-            //eLogPrint("Log", $"{btn.Text} 버튼 Click");
-            
+
             if (Debugger.IsAttached)
             {
-                //string parameter = "111,222,333,444,555,";
-                //string[] values = parameter.Split(',');
 
-                //int cont = values.Length;                           //6
-                //int commaCount = parameter.Count(c => c == ',');    //5
-                //MessagePopUpForm messageForm = new MessagePopUpForm();
-                //int testNum = 10;
-                //string LogInfo = $"[{testNum}] Message Test";
+                string _path = Data.CEEpromData.Search_MMD_Data_File("Z23DC24327000030V3WT-13A997-A.csv");
 
-                //messageForm.MessageSet(Globalo.eMessageName.M_OP_CALL, LogInfo, "LGIT OP CALL", $"OPCALL CODE :{testNum} ");
-                //messageForm.Show(); // 새로운 창 계속 생성
+                //uint testio = 0xFF;
 
+                //testio &= ~((uint)DioDefine.DIO_OUT_ADDR.BUZZER1 | (uint)DioDefine.DIO_OUT_ADDR.BUZZER3);       //testio에서 BUZZER1 하고 BUZZER3을 끄다.
+                //testio |= ((uint)DioDefine.DIO_OUT_ADDR.BUZZER1 | (uint)DioDefine.DIO_OUT_ADDR.BUZZER3);        //testio에서 BUZZER1 하고 BUZZER3 만 켜다.
 
+                //testio = 0x00;
 
-                uint testio = 0xFF;
+                //Globalo.LogPrint("MainControl", "ALARM TEST 111", Globalo.eMessageName.M_WARNING);
 
-                testio &= ~((uint)DioDefine.DIO_OUT_ADDR.BUZZER1 | (uint)DioDefine.DIO_OUT_ADDR.BUZZER3);       //testio에서 BUZZER1 하고 BUZZER3을 끄다.
-                testio |= ((uint)DioDefine.DIO_OUT_ADDR.BUZZER1 | (uint)DioDefine.DIO_OUT_ADDR.BUZZER3);        //testio에서 BUZZER1 하고 BUZZER3 만 켜다.
-
-                testio = 0x00;
-
-                Globalo.LogPrint("MainControl", "ALARM TEST 111", Globalo.eMessageName.M_WARNING);
-
-            }
-            else
-            {
-                //Form messageForm = new Form
-                //{
-                //    Text = "이벤트 발생!",
-                //    Size = new System.Drawing.Size(300, 200)
-                //};
-
-                //Label label = new Label
-                //{
-                //    Text = "이벤트가 발생했습니다!",
-                //    AutoSize = true,
-                //    Location = new System.Drawing.Point(50, 50)
-                //};
-
-                //messageForm.Controls.Add(label);
-                //messageForm.Show(); // 새로운 창 계속 생성
             }
 
             
