@@ -69,6 +69,7 @@ namespace ApsMotionControl
             this.BTN_BOTTOM_TEACH = new System.Windows.Forms.Button();
             this.BTN_BOTTOM_MAIN = new System.Windows.Forms.Button();
             this.BTN_BOTTOM_SETUP = new System.Windows.Forms.Button();
+            this.BTN_MAIN_JUDGE_RESET = new System.Windows.Forms.Button();
             this.TopPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainTitlepictureBox)).BeginInit();
             this.LeftPanel.SuspendLayout();
@@ -170,6 +171,7 @@ namespace ApsMotionControl
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.BTN_MAIN_JUDGE_RESET);
             this.groupBox1.Controls.Add(this.textBox_TopLot);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label_production_total);
@@ -659,6 +661,20 @@ namespace ApsMotionControl
             this.BTN_BOTTOM_SETUP.UseVisualStyleBackColor = false;
             this.BTN_BOTTOM_SETUP.Click += new System.EventHandler(this.BTN_BOTTOM_SETUP_Click);
             // 
+            // BTN_MAIN_JUDGE_RESET
+            // 
+            this.BTN_MAIN_JUDGE_RESET.BackColor = System.Drawing.Color.Tan;
+            this.BTN_MAIN_JUDGE_RESET.FlatAppearance.BorderSize = 0;
+            this.BTN_MAIN_JUDGE_RESET.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BTN_MAIN_JUDGE_RESET.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BTN_MAIN_JUDGE_RESET.Location = new System.Drawing.Point(596, 111);
+            this.BTN_MAIN_JUDGE_RESET.Name = "BTN_MAIN_JUDGE_RESET";
+            this.BTN_MAIN_JUDGE_RESET.Size = new System.Drawing.Size(83, 35);
+            this.BTN_MAIN_JUDGE_RESET.TabIndex = 16;
+            this.BTN_MAIN_JUDGE_RESET.Text = "RESET";
+            this.BTN_MAIN_JUDGE_RESET.UseVisualStyleBackColor = false;
+            this.BTN_MAIN_JUDGE_RESET.Click += new System.EventHandler(this.BTN_MAIN_JUDGE_RESET_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -724,6 +740,7 @@ namespace ApsMotionControl
         private System.Windows.Forms.TextBox textBox_TopLot;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button BTN_BOTTOM_LOG;
+        private System.Windows.Forms.Button BTN_MAIN_JUDGE_RESET;
     }
 }
 

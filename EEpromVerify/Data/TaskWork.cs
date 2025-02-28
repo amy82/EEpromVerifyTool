@@ -18,6 +18,14 @@ namespace ApsMotionControl.Data
         public string m_szChipID;
         public int EEpromReadTotalCount;
 
+        //Judge Count
+        //
+        public int Judge_Ok_Count;
+        public int Judge_Ng_Count;
+        public int Judge_Total_Count;
+
+        // Secs/Gem
+        //
         public int bRecv_Lgit_Pp_select;
 
         public int bRecv_S6F12_Process_State_Change;
@@ -39,6 +47,10 @@ namespace ApsMotionControl.Data
         public TaskWork()
         {
             m_szChipID = "";
+            Judge_Ok_Count = 0;
+            Judge_Ng_Count = 0;
+            Judge_Total_Count = 0;
+
             EEpromReadTotalCount = 1;
             bRecv_Lgit_Pp_select = -1;
             bRecv_S6F12_Process_State_Change = -1;

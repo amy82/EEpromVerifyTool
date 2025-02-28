@@ -297,13 +297,13 @@ namespace ApsMotionControl
             {
                 Globalo.MainForm.BTN_MAIN_READY1.BackColor = ColorTranslator.FromHtml(ButtonColor.BTN_ON);
 
-                labelGuide.Text = "운전준비 완료!";
+                MainGuideTxtSet("운전준비 완료!");
                 AutoRunTimerStop();
             }
             if (ProgramState.CurrentState == OperationState.Stopped)
             {
 
-                labelGuide.Text = "설비 정지 상태입니다.";
+                MainGuideTxtSet("설비 정지 상태입니다.");
                 AutoRunTimerStop();
             }
         }
@@ -647,8 +647,8 @@ namespace ApsMotionControl
 
             if (Debugger.IsAttached)
             {
-
-                string _path = Data.CEEpromData.Search_MMD_Data_File("Z23DC24327000030V3WT-13A997-A.csv");
+                string tempLot = "Z23DC24327000030V3WT-13A997-A*";
+                string _path = Data.CEEpromData.Search_MMD_Data_File(tempLot);
 
                 //uint testio = 0xFF;
 
@@ -974,8 +974,7 @@ namespace ApsMotionControl
             }
             AutoRunBtnUiTimer(1);
 
-            labelGuide.Text = "설비 운전준비중 입니다.";
-
+            MainGuideTxtSet("설비 운전준비중 입니다.");
             AutoButtonSet(ProgramState.CurrentState);
 
         }
@@ -991,11 +990,12 @@ namespace ApsMotionControl
 
             if (labelGuide.InvokeRequired)
             {
-                labelGuide.BeginInvoke(new Action(() => labelGuide.Text = "설비 일시정지 상태입니다."));
+                //labelGuide.BeginInvoke(new Action(() => labelGuide.Text = "설비 일시정지 상태입니다."));
+                labelGuide.BeginInvoke(new Action(() => MainGuideTxtSet("설비 일시정지 상태입니다.")));
             }
             else
             {
-                labelGuide.Text = "설비 일시정지 상태입니다.";
+                MainGuideTxtSet("설비 일시정지 상태입니다.");
             }
 
             Globalo.threadControl.autoRunthread.Pause();
@@ -1057,7 +1057,7 @@ namespace ApsMotionControl
                 return false;
             }
 
-            labelGuide.Text = "자동 운전 중입니다.";
+            MainGuideTxtSet("자동 운전 중입니다.");
             AutoButtonSet(ProgramState.CurrentState);
 
 
@@ -1071,8 +1071,7 @@ namespace ApsMotionControl
 
             ProgramState.CurrentState = OperationState.Stopped;
 
-            labelGuide.Text = "설비 정지 상태입니다.";
-
+            MainGuideTxtSet("설비 정지 상태입니다.");
             if (Globalo.threadControl.autoRunthread.GetThreadRun() == true)
             {
                 Globalo.threadControl.autoRunthread.Stop();
@@ -1082,6 +1081,10 @@ namespace ApsMotionControl
                 Globalo.motorControl.StopAxisAll(0);
             }
             AutoButtonSet(ProgramState.CurrentState);
+        }
+        public void MainGuideTxtSet(string txt)
+        {
+            labelGuide.Text = txt;
         }
         private void MenuButtonSet(int index)
         {
@@ -1206,6 +1209,25 @@ namespace ApsMotionControl
             Globalo.mMainPanel.Visible = false;
 
             MenuButtonSet(4);
+        }
+        public void ProductionInfoSet()
+        {
+            label_production_ok.Text = Globalo.dataManage.TaskWork.Judge_Total_Count.ToString();
+            label_production_ng.Text = Globalo.dataManage.TaskWork.Judge_Ok_Count.ToString();
+            label_production_total.Text = Globalo.dataManage.TaskWork.Judge_Ng_Count.ToString();
+        }
+        private void BTN_MAIN_JUDGE_RESET_Click(object sender, EventArgs e)
+        {
+            //label_production_ok
+            //label_production_ng
+            //label_production_total
+            Globalo.dataManage.TaskWork.Judge_Total_Count = 0;
+            Globalo.dataManage.TaskWork.Judge_Ok_Count = 0;
+            Globalo.dataManage.TaskWork.Judge_Ng_Count = 0;
+
+
+
+            ProductionInfoSet();
         }
     }
 }

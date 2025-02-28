@@ -50,9 +50,13 @@ namespace ApsMotionControl.FThread
                 }
                 else if (Globalo.taskWork.m_nCurrentStep >= 40000 && Globalo.taskWork.m_nCurrentStep < 50000)
                 {
-                    Globalo.taskWork.m_nCurrentStep = RunProcess.Auto_EEpromVerify(Globalo.taskWork.m_nCurrentStep);
+                    Globalo.taskWork.m_nCurrentStep = RunProcess.Auto_Mes_Secenario(Globalo.taskWork.m_nCurrentStep);
                 }
                 else if (Globalo.taskWork.m_nCurrentStep >= 50000 && Globalo.taskWork.m_nCurrentStep < 60000)
+                {
+                    Globalo.taskWork.m_nCurrentStep = RunProcess.Auto_EEpromVerify(Globalo.taskWork.m_nCurrentStep);
+                }
+                else if (Globalo.taskWork.m_nCurrentStep >= 60000 && Globalo.taskWork.m_nCurrentStep < 70000)
                 {
                     Globalo.taskWork.m_nCurrentStep = RunProcess.Auto_Final(Globalo.taskWork.m_nCurrentStep);
                 }

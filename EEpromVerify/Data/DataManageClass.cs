@@ -36,6 +36,8 @@ namespace ApsMotionControl.Data
         //LOG
         public const string BASE_LOG_PATH = "D:\\EVMS\\LOG";
         public const string BASE_LOG_MMDDATA_PATH = "D:\\EVMS\\LOG\\MMD_DATA";
+        public const string BASE_LOG_EEPROMDATA_PATH = "D:\\EVMS\\LOG\\EEPROM_DATA";
+        
         public const string BASE_LOG_ALARM_PATH = "D:\\EVMS\\LOG\\ALARM";
 
 

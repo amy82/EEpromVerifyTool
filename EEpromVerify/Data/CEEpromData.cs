@@ -82,13 +82,13 @@ namespace ApsMotionControl.Data
             int TotalCount = Globalo.dataManage.eepromData.MesDataList.Count;
 
 
-            string logData = $"csv 에서 로드한 항목 개수:{TotalCount}";
+            string logData = $"[Verify] csv Data Load Count:{TotalCount}";
             Globalo.LogPrint("CCdControl", logData);
 
-            logData = $"마지막 Address: {Globalo.dataManage.eepromData.MesDataList[TotalCount - 1].ADDRESS}";
+            logData = $"[Verify]Last Address: {Globalo.dataManage.eepromData.MesDataList[TotalCount - 1].ADDRESS}";
             Globalo.LogPrint("CCdControl", logData);
 
-            logData = $"마지막 Data Size:{Globalo.dataManage.eepromData.MesDataList[TotalCount - 1].DATA_SIZE}";
+            logData = $"[Verify]Last Data Size:{Globalo.dataManage.eepromData.MesDataList[TotalCount - 1].DATA_SIZE}";
             Globalo.LogPrint("CCdControl", logData);
 
             Globalo.dataManage.eepromData.EEpromDataList.Clear();
@@ -293,7 +293,7 @@ namespace ApsMotionControl.Data
             }
 
 
-            Globalo.mMainPanel.ShowVerifyResultGrid(Globalo.dataManage.eepromData.MesDataList, Globalo.dataManage.eepromData.EEpromDataList);
+            //Globalo.mMainPanel.ShowVerifyResultGrid(Globalo.dataManage.eepromData.MesDataList, Globalo.dataManage.eepromData.EEpromDataList);
 
             return true;
         }
@@ -906,19 +906,69 @@ namespace ApsMotionControl.Data
             // One's Complement 취하기
             return (ushort)~sum;
         }
+        // List<byte> 데이터를 주소와 함께 바이너리 파일로 저장하는 함수
+        public static void SaveToBinaryFile(string fileName, List<byte> data)
+        {
+            // 파일 스트림 생성
+            DateTime currentDate = DateTime.Now;
+            string year = currentDate.ToString("yyyy");
+            string month = currentDate.ToString("MM");
+            string day = currentDate.ToString("dd");
+
+            string basePath = Path.Combine(CPath.BASE_LOG_EEPROMDATA_PATH, year, month, day);
+            string _time = currentDate.ToString("_HHmmss");
+            //Globalo.dataManage.eepromData.EquipEEpromReadData.Clear();
+            // 폴더가 없으면 생성
+            if (!Directory.Exists(basePath)) // 폴더가 존재하지 않으면
+            {
+                Directory.CreateDirectory(basePath); // 폴더 생성
+            }
+
+            string targetFilePath = Path.Combine(basePath , fileName) + _time + ".bin";
+
+            // 데이터를 배열로 변환
+            byte[] dataArray = data.ToArray(); // List<byte>를 byte[] 배열로 변환
+
+            // FileStream을 사용하여 파일에 바이너리 형식으로 저장
+            using (FileStream fs = new FileStream(targetFilePath, FileMode.Create, FileAccess.Write))
+            {
+                fs.Write(dataArray, 0, dataArray.Length);  // 데이터를 파일에 기록
+            }
+            //using (BinaryWriter writer = new BinaryWriter(File.Open(targetFilePath, FileMode.Create)))
+            //{
+            //    int address = 0; // 주소 (예시: 시작 주소 0부터 시작)
+
+            //    // 각 데이터에 대해 주소와 데이터를 바이너리로 저장
+            //    foreach (byte item in data)
+            //    {
+            //        // 주소를 먼저 저장
+            //        writer.Write(address);
+
+            //        // 데이터를 저장
+            //        writer.Write(item);
+
+            //        // 주소는 1씩 증가 (각 항목마다 주소를 1씩 증가시킴)
+            //        address++;
+            //    }
+            //}
+
+            Console.WriteLine($"데이터가 '{targetFilePath}'로 저장되었습니다.");
+        }
         public static string Search_MMD_Data_File(string fileName)
         {
+            //fileName <- 확장자(.csv 빠지고 Lot만 들어온다.)
             string fullFilePath = "";
 
             // 시작 날짜와 파일명을 설정
             //DateTime currentDate = new DateTime(2025, 2, 28);
             // 시작 날짜를 오늘 날짜로 설정
-            DateTime currentDate = DateTime.Today;
+            DateTime currentDate = DateTime.Now; ;// DateTime.Today;
             DateTime startDate = currentDate; // 시작 날짜는 오늘
 
 
             string basePath = CPath.BASE_LOG_MMDDATA_PATH;  //@"D:\EVMS\LOG\MMD_DATA";
-            string searchFileName = SanitizeFileName(fileName);
+
+            string searchFileName = SanitizeFileName(fileName); // <- 바코드에서 특수문자 삭제
             if(searchFileName.Length < 1)
             {
                 return "";
