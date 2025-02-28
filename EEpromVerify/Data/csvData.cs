@@ -32,5 +32,23 @@ namespace ApsMotionControl.Data
         public string PAD_VALUE { get; set; }  //13
         public string PAD_POSITION { get; set; }  //14
 
+        public MesEEpromCsvData()
+        {
+            SHOPID = "LGIT AM Paju";
+            PRODID = "Ford CE1";
+            PROCID = "Verify";
+            EEP_ITEM = "ITEM";
+            ADDRESS = 0;
+            DATA_SIZE = 0;
+            DATA_FORMAT = "";
+            BYTE_ORDER = "";
+            FIX_YN = "";
+            ITEM_CODE = "";
+            ITEM_VALUE = "";
+            CRC_START = "";
+            CRC_END = "";
+            PAD_VALUE = "";
+            PAD_POSITION = "";
+        }
     }
 }

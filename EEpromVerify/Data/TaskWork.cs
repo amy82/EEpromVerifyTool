@@ -8,6 +8,8 @@ namespace ApsMotionControl.Data
 {
     public class TaskWork
     {
+        public int m_nTestFinalResult;
+
         public int m_nCurrentStep;
         public int m_nStartStep;
         public int m_nEndStep;
@@ -16,6 +18,16 @@ namespace ApsMotionControl.Data
         public Rectangle[] rtSfrSmallRect = new Rectangle[Globalo.MTF_ROI_COUNT];
 
         public string m_szChipID;
+        public int EEpromReadTotalCount;
+
+        //Judge Count
+        //
+        public int Judge_Ok_Count;
+        public int Judge_Ng_Count;
+        public int Judge_Total_Count;
+
+        // Secs/Gem
+        //
         public int bRecv_Lgit_Pp_select;
 
         public int bRecv_S6F12_Process_State_Change;
@@ -36,8 +48,13 @@ namespace ApsMotionControl.Data
         public int bRecv_S2F49_LG_EEprom_Fail;
         public TaskWork()
         {
+            m_nTestFinalResult = 0;
             m_szChipID = "";
+            Judge_Ok_Count = 0;
+            Judge_Ng_Count = 0;
+            Judge_Total_Count = 0;
 
+            EEpromReadTotalCount = 1;
             bRecv_Lgit_Pp_select = -1;
             bRecv_S6F12_Process_State_Change = -1;
             bRecv_S6F12_PP_Selected = -1;

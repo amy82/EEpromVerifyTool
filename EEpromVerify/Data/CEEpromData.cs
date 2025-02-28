@@ -45,7 +45,7 @@ namespace ApsMotionControl.Data
         //public DataTable dataTable = new DataTable();
 
 
-        public List<MesEEpromCsvData> MesDataList;
+        public List<MesEEpromCsvData> CsvRead_MMd_DataList;//MesDataList;
         public List<EEpromReadData> EEpromDataList;
 
         public List<byte> EquipEEpromReadData;
@@ -54,36 +54,72 @@ namespace ApsMotionControl.Data
             checksumTest();
             EndianTest();
 
-            MesDataList = new List<MesEEpromCsvData>();
+            CsvRead_MMd_DataList = new List<MesEEpromCsvData>();
             EEpromDataList = new List<EEpromReadData>();
             EquipEEpromReadData = new List<byte>();          //제품에서 읽은 eeprom 값
         }
-        public void LoadExcelData()
+        public void LoadExcelData(string LotData)
         {
-            string filePath = string.Format(@"{0}\30.csv", Application.StartupPath); //file path
-            ReadCsvToList(filePath);
-        }
-        public void SaveExcelData()
-        {
+            //string filePath = string.Format(@"{0}\30.csv", Application.StartupPath); //file path
 
-            string filePath = string.Format(@"{0}\30.csv", Application.StartupPath); //file path
-            WriteCsvFromList(filePath, MesDataList);
+            string filePath = Data.CEEpromData.Search_MMD_Data_File(LotData);
+
+            bool rtn = ReadCsvToList(filePath);
+            if(rtn)
+            {
+                int tCount = Globalo.dataManage.eepromData.CsvRead_MMd_DataList.Count;
+                Globalo.dataManage.TaskWork.EEpromReadTotalCount = Globalo.dataManage.eepromData.CsvRead_MMd_DataList[tCount - 1].ADDRESS + Globalo.dataManage.eepromData.CsvRead_MMd_DataList[tCount - 1].DATA_SIZE;
+            }
+        }
+        public void SaveExcelData(string LotData)
+        {
+            DateTime currentDate = DateTime.Now; ;// DateTime.Today;
+            DateTime startDate = currentDate; // 시작 날짜는 오늘
+
+
+            string basePath = CPath.BASE_LOG_MMDDATA_PATH;  //@"D:\EVMS\LOG\MMD_DATA";
+
+            string searchFileName = SanitizeFileName(LotData); // <- 바코드에서 특수문자 삭제
+            if (searchFileName.Length < 1)
+            {
+                return;
+            }
+            string _time = currentDate.ToString("_HHmmss"); //underbar 추가
+
+            searchFileName += _time + ".csv";
+
+
+            string year = currentDate.ToString("yyyy");
+            string month = currentDate.ToString("MM");
+            string day = currentDate.ToString("dd");
+
+            string fullPath = Path.Combine(basePath, year, month, day);
+            // aaa.csv 파일 경로 생성
+            string targetFilePath = Path.Combine(fullPath, searchFileName);
+
+            if(Globalo.dataManage.mesData.VMesEEpromData.Count < 1)
+            {
+                return;
+            }
+
+            //string filePath = string.Format(@"{0}\30.csv", Application.StartupPath); //file path
+            WriteCsvFromList(targetFilePath, Globalo.dataManage.mesData.VMesEEpromData);// CsvRead_MMd_DataList);
         }
 
         public static bool EEpromVerifyRun()
         {
             int i = 0;
+            bool rtn = true;
+            int TotalCount = Globalo.dataManage.eepromData.CsvRead_MMd_DataList.Count;
 
-            int TotalCount = Globalo.dataManage.eepromData.MesDataList.Count;
 
-
-            string logData = $"csv 에서 로드한 항목 개수:{TotalCount}";
+            string logData = $"[Verify] csv Data Load Count:{TotalCount}";
             Globalo.LogPrint("CCdControl", logData);
 
-            logData = $"마지막 Address: {Globalo.dataManage.eepromData.MesDataList[TotalCount - 1].ADDRESS}";
+            logData = $"[Verify]Last Address: {Globalo.dataManage.eepromData.CsvRead_MMd_DataList[TotalCount - 1].ADDRESS}";
             Globalo.LogPrint("CCdControl", logData);
 
-            logData = $"마지막 Data Size:{Globalo.dataManage.eepromData.MesDataList[TotalCount - 1].DATA_SIZE}";
+            logData = $"[Verify]Last Data Size:{Globalo.dataManage.eepromData.CsvRead_MMd_DataList[TotalCount - 1].DATA_SIZE}";
             Globalo.LogPrint("CCdControl", logData);
 
             Globalo.dataManage.eepromData.EEpromDataList.Clear();
@@ -97,25 +133,25 @@ namespace ApsMotionControl.Data
 
             for (i = 0; i < TotalCount; i++)
             {
-                if (Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CRC8_DEFAULT ||
-                    Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CRC8_SAE_J1850 ||
-                    Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CRC8_SAE_J1850_ZERO ||
-                    Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CRC16_CCIT_ZERO ||
-                    Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CRC16_CCIT_FALSE ||
-                    Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CHECKSUM16_RFC1071 ||
-                    Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CHECKSUM_RFC1071)
+                if (Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CRC8_DEFAULT ||
+                    Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CRC8_SAE_J1850 ||
+                    Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CRC8_SAE_J1850_ZERO ||
+                    Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CRC16_CCIT_ZERO ||
+                    Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CRC16_CCIT_FALSE ||
+                    Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CHECKSUM16_RFC1071 ||
+                    Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].DATA_FORMAT == Data.CEEpromData.CRC_CHECKSUM_RFC1071)
                 {
-                    startAddress = int.Parse(Globalo.dataManage.eepromData.MesDataList[i].CRC_START);
-                    readCount = int.Parse(Globalo.dataManage.eepromData.MesDataList[i].CRC_END);
+                    startAddress = int.Parse(Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].CRC_START);
+                    readCount = int.Parse(Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].CRC_END);
 
                     EEPROM_READ_VALUE = Data.CEEpromData.CrcCommonCalculation(
-                        Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT, Globalo.dataManage.eepromData.MesDataList[i].BYTE_ORDER,
+                        Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].DATA_FORMAT, Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].BYTE_ORDER,
                         Globalo.dataManage.eepromData.EquipEEpromReadData.GetRange(startAddress, readCount - startAddress + 1).ToArray());
                 }
                 else
                 {
-                    startAddress = Globalo.dataManage.eepromData.MesDataList[i].ADDRESS;
-                    readCount = Globalo.dataManage.eepromData.MesDataList[i].DATA_SIZE;
+                    startAddress = Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].ADDRESS;
+                    readCount = Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].DATA_SIZE;
                     EEPROM_READ_VALUE = BitConverter.ToString(Globalo.dataManage.eepromData.EquipEEpromReadData.GetRange(startAddress, readCount).ToArray()).Replace("-", "");
                 }
 
@@ -130,31 +166,31 @@ namespace ApsMotionControl.Data
                 //Globalo.dataManage.mesData.VMesEEpromData.Add(tempData);
 
 
-                if (Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.EMPTY)
+                if (Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].DATA_FORMAT == Data.CEEpromData.EMPTY)
                 {
                     //EMPTY 일때 FF로 채워진다.
-                    MES_EEPROM_VALUE = string.Concat(Enumerable.Repeat("FF", Globalo.dataManage.eepromData.MesDataList[i].DATA_SIZE));
+                    MES_EEPROM_VALUE = string.Concat(Enumerable.Repeat("FF", Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].DATA_SIZE));
                 }
                 else
                 {
                     //ITEM_VALUE 값의 자리수는 10인데, DATA_SIZE 는 14개  두개가 서로 다를때
 
 
-                    MES_EEPROM_VALUE = Data.CEEpromData.StringToHex(Globalo.dataManage.eepromData.MesDataList[i].ITEM_VALUE,
-                        Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT,
-                        Globalo.dataManage.eepromData.MesDataList[i].BYTE_ORDER,
-                        Globalo.dataManage.eepromData.MesDataList[i].FIX_YN);
+                    MES_EEPROM_VALUE = Data.CEEpromData.StringToHex(Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].ITEM_VALUE,
+                        Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].DATA_FORMAT,
+                        Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].BYTE_ORDER,
+                        Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].FIX_YN);
 
                     int hexLength = MES_EEPROM_VALUE.Length / 2;
-                    if (hexLength != Globalo.dataManage.eepromData.MesDataList[i].DATA_SIZE)
+                    if (hexLength != Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].DATA_SIZE)
                     {
                         //FIX_YN 이 Y 일때 HEX 값이 아니라서 나누기 하면 안된다.
                         //0x112233 -> 0x0000112233 왼쪽으로 PAD_VALUE 값으로 채운다.
                         //EEPROM_READ_VALUE	"2020202041434130385330303558"	string
                         //MES_EEPROM_VALUE    "58353030533830414341"  string
-                        string padValue = Globalo.dataManage.eepromData.MesDataList[i].PAD_VALUE.Replace("0x", "");
+                        string padValue = Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].PAD_VALUE.Replace("0x", "");
 
-                        int leng = Globalo.dataManage.eepromData.MesDataList[i].DATA_SIZE - hexLength;
+                        int leng = Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].DATA_SIZE - hexLength;
 
                         MES_EEPROM_VALUE = string.Concat(Enumerable.Repeat(padValue, leng)) + MES_EEPROM_VALUE;
                     }
@@ -169,7 +205,7 @@ namespace ApsMotionControl.Data
                 //mes를 뒤집어야지 eeprom 읽은값은 안 뒤집어도 된다?
 
 
-                //if(Globalo.dataManage.eepromData.MesDataList[i].BYTE_ORDER == "Little")
+                //if(Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].BYTE_ORDER == "Little")
                 //{
                 //    //뒤집어야된다
                 //    EEPROM_READ_VALUE = BitConverter.ToString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray().Reverse().ToArray()).Replace("-", "");
@@ -190,14 +226,14 @@ namespace ApsMotionControl.Data
                 //EEPROM 에 적힌값은 전부 HEX 값이고,BYTE_ORDER 따라 변환해야된다.
                 //
                 //
-                string padvalue = Globalo.dataManage.eepromData.MesDataList[i].PAD_VALUE;
-                if (Globalo.dataManage.eepromData.MesDataList[i].FIX_YN == "Y")
+                string padvalue = Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].PAD_VALUE;
+                if (Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].FIX_YN == "Y")
                 {
-                    if (Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.ASCII)
+                    if (Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].DATA_FORMAT == Data.CEEpromData.ASCII)
                     {
                         //Encoding.ASCII 은 그대로 변환돼서
                         //Little 일때 뒤집으면된다.
-                        if (Globalo.dataManage.eepromData.MesDataList[i].BYTE_ORDER == "Little")
+                        if (Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].BYTE_ORDER == "Little")
                         {
                             tempEepData.ITEM_VALUE = Encoding.ASCII.GetString(Globalo.dataManage.eepromData.EquipEEpromReadData.GetRange(startAddress, readCount).ToArray().Reverse().ToArray());
                         }
@@ -216,12 +252,12 @@ namespace ApsMotionControl.Data
                         }
 
                     }
-                    else if (Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.DOUBLE)
+                    else if (Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].DATA_FORMAT == Data.CEEpromData.DOUBLE)
                     {
                         //BitConverter 는 BitConverter.IsLittleEndian 에 따라가기 때문에
                         //Big 일때 반대로 뒤집어야 된다.
 
-                        if (Globalo.dataManage.eepromData.MesDataList[i].BYTE_ORDER == "Big" && BitConverter.IsLittleEndian)
+                        if (Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].BYTE_ORDER == "Big" && BitConverter.IsLittleEndian)
                         {
                             //항상 Little 로 변환되기 때문에 Big 일 때 뒤집어야 된다.
                             tempEepData.ITEM_VALUE = BitConverter.ToSingle(Globalo.dataManage.eepromData.EquipEEpromReadData.GetRange(startAddress, readCount).ToArray().Reverse().ToArray(), 0).ToString();
@@ -232,9 +268,9 @@ namespace ApsMotionControl.Data
                         }
 
                     }
-                    else if (Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.FLOAT)
+                    else if (Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].DATA_FORMAT == Data.CEEpromData.FLOAT)
                     {
-                        if (Globalo.dataManage.eepromData.MesDataList[i].BYTE_ORDER == "Big" && BitConverter.IsLittleEndian)
+                        if (Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].BYTE_ORDER == "Big" && BitConverter.IsLittleEndian)
                         {
                             tempEepData.ITEM_VALUE = BitConverter.ToSingle(Globalo.dataManage.eepromData.EquipEEpromReadData.GetRange(startAddress, readCount).ToArray().Reverse().ToArray(), 0).ToString();
                         }
@@ -244,11 +280,11 @@ namespace ApsMotionControl.Data
                         }
 
                     }
-                    else if (Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.DEC)
+                    else if (Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].DATA_FORMAT == Data.CEEpromData.DEC)
                     {
 
                     }
-                    else if (Globalo.dataManage.eepromData.MesDataList[i].DATA_FORMAT == Data.CEEpromData.UNIX_TIME)
+                    else if (Globalo.dataManage.eepromData.CsvRead_MMd_DataList[i].DATA_FORMAT == Data.CEEpromData.UNIX_TIME)
                     {
 
                     }
@@ -283,14 +319,15 @@ namespace ApsMotionControl.Data
                     //NG
                     Console.WriteLine($"{EEPROM_READ_VALUE} == {MES_EEPROM_VALUE} NG");
                     tempEepData.RESULT = "FAIL";
+                    rtn = false;
                 }
                 Globalo.dataManage.eepromData.EEpromDataList.Add(tempEepData);
             }
 
 
-            Globalo.mMainPanel.ShowVerifyResultGrid(Globalo.dataManage.eepromData.MesDataList, Globalo.dataManage.eepromData.EEpromDataList);
+            //Globalo.mMainPanel.ShowVerifyResultGrid(Globalo.dataManage.eepromData.CsvRead_MMd_DataList, Globalo.dataManage.eepromData.EEpromDataList);
 
-            return true;
+            return rtn;
         }
         public static unsafe bool EEpromDataRead()
         {
@@ -299,7 +336,7 @@ namespace ApsMotionControl.Data
             string slaveAddr = Regex.Replace("0x50", @"\D", "");
             string readAddr = Regex.Replace("0x00", @"\D", "");
 
-            ushort readDataLength = 100;// Convert.ToUInt16(Globalo.mCCdPanel.textBox_ReadDataLeng.Text);  //읽어야될 길이
+            int readDataLength = Globalo.dataManage.TaskWork.EEpromReadTotalCount;// Convert.ToUInt16(Globalo.mCCdPanel.textBox_ReadDataLeng.Text);  //읽어야될 길이
             //readDataLength = MES에서 받은 데이터에서 확인
 
             if (readDataLength < 1)
@@ -310,7 +347,7 @@ namespace ApsMotionControl.Data
             ushort maxReadLength = CLaonGrabberClass.MAX_READ_WRITE_LENGTH;
             if (maxReadLength > readDataLength)
             {
-                maxReadLength = readDataLength;
+                maxReadLength = (ushort)readDataLength;
             }
 
             int errorCode = 0;
@@ -366,6 +403,10 @@ namespace ApsMotionControl.Data
         }
         private void WriteCsvFromList(string filePath, List<MesEEpromCsvData> dataList)
         {
+
+            string tempPath = Path.Combine(Path.GetTempPath(), Path.GetFileName(filePath)); // 임시 파일 생성
+
+
             using (var writer = new StreamWriter(filePath))
             using (var csv = new CsvWriter(writer, new CsvConfiguration(CultureInfo.InvariantCulture)
             {
@@ -420,7 +461,7 @@ namespace ApsMotionControl.Data
                     IgnoreBlankLines = true // 빈 줄 무시
                 }))
                 {
-                    MesDataList = new List<MesEEpromCsvData>(csv.GetRecords<MesEEpromCsvData>());
+                    CsvRead_MMd_DataList = new List<MesEEpromCsvData>(csv.GetRecords<MesEEpromCsvData>());
                     
                 }
             }
@@ -900,6 +941,137 @@ namespace ApsMotionControl.Data
 
             // One's Complement 취하기
             return (ushort)~sum;
+        }
+        // List<byte> 데이터를 주소와 함께 바이너리 파일로 저장하는 함수
+        public static void SaveToBinaryFile(string fileName, List<byte> data)
+        {
+            // 파일 스트림 생성
+            DateTime currentDate = DateTime.Now;
+            string year = currentDate.ToString("yyyy");
+            string month = currentDate.ToString("MM");
+            string day = currentDate.ToString("dd");
+
+            string basePath = Path.Combine(CPath.BASE_LOG_EEPROMDATA_PATH, year, month, day);
+            string _time = currentDate.ToString("_HHmmss");
+            //Globalo.dataManage.eepromData.EquipEEpromReadData.Clear();
+            // 폴더가 없으면 생성
+            if (!Directory.Exists(basePath)) // 폴더가 존재하지 않으면
+            {
+                Directory.CreateDirectory(basePath); // 폴더 생성
+            }
+
+            string targetFilePath = Path.Combine(basePath , fileName) + _time + ".bin";
+
+            // 데이터를 배열로 변환
+            byte[] dataArray = data.ToArray(); // List<byte>를 byte[] 배열로 변환
+
+            // FileStream을 사용하여 파일에 바이너리 형식으로 저장
+            using (FileStream fs = new FileStream(targetFilePath, FileMode.Create, FileAccess.Write))
+            {
+                fs.Write(dataArray, 0, dataArray.Length);  // 데이터를 파일에 기록
+            }
+            //using (BinaryWriter writer = new BinaryWriter(File.Open(targetFilePath, FileMode.Create)))
+            //{
+            //    int address = 0; // 주소 (예시: 시작 주소 0부터 시작)
+
+            //    // 각 데이터에 대해 주소와 데이터를 바이너리로 저장
+            //    foreach (byte item in data)
+            //    {
+            //        // 주소를 먼저 저장
+            //        writer.Write(address);
+
+            //        // 데이터를 저장
+            //        writer.Write(item);
+
+            //        // 주소는 1씩 증가 (각 항목마다 주소를 1씩 증가시킴)
+            //        address++;
+            //    }
+            //}
+
+            Console.WriteLine($"데이터가 '{targetFilePath}'로 저장되었습니다.");
+        }
+        public static string Search_MMD_Data_File(string fileName)
+        {
+            //fileName <- 확장자(.csv 빠지고 Lot만 들어온다.)
+            string fullFilePath = "";
+
+            // 시작 날짜와 파일명을 설정
+            //DateTime currentDate = new DateTime(2025, 2, 28);
+            // 시작 날짜를 오늘 날짜로 설정
+            DateTime currentDate = DateTime.Now; ;// DateTime.Today;
+            DateTime startDate = currentDate; // 시작 날짜는 오늘
+
+
+            string basePath = CPath.BASE_LOG_MMDDATA_PATH;  //@"D:\EVMS\LOG\MMD_DATA";
+
+            string searchFileName = SanitizeFileName(fileName); // <- 바코드에서 특수문자 삭제
+            if(searchFileName.Length < 1)
+            {
+                return "";
+            }
+            searchFileName += ".csv";
+            // 검색 기간 제한 (예: 최대 3개월)
+            int maxSearchMonths = 3; // 최대 3개월
+            int monthsSearched = 0; // 검색한 월 수
+            DateTime firstDateOfSearch = currentDate; // 첫 검색 날짜 기록
+
+            if(maxSearchMonths < 1)
+            {
+                maxSearchMonths = 1;
+            }
+            // 파일을 찾을 때까지 날짜를 하루씩 감소
+            while (currentDate > DateTime.MinValue)
+            {
+                // 폴더 경로를 "연도\월\일" 형식으로 생성
+                string year = currentDate.ToString("yyyy");
+                string month = currentDate.ToString("MM");
+                string day = currentDate.ToString("dd");
+
+                string fullPath = Path.Combine(basePath, year, month, day);
+                Console.WriteLine($"🔍 검사 중: {fullPath}");
+
+                // aaa.csv 파일 경로 생성
+                string targetFilePath = Path.Combine(basePath, year, month, day, searchFileName);
+                Console.WriteLine($"🔍 검사 중: {targetFilePath}");
+
+                // 폴더가 존재하는지 확인
+                if (File.Exists(targetFilePath))
+                {
+                    fullFilePath = targetFilePath;
+                    Console.WriteLine($"✅ 파일을 찾았습니다: {targetFilePath}");
+                    break;
+                }
+
+                // 날짜를 하루 줄임
+                currentDate = currentDate.AddDays(-1);
+                // 최대 검색 기간을 월 단위로 초과했는지 체크
+                monthsSearched = (firstDateOfSearch.Year - currentDate.Year) * 12 + firstDateOfSearch.Month - currentDate.Month;
+
+                if (monthsSearched >= maxSearchMonths)
+                {
+                    Console.WriteLine($"❌ 최대 검색 기간({maxSearchMonths}개월)을 초과했습니다.");
+                    break;
+                }
+            }
+
+            return fullFilePath;
+        }
+        public static string SanitizeFileName(string fileName)
+        {
+            // 윈도우에서 사용 불가능한 문자 목록을 가져옴
+            char[] invalidChars = Path.GetInvalidFileNameChars();
+
+            // 사용 불가능한 문자를 빈 문자열로 대체하여 제거
+            foreach (char c in invalidChars)
+            {
+                fileName = fileName.Replace(c.ToString(), "");
+            }
+
+            // 파일명이 공백이 되지 않도록 기본값 설정
+            if (string.IsNullOrWhiteSpace(fileName))
+                fileName = "default_filename";
+
+            return fileName;
         }
     }
 }

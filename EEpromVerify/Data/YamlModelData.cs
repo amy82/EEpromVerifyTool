@@ -19,6 +19,7 @@ namespace ApsMotionControl.Data
     {
         public string OperatorId { get; set; }
     }
+    
     public class RootModel
     {
         public _SecGemData SecGemData { get; set; }

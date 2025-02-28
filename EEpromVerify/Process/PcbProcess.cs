@@ -74,6 +74,8 @@ namespace ApsMotionControl.Process
                     //DialogResult result = Globalo.MessageAskPopup("제품 투입후 진행해주세요!");
                     if (result == DialogResult.Yes)
                     {
+                        Globalo.taskWork.m_nTestFinalResult = 1;        //초기화
+
                         nRetStep = 30150;
                     }
                     else
@@ -100,7 +102,7 @@ namespace ApsMotionControl.Process
             }
             return nRetStep;
         }
-        public int Auto_EEpromVerify(int nStep)       //로딩(40000 ~ 50000)
+        public int Auto_Mes_Secenario(int nStep)
         {
             bool rtn = true;
             string szLog = "";
@@ -109,22 +111,13 @@ namespace ApsMotionControl.Process
             switch (nStep)
             {
                 case UniqueNum:
-
+                    nRetStep = 40050;
+                    break;
+                case 40050:
+                    //Object Id Report
                     nRetStep = 40100;
                     break;
                 case 40100:
-                    //영상 open
-                    rtn = Globalo.mLaonGrabberClass.OpenDevice();
-                    if(rtn == false)
-                    {
-                        szLog = $"[AUTO] CCd OpenDevice Fail[STEP : {nStep}]";
-                        Globalo.LogPrint("PcbPrecess", szLog);
-                        nRetStep = -40100;
-                        break;
-                    }
-
-                    szLog = $"[AUTO] CCd OpenDevice Ok[STEP : {nStep}]";
-                    Globalo.LogPrint("PcbPrecess", szLog);
 
                     nRetStep = 40200;
                     break;
@@ -133,16 +126,100 @@ namespace ApsMotionControl.Process
                     nRetStep = 40300;
                     break;
                 case 40300:
-                    //영상 Grab Start ?? 선택 가능하게
+
                     nRetStep = 40400;
                     break;
                 case 40400:
+
+                    nRetStep = 40500;
+                    break;
+                case 40500:
+
+                    nRetStep = 49000;
+                    break;
+
+                case 49000:
+
+                    nRetStep = 50000;
+                    break;
+            }
+            return nRetStep;
+        }
+        public int Auto_EEpromVerify(int nStep)       //로딩(40000 ~ 50000)
+        {
+            bool rtn = true;
+            string szLog = "";
+            const int UniqueNum = 50000;
+            int nRetStep = nStep;
+            switch (nStep)
+            {
+                case UniqueNum:
+                    //MMD DATA SAVE
+                    //
+
+                    int eepromCount = Globalo.dataManage.mesData.VMesEEpromData.Count();
+
+                    szLog = $"[AUTO] {Globalo.dataManage.TaskWork.m_szChipID} csv File Save[STEP : {nStep}]";
+                    Globalo.LogPrint("PcbPrecess", szLog);
+
+                    Globalo.dataManage.eepromData.SaveExcelData(Globalo.dataManage.TaskWork.m_szChipID);
+                    
+                    nRetStep = 50050;
+                    break;
+                case 50050:
+                    //MMD DATA LOAD
+                    //
+                    szLog = $"[AUTO] {Globalo.dataManage.TaskWork.m_szChipID} csv File Load[STEP : {nStep}]";
+                    Globalo.LogPrint("PcbPrecess", szLog);
+
+
+                    Globalo.dataManage.eepromData.LoadExcelData(Globalo.dataManage.TaskWork.m_szChipID);
+                    nRetStep = 50100;
+                    break;
+                case 50100:
+                    //
+                    //영상 open
+                    rtn = Globalo.mLaonGrabberClass.OpenDevice();
+                    if(rtn == false)
+                    {
+                        szLog = $"[AUTO] CCd OpenDevice Fail[STEP : {nStep}]";
+                        Globalo.LogPrint("PcbPrecess", szLog);
+                        nRetStep = -50100;
+                        break;
+                    }
+
+                    szLog = $"[AUTO] CCd OpenDevice Ok[STEP : {nStep}]";
+                    Globalo.LogPrint("PcbPrecess", szLog);
+
+                    nRetStep = 50200;
+                    break;
+                case 50200:
+                    nRetStep = 50300;
+                    break;
+                case 50300:
+                    //영상 Grab Start ?? 선택 가능하게
+                    nRetStep = 50400;
+                    break;
+                case 50400:
+                    //
                     //제품에서 EEPROM READ
+                    //
+                    szLog = $"[AUTO] EEPROM DATA READ START[STEP : {nStep}]";
+                    Globalo.LogPrint("PcbPrecess", szLog);
 
                     rtn = Data.CEEpromData.EEpromDataRead();
                     if(rtn == true)
                     {
                         szLog = $"[AUTO] EEPROM DATA READ OK[STEP : {nStep}]";
+                        Globalo.LogPrint("PcbPrecess", szLog);
+
+                        //Binary Fil eSave
+                        string bcrLot = Data.CEEpromData.SanitizeFileName(Globalo.dataManage.TaskWork.m_szChipID);
+
+                        Data.CEEpromData.SaveToBinaryFile(bcrLot, Globalo.dataManage.eepromData.EquipEEpromReadData);
+
+
+                        szLog = $"[AUTO] EEPROM BINARY FILE SAVE[STEP : {nStep}]";
                         Globalo.LogPrint("PcbPrecess", szLog);
                     }
                     else
@@ -150,31 +227,53 @@ namespace ApsMotionControl.Process
                         szLog = $"[AUTO] EEPROM DATA READ FAIL[STEP : {nStep}]";
                         Globalo.LogPrint("PcbPrecess", szLog);
                     }
-                    nRetStep = 40500;
+                    nRetStep = 50500;
                     break;
-                case 40500:
-                    nRetStep = 41500;
+                case 50500:
+                    //csv 파일 로드
+                    nRetStep = 51500;
                     break;
-                case 41500:
+                case 51500:
 
+                    szLog = $"[AUTO] EEPROM DATA VERIFY START[STEP : {nStep}]";
+                    Globalo.LogPrint("PcbPrecess", szLog);
+
+                    rtn = Data.CEEpromData.EEpromVerifyRun();
+                    if(rtn == false)
+                    {
+                        Globalo.taskWork.m_nTestFinalResult = 0;        //verify Fail
+                    }
+                    
                     _syncContext.Send(_ =>
                     {
-                        Data.CEEpromData.EEpromVerifyRun();
+                        Globalo.mMainPanel.ShowVerifyResultGrid(Globalo.dataManage.eepromData.CsvRead_MMd_DataList, Globalo.dataManage.eepromData.EEpromDataList);
                     }, null);
-                    
-                    nRetStep = 42500;
-                    break;
-                case 42500:
 
-                    nRetStep = 43000;
+                    szLog = $"[AUTO] EEPROM DATA VERIFY COMPLETE[STEP : {nStep}]";
+                    Globalo.LogPrint("PcbPrecess", szLog);
+                    nRetStep = 52500;
                     break;
-                case 43000:
+                case 52500:
 
-                    nRetStep = 49000;
+                    nRetStep = 53000;
                     break;
-                case 49000:
+                case 53000:
+                    rtn = Globalo.mLaonGrabberClass.CloseDevice();
+                    if (rtn == false)
+                    {
+                        szLog = $"[AUTO] CCd CloseDevice Fail[STEP : {nStep}]";
+                        Globalo.LogPrint("PcbPrecess", szLog);
+                        nRetStep = -53000;
+                        break;
+                    }
 
-                    nRetStep = 50000;
+                    szLog = $"[AUTO] CCd CloseDevice Ok[STEP : {nStep}]";
+                    Globalo.LogPrint("PcbPrecess", szLog);
+                    nRetStep = 59000;
+                    break;
+                case 59000:
+
+                    nRetStep = 60000;
                     break;
             }
             return nRetStep;
@@ -183,31 +282,53 @@ namespace ApsMotionControl.Process
         public int Auto_Final(int nStep)       //로딩(50000 ~ 60000)
         {
             string szLog = "";
-            const int UniqueNum = 50000;
+            const int UniqueNum = 60000;
             int nRetStep = nStep;
+            bool result = false;
             switch (nStep)
             {
                 case UniqueNum:
 
-                    nRetStep = 50500;
+                    nRetStep = 60500;
                     break;
-                case 50500:
-
-                    nRetStep = 51500;
+                case 60500:
+                    //EEPROM BINARY FILE 저장
+                    nRetStep = 61500;
                     break;
-                case 51500:
+                case 61500:
                     //로그저장
-                    nRetStep = 52000;
+                    nRetStep = 62000;
                     break;
-                case 52000:
+                case 62000:
                     //완공
-                    nRetStep = 53000;
+                    nRetStep = 63000;
                     break;
-                case 53000:
+                case 63000:
 
-                    nRetStep = 59000;
+                    nRetStep = 69000;
                     break;
-                case 59000:
+                case 69000:
+
+                    Globalo.yamlManager.TaskData.ProductionInfo.TotalCount++;
+
+                    if(Globalo.taskWork.m_nTestFinalResult == 1)
+                    {
+                        Globalo.yamlManager.TaskData.ProductionInfo.OkCount++;
+                    }
+                    else
+                    {
+                        Globalo.yamlManager.TaskData.ProductionInfo.NgCount++;
+                    }
+                    
+                    Globalo.yamlManager.TaskDataSave();
+
+
+
+                    _syncContext.Send(_ =>
+                    {
+                        Globalo.MainForm.ProductionInfoSet();
+                    }, null);
+
 
                     nRetStep = 30000;
                     break;
@@ -219,4 +340,7 @@ namespace ApsMotionControl.Process
         //
         //
     }
+    
 }
+
+

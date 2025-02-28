@@ -95,10 +95,12 @@ namespace ApsMotionControl
 
             //string excelPath = string.Format(@"{0}\30.csv", Application.StartupPath); //file path
             //Globalo.dataManage.eepromData.ReadExcelData(excelPath);
-            Globalo.dataManage.eepromData.LoadExcelData();
+
+            //Globalo.dataManage.eepromData.LoadExcelData("Z23DC24327000030V3WT-13A997-A");
 
 
             Globalo.yamlManager.configDataLoad();
+            Globalo.yamlManager.TaskDataLoad();
             Globalo.yamlManager.imageDataLoad();
             Globalo.dataManage.teachingData.DataLoad();
             Globalo.yamlManager.RecipeYamlListLoad();
@@ -197,8 +199,10 @@ namespace ApsMotionControl
             eLogPrint("Main", "PG START");
             //eLogPrint("Main", "자동운전 중 진행할 수 없습니다.", Globalo.eMessageName.M_INFO);
 
-
-            Globalo.mMainPanel.ShowVerifyResultGrid(Globalo.dataManage.eepromData.MesDataList, Globalo.dataManage.eepromData.EEpromDataList);
+            //Globalo.dataManage.TaskWork.m_szChipID
+            BcrSet(Globalo.dataManage.TaskWork.m_szChipID);
+            ProductionInfoSet();
+            Globalo.mMainPanel.ShowVerifyResultGrid(Globalo.dataManage.eepromData.CsvRead_MMd_DataList, Globalo.dataManage.eepromData.EEpromDataList);
         }
         public void InitMilLib()
         {
@@ -294,13 +298,13 @@ namespace ApsMotionControl
             {
                 Globalo.MainForm.BTN_MAIN_READY1.BackColor = ColorTranslator.FromHtml(ButtonColor.BTN_ON);
 
-                labelGuide.Text = "운전준비 완료!";
+                MainGuideTxtSet("운전준비 완료!");
                 AutoRunTimerStop();
             }
             if (ProgramState.CurrentState == OperationState.Stopped)
             {
 
-                labelGuide.Text = "설비 정지 상태입니다.";
+                MainGuideTxtSet("설비 정지 상태입니다.");
                 AutoRunTimerStop();
             }
         }
@@ -515,6 +519,12 @@ namespace ApsMotionControl
             {
                 textBox_TopLot.Text = value;
             }
+            Globalo.dataManage.TaskWork.m_szChipID = value;
+            Globalo.yamlManager.TaskData.LotData.BarcodeData = Globalo.dataManage.TaskWork.m_szChipID;
+            Globalo.yamlManager.TaskDataSave();
+
+            //string sanitizedFileName = Data.CEEpromData.SanitizeFileName(value);
+            //Console.WriteLine($"✅ 사용 가능한 파일명: {sanitizedFileName}");
         }
         private void eLogPrint(object oSender, string LogDesc, Globalo.eMessageName bPopUpView = Globalo.eMessageName.M_NULL)
         {
@@ -636,52 +646,24 @@ namespace ApsMotionControl
 
         private void BTN_TOP_LOG_Click(object sender, EventArgs e)
         {
-            //Button btn = sender as Button;
-            //eLogPrint("Log", $"{btn.Text} 버튼 Click");
-            
+
             if (Debugger.IsAttached)
             {
-                //string parameter = "111,222,333,444,555,";
-                //string[] values = parameter.Split(',');
-
-                //int cont = values.Length;                           //6
-                //int commaCount = parameter.Count(c => c == ',');    //5
-                //MessagePopUpForm messageForm = new MessagePopUpForm();
-                //int testNum = 10;
-                //string LogInfo = $"[{testNum}] Message Test";
-
-                //messageForm.MessageSet(Globalo.eMessageName.M_OP_CALL, LogInfo, "LGIT OP CALL", $"OPCALL CODE :{testNum} ");
-                //messageForm.Show(); // 새로운 창 계속 생성
+                string tempLot = "Z23DC24327000030V3WT-13A997-A*";
+                string _path = Data.CEEpromData.Search_MMD_Data_File(tempLot);
 
 
+                Globalo.dataManage.eepromData.SaveExcelData(tempLot);
 
-                uint testio = 0xFF;
+                //uint testio = 0xFF;
 
-                testio &= ~((uint)DioDefine.DIO_OUT_ADDR.BUZZER1 | (uint)DioDefine.DIO_OUT_ADDR.BUZZER3);       //testio에서 BUZZER1 하고 BUZZER3을 끄다.
-                testio |= ((uint)DioDefine.DIO_OUT_ADDR.BUZZER1 | (uint)DioDefine.DIO_OUT_ADDR.BUZZER3);        //testio에서 BUZZER1 하고 BUZZER3 만 켜다.
+                //testio &= ~((uint)DioDefine.DIO_OUT_ADDR.BUZZER1 | (uint)DioDefine.DIO_OUT_ADDR.BUZZER3);       //testio에서 BUZZER1 하고 BUZZER3을 끄다.
+                //testio |= ((uint)DioDefine.DIO_OUT_ADDR.BUZZER1 | (uint)DioDefine.DIO_OUT_ADDR.BUZZER3);        //testio에서 BUZZER1 하고 BUZZER3 만 켜다.
 
-                testio = 0x00;
+                //testio = 0x00;
 
-                Globalo.LogPrint("MainControl", "ALARM TEST 111", Globalo.eMessageName.M_WARNING);
+                //Globalo.LogPrint("MainControl", "ALARM TEST 111", Globalo.eMessageName.M_WARNING);
 
-            }
-            else
-            {
-                //Form messageForm = new Form
-                //{
-                //    Text = "이벤트 발생!",
-                //    Size = new System.Drawing.Size(300, 200)
-                //};
-
-                //Label label = new Label
-                //{
-                //    Text = "이벤트가 발생했습니다!",
-                //    AutoSize = true,
-                //    Location = new System.Drawing.Point(50, 50)
-                //};
-
-                //messageForm.Controls.Add(label);
-                //messageForm.Show(); // 새로운 창 계속 생성
             }
 
             
@@ -997,8 +979,7 @@ namespace ApsMotionControl
             }
             AutoRunBtnUiTimer(1);
 
-            labelGuide.Text = "설비 운전준비중 입니다.";
-
+            MainGuideTxtSet("설비 운전준비중 입니다.");
             AutoButtonSet(ProgramState.CurrentState);
 
         }
@@ -1014,11 +995,12 @@ namespace ApsMotionControl
 
             if (labelGuide.InvokeRequired)
             {
-                labelGuide.BeginInvoke(new Action(() => labelGuide.Text = "설비 일시정지 상태입니다."));
+                //labelGuide.BeginInvoke(new Action(() => labelGuide.Text = "설비 일시정지 상태입니다."));
+                labelGuide.BeginInvoke(new Action(() => MainGuideTxtSet("설비 일시정지 상태입니다.")));
             }
             else
             {
-                labelGuide.Text = "설비 일시정지 상태입니다.";
+                MainGuideTxtSet("설비 일시정지 상태입니다.");
             }
 
             Globalo.threadControl.autoRunthread.Pause();
@@ -1070,7 +1052,7 @@ namespace ApsMotionControl
 
 
             Globalo.taskWork.m_nStartStep = 30000;
-            Globalo.taskWork.m_nEndStep = 60000;
+            Globalo.taskWork.m_nEndStep = 70000;
 
             ProgramState.CurrentState = OperationState.AutoRunning;
             bool bRtn = Globalo.threadControl.autoRunthread.Start();
@@ -1080,7 +1062,7 @@ namespace ApsMotionControl
                 return false;
             }
 
-            labelGuide.Text = "자동 운전 중입니다.";
+            MainGuideTxtSet("자동 운전 중입니다.");
             AutoButtonSet(ProgramState.CurrentState);
 
 
@@ -1094,8 +1076,7 @@ namespace ApsMotionControl
 
             ProgramState.CurrentState = OperationState.Stopped;
 
-            labelGuide.Text = "설비 정지 상태입니다.";
-
+            MainGuideTxtSet("설비 정지 상태입니다.");
             if (Globalo.threadControl.autoRunthread.GetThreadRun() == true)
             {
                 Globalo.threadControl.autoRunthread.Stop();
@@ -1105,6 +1086,10 @@ namespace ApsMotionControl
                 Globalo.motorControl.StopAxisAll(0);
             }
             AutoButtonSet(ProgramState.CurrentState);
+        }
+        public void MainGuideTxtSet(string txt)
+        {
+            labelGuide.Text = txt;
         }
         private void MenuButtonSet(int index)
         {
@@ -1229,6 +1214,44 @@ namespace ApsMotionControl
             Globalo.mMainPanel.Visible = false;
 
             MenuButtonSet(4);
+        }
+        public void ProductionInfoSet()
+        {
+            label_production_ok.Text = Globalo.yamlManager.TaskData.ProductionInfo.OkCount.ToString();
+            label_production_ng.Text = Globalo.yamlManager.TaskData.ProductionInfo.NgCount.ToString();
+            label_production_total.Text = Globalo.yamlManager.TaskData.ProductionInfo.TotalCount.ToString();
+            //label_production_ok.Text = Globalo.dataManage.TaskWork.Judge_Total_Count.ToString();
+            //label_production_ng.Text = Globalo.dataManage.TaskWork.Judge_Ok_Count.ToString();
+            //label_production_total.Text = Globalo.dataManage.TaskWork.Judge_Ng_Count.ToString();
+        }
+        private void BTN_MAIN_JUDGE_RESET_Click(object sender, EventArgs e)
+        {
+            //label_production_ok
+            //label_production_ng
+            //label_production_total
+
+            string logStr = "생산량 초기화 하시겠습니까 ?";
+
+            MessagePopUpForm messagePopUp = new MessagePopUpForm("", "YES", "NO");
+            messagePopUp.MessageSet(Globalo.eMessageName.M_ASK, logStr);
+            DialogResult result = messagePopUp.ShowDialog();
+
+            if (result == DialogResult.Yes)
+            {
+                Globalo.dataManage.TaskWork.Judge_Total_Count = 0;
+                Globalo.dataManage.TaskWork.Judge_Ok_Count = 0;
+                Globalo.dataManage.TaskWork.Judge_Ng_Count = 0;
+
+                Globalo.yamlManager.TaskData.ProductionInfo.TotalCount = 0;
+                Globalo.yamlManager.TaskData.ProductionInfo.OkCount = 0;
+                Globalo.yamlManager.TaskData.ProductionInfo.NgCount = 0;
+                Globalo.yamlManager.TaskDataSave();
+
+                ProductionInfoSet();
+            }
+
+
+            
         }
     }
 }
