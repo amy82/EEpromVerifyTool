@@ -74,6 +74,8 @@ namespace ApsMotionControl.Process
                     //DialogResult result = Globalo.MessageAskPopup("제품 투입후 진행해주세요!");
                     if (result == DialogResult.Yes)
                     {
+                        Globalo.taskWork.m_nTestFinalResult = 1;        //초기화
+
                         nRetStep = 30150;
                     }
                     else
@@ -152,25 +154,23 @@ namespace ApsMotionControl.Process
             switch (nStep)
             {
                 case UniqueNum:
+                    //MMD DATA SAVE
                     //
-                    //MMD DATA LOAD
-                    //
-                    if (true)        //offlien 모드 일대만?
-                    {
-                        //Data.CEEpromData.Search_MMD_Data_File
-                        // "Z23DC24327000030V3WT-13A997-A");
+                    szLog = $"[AUTO] {Globalo.dataManage.TaskWork.m_szChipID} csv File Save[STEP : {nStep}]";
+                    Globalo.LogPrint("PcbPrecess", szLog);
 
-
-
-                        szLog = $"[AUTO] {Globalo.dataManage.TaskWork.m_szChipID} csv File Load[STEP : {nStep}]";
-                        Globalo.LogPrint("PcbPrecess", szLog);
-
-                        string strfile = Data.CEEpromData.Search_MMD_Data_File(Globalo.dataManage.TaskWork.m_szChipID);
-                        Globalo.dataManage.eepromData.LoadExcelData(strfile);
-                    }
+                    Globalo.dataManage.eepromData.SaveExcelData(Globalo.dataManage.TaskWork.m_szChipID);
+                    
                     nRetStep = 50050;
                     break;
                 case 50050:
+                    //MMD DATA LOAD
+                    //
+                    szLog = $"[AUTO] {Globalo.dataManage.TaskWork.m_szChipID} csv File Load[STEP : {nStep}]";
+                    Globalo.LogPrint("PcbPrecess", szLog);
+
+
+                    Globalo.dataManage.eepromData.LoadExcelData(Globalo.dataManage.TaskWork.m_szChipID);
                     nRetStep = 50100;
                     break;
                 case 50100:
@@ -235,8 +235,12 @@ namespace ApsMotionControl.Process
                     szLog = $"[AUTO] EEPROM DATA VERIFY START[STEP : {nStep}]";
                     Globalo.LogPrint("PcbPrecess", szLog);
 
-                    Data.CEEpromData.EEpromVerifyRun();
-
+                    rtn = Data.CEEpromData.EEpromVerifyRun();
+                    if(rtn == false)
+                    {
+                        Globalo.taskWork.m_nTestFinalResult = 0;        //verify Fail
+                    }
+                    
                     _syncContext.Send(_ =>
                     {
                         Globalo.mMainPanel.ShowVerifyResultGrid(Globalo.dataManage.eepromData.MesDataList, Globalo.dataManage.eepromData.EEpromDataList);
@@ -275,31 +279,53 @@ namespace ApsMotionControl.Process
         public int Auto_Final(int nStep)       //로딩(50000 ~ 60000)
         {
             string szLog = "";
-            const int UniqueNum = 50000;
+            const int UniqueNum = 60000;
             int nRetStep = nStep;
+            bool result = false;
             switch (nStep)
             {
                 case UniqueNum:
 
-                    nRetStep = 50500;
+                    nRetStep = 60500;
                     break;
-                case 50500:
+                case 60500:
                     //EEPROM BINARY FILE 저장
-                    nRetStep = 51500;
+                    nRetStep = 61500;
                     break;
-                case 51500:
+                case 61500:
                     //로그저장
-                    nRetStep = 52000;
+                    nRetStep = 62000;
                     break;
-                case 52000:
+                case 62000:
                     //완공
-                    nRetStep = 53000;
+                    nRetStep = 63000;
                     break;
-                case 53000:
+                case 63000:
 
-                    nRetStep = 59000;
+                    nRetStep = 69000;
                     break;
-                case 59000:
+                case 69000:
+
+                    Globalo.yamlManager.TaskData.ProductionInfo.TotalCount++;
+
+                    if(Globalo.taskWork.m_nTestFinalResult == 1)
+                    {
+                        Globalo.yamlManager.TaskData.ProductionInfo.OkCount++;
+                    }
+                    else
+                    {
+                        Globalo.yamlManager.TaskData.ProductionInfo.NgCount++;
+                    }
+                    
+                    Globalo.yamlManager.TaskDataSave();
+
+
+
+                    _syncContext.Send(_ =>
+                    {
+                        Globalo.MainForm.ProductionInfoSet();
+                    }, null);
+
 
                     nRetStep = 30000;
                     break;

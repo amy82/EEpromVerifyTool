@@ -95,8 +95,8 @@ namespace ApsMotionControl
 
             //string excelPath = string.Format(@"{0}\30.csv", Application.StartupPath); //file path
             //Globalo.dataManage.eepromData.ReadExcelData(excelPath);
-            string strfile = Data.CEEpromData.Search_MMD_Data_File("Z23DC24327000030V3WT-13A997-A");
-            Globalo.dataManage.eepromData.LoadExcelData(strfile);
+
+            //Globalo.dataManage.eepromData.LoadExcelData("Z23DC24327000030V3WT-13A997-A");
 
 
             Globalo.yamlManager.configDataLoad();
@@ -201,6 +201,7 @@ namespace ApsMotionControl
 
             //Globalo.dataManage.TaskWork.m_szChipID
             BcrSet(Globalo.dataManage.TaskWork.m_szChipID);
+            ProductionInfoSet();
             Globalo.mMainPanel.ShowVerifyResultGrid(Globalo.dataManage.eepromData.MesDataList, Globalo.dataManage.eepromData.EEpromDataList);
         }
         public void InitMilLib()
@@ -519,8 +520,9 @@ namespace ApsMotionControl
                 textBox_TopLot.Text = value;
             }
             Globalo.dataManage.TaskWork.m_szChipID = value;
-
+            Globalo.yamlManager.TaskData.LotData.BarcodeData = Globalo.dataManage.TaskWork.m_szChipID;
             Globalo.yamlManager.TaskDataSave();
+
             //string sanitizedFileName = Data.CEEpromData.SanitizeFileName(value);
             //Console.WriteLine($"✅ 사용 가능한 파일명: {sanitizedFileName}");
         }
@@ -649,6 +651,9 @@ namespace ApsMotionControl
             {
                 string tempLot = "Z23DC24327000030V3WT-13A997-A*";
                 string _path = Data.CEEpromData.Search_MMD_Data_File(tempLot);
+
+
+                Globalo.dataManage.eepromData.SaveExcelData(tempLot);
 
                 //uint testio = 0xFF;
 
@@ -1047,7 +1052,7 @@ namespace ApsMotionControl
 
 
             Globalo.taskWork.m_nStartStep = 30000;
-            Globalo.taskWork.m_nEndStep = 60000;
+            Globalo.taskWork.m_nEndStep = 70000;
 
             ProgramState.CurrentState = OperationState.AutoRunning;
             bool bRtn = Globalo.threadControl.autoRunthread.Start();
@@ -1212,22 +1217,41 @@ namespace ApsMotionControl
         }
         public void ProductionInfoSet()
         {
-            label_production_ok.Text = Globalo.dataManage.TaskWork.Judge_Total_Count.ToString();
-            label_production_ng.Text = Globalo.dataManage.TaskWork.Judge_Ok_Count.ToString();
-            label_production_total.Text = Globalo.dataManage.TaskWork.Judge_Ng_Count.ToString();
+            label_production_ok.Text = Globalo.yamlManager.TaskData.ProductionInfo.OkCount.ToString();
+            label_production_ng.Text = Globalo.yamlManager.TaskData.ProductionInfo.NgCount.ToString();
+            label_production_total.Text = Globalo.yamlManager.TaskData.ProductionInfo.TotalCount.ToString();
+            //label_production_ok.Text = Globalo.dataManage.TaskWork.Judge_Total_Count.ToString();
+            //label_production_ng.Text = Globalo.dataManage.TaskWork.Judge_Ok_Count.ToString();
+            //label_production_total.Text = Globalo.dataManage.TaskWork.Judge_Ng_Count.ToString();
         }
         private void BTN_MAIN_JUDGE_RESET_Click(object sender, EventArgs e)
         {
             //label_production_ok
             //label_production_ng
             //label_production_total
-            Globalo.dataManage.TaskWork.Judge_Total_Count = 0;
-            Globalo.dataManage.TaskWork.Judge_Ok_Count = 0;
-            Globalo.dataManage.TaskWork.Judge_Ng_Count = 0;
+
+            string logStr = "생산량 초기화 하시겠습니까 ?";
+
+            MessagePopUpForm messagePopUp = new MessagePopUpForm("", "YES", "NO");
+            messagePopUp.MessageSet(Globalo.eMessageName.M_ASK, logStr);
+            DialogResult result = messagePopUp.ShowDialog();
+
+            if (result == DialogResult.Yes)
+            {
+                Globalo.dataManage.TaskWork.Judge_Total_Count = 0;
+                Globalo.dataManage.TaskWork.Judge_Ok_Count = 0;
+                Globalo.dataManage.TaskWork.Judge_Ng_Count = 0;
+
+                Globalo.yamlManager.TaskData.ProductionInfo.TotalCount = 0;
+                Globalo.yamlManager.TaskData.ProductionInfo.OkCount = 0;
+                Globalo.yamlManager.TaskData.ProductionInfo.NgCount = 0;
+                Globalo.yamlManager.TaskDataSave();
+
+                ProductionInfoSet();
+            }
 
 
-
-            ProductionInfoSet();
+            
         }
     }
 }

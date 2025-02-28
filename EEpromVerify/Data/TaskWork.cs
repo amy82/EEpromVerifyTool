@@ -8,6 +8,8 @@ namespace ApsMotionControl.Data
 {
     public class TaskWork
     {
+        public int m_nTestFinalResult;
+
         public int m_nCurrentStep;
         public int m_nStartStep;
         public int m_nEndStep;
@@ -46,6 +48,7 @@ namespace ApsMotionControl.Data
         public int bRecv_S2F49_LG_EEprom_Fail;
         public TaskWork()
         {
+            m_nTestFinalResult = 0;
             m_szChipID = "";
             Judge_Ok_Count = 0;
             Judge_Ng_Count = 0;

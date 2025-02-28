@@ -19,15 +19,7 @@ namespace ApsMotionControl.Data
     {
         public string OperatorId { get; set; }
     }
-
-    public class _LOT
-    {
-        public string BarcodeData { get; set; }
-    }
-    public class _TaskData
-    {
-        public _LOT LotData;
-    }
+    
     public class RootModel
     {
         public _SecGemData SecGemData { get; set; }

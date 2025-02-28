@@ -6,8 +6,20 @@ using System.Threading.Tasks;
 
 namespace ApsMotionControl.Data
 {
-    public class YamlTaskData
+    public class _TaskData
     {
-        //
+        public LOTDATA LotData;
+        public PRODUCTION_INFO ProductionInfo;
+    }
+
+    public class LOTDATA
+    {
+        public string BarcodeData { get; set; }
+    }
+    public class PRODUCTION_INFO
+    {
+        public int OkCount { get; set; }
+        public int NgCount { get; set; }
+        public int TotalCount { get; set; }
     }
 }

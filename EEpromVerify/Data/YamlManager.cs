@@ -354,7 +354,9 @@ namespace ApsMotionControl.Data
                 }
 
                 Globalo.dataManage.TaskWork.m_szChipID = TaskData.LotData.BarcodeData;
-
+                Globalo.dataManage.TaskWork.Judge_Total_Count = TaskData.ProductionInfo.TotalCount;
+                Globalo.dataManage.TaskWork.Judge_Ok_Count = TaskData.ProductionInfo.OkCount;
+                Globalo.dataManage.TaskWork.Judge_Ng_Count = TaskData.ProductionInfo.NgCount;
                 return true;
             }
             catch (Exception ex)

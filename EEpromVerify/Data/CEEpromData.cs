@@ -58,9 +58,12 @@ namespace ApsMotionControl.Data
             EEpromDataList = new List<EEpromReadData>();
             EquipEEpromReadData = new List<byte>();          //제품에서 읽은 eeprom 값
         }
-        public void LoadExcelData(string filePath)
+        public void LoadExcelData(string LotData)
         {
             //string filePath = string.Format(@"{0}\30.csv", Application.StartupPath); //file path
+
+            string filePath = Data.CEEpromData.Search_MMD_Data_File(LotData);
+
             bool rtn = ReadCsvToList(filePath);
             if(rtn)
             {
@@ -68,11 +71,37 @@ namespace ApsMotionControl.Data
                 Globalo.dataManage.TaskWork.EEpromReadTotalCount = Globalo.dataManage.eepromData.MesDataList[tCount - 1].ADDRESS + Globalo.dataManage.eepromData.MesDataList[tCount - 1].DATA_SIZE;
             }
         }
-        public void SaveExcelData()
+        public void SaveExcelData(string LotData)
         {
+            string fullFilePath = "";
 
-            string filePath = string.Format(@"{0}\30.csv", Application.StartupPath); //file path
-            WriteCsvFromList(filePath, MesDataList);
+            DateTime currentDate = DateTime.Now; ;// DateTime.Today;
+            DateTime startDate = currentDate; // 시작 날짜는 오늘
+
+
+            string basePath = CPath.BASE_LOG_MMDDATA_PATH;  //@"D:\EVMS\LOG\MMD_DATA";
+
+            string searchFileName = SanitizeFileName(LotData); // <- 바코드에서 특수문자 삭제
+            if (searchFileName.Length < 1)
+            {
+                return;
+            }
+            string _time = currentDate.ToString("_HHmmss"); //underbar 추가
+
+            searchFileName += _time + ".csv";
+
+
+            string year = currentDate.ToString("yyyy");
+            string month = currentDate.ToString("MM");
+            string day = currentDate.ToString("dd");
+
+            string fullPath = Path.Combine(basePath, year, month, day);
+            // aaa.csv 파일 경로 생성
+            string targetFilePath = Path.Combine(fullPath, searchFileName);
+
+
+            //string filePath = string.Format(@"{0}\30.csv", Application.StartupPath); //file path
+            WriteCsvFromList(targetFilePath, MesDataList);
         }
 
         public static bool EEpromVerifyRun()
@@ -371,6 +400,10 @@ namespace ApsMotionControl.Data
         }
         private void WriteCsvFromList(string filePath, List<MesEEpromCsvData> dataList)
         {
+
+            string tempPath = Path.Combine(Path.GetTempPath(), Path.GetFileName(filePath)); // 임시 파일 생성
+
+
             using (var writer = new StreamWriter(filePath))
             using (var csv = new CsvWriter(writer, new CsvConfiguration(CultureInfo.InvariantCulture)
             {
