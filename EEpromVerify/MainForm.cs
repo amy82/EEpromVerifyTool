@@ -202,7 +202,7 @@ namespace ApsMotionControl
             //Globalo.dataManage.TaskWork.m_szChipID
             BcrSet(Globalo.dataManage.TaskWork.m_szChipID);
             ProductionInfoSet();
-            Globalo.mMainPanel.ShowVerifyResultGrid(Globalo.dataManage.eepromData.MesDataList, Globalo.dataManage.eepromData.EEpromDataList);
+            Globalo.mMainPanel.ShowVerifyResultGrid(Globalo.dataManage.eepromData.CsvRead_MMd_DataList, Globalo.dataManage.eepromData.EEpromDataList);
         }
         public void InitMilLib()
         {

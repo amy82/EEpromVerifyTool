@@ -156,6 +156,9 @@ namespace ApsMotionControl.Process
                 case UniqueNum:
                     //MMD DATA SAVE
                     //
+
+                    int eepromCount = Globalo.dataManage.mesData.VMesEEpromData.Count();
+
                     szLog = $"[AUTO] {Globalo.dataManage.TaskWork.m_szChipID} csv File Save[STEP : {nStep}]";
                     Globalo.LogPrint("PcbPrecess", szLog);
 
@@ -243,7 +246,7 @@ namespace ApsMotionControl.Process
                     
                     _syncContext.Send(_ =>
                     {
-                        Globalo.mMainPanel.ShowVerifyResultGrid(Globalo.dataManage.eepromData.MesDataList, Globalo.dataManage.eepromData.EEpromDataList);
+                        Globalo.mMainPanel.ShowVerifyResultGrid(Globalo.dataManage.eepromData.CsvRead_MMd_DataList, Globalo.dataManage.eepromData.EEpromDataList);
                     }, null);
 
                     szLog = $"[AUTO] EEPROM DATA VERIFY COMPLETE[STEP : {nStep}]";
